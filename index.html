@@ -174,10 +174,18 @@
     </div>
 
     <script>
-        // Инициализация Supabase
+        // Безопасная инициализация Supabase с fallback на localStorage
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_ie9PR5RfGNzTlHz2PAHAPQ_bg_oMHXd';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let supabaseClient = null;
+        try {
+            if (window.supabase && SUPABASE_KEY.startsWith('eyJ')) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch (e) {
+            console.warn('Облачная БД недоступна, используется локальное хранилище:', e);
+        }
 
         let workRecords = [];
         let currentZoom = 1;
@@ -186,26 +194,35 @@
 
         function getEl(id) { return document.getElementById(id); }
 
-        // Загрузка данных из Supabase
         async function loadData() {
             try {
-                const { data, error } = await supabaseClient
-                    .from('SpeedLine Data')
-                    .select('*')
-                    .order('id', { ascending: true });
+                if (supabaseClient) {
+                    const { data, error } = await supabaseClient
+                        .from('SpeedLine Data')
+                        .select('*')
+                        .order('id', { ascending: true });
 
-                if (error) {
-                    console.error('Ошибка загрузки из Supabase:', error.message);
-                    workRecords = [];
-                } else {
-                    workRecords = data || [];
+                    if (!error && data) {
+                        workRecords = data;
+                    }
                 }
             } catch (e) {
-                console.error('Ошибка сети:', e);
-                workRecords = [];
+                console.error('Ошибка загрузки из Supabase:', e);
             }
 
-            // Если таблица пуста, создаем демонстрационные данные (опционально)
+            // Если из облака ничего не загрузилось, пробуем локальное хранилище
+            if (workRecords.length === 0) {
+                try {
+                    const local = localStorage.getItem('speedline_records');
+                    if (local) {
+                        workRecords = JSON.parse(local);
+                    }
+                } catch (err) {
+                    console.error('Ошибка чтения localStorage:', err);
+                }
+            }
+
+            // Если совсем пусто, создаем демо-записи
             if (workRecords.length === 0) {
                 const today = new Date().toISOString().split('T')[0];
                 workRecords = [
@@ -213,18 +230,25 @@
                     { id: 2, date: today, carBrand: 'BMW X5', vin: 'WBAFE810X0L123789', plateNumber: 'О555ОО 77', workDescription: 'Диагностика ходовой, замена передних амортизаторов', workCost: 140, materials: 'Амортизаторы передние SACHS (2 шт), отбойники', materialCost: 440, notes: 'Замена задних амортизаторов через 5000 км' },
                     { id: 3, date: today, carBrand: 'Kia Rio', vin: 'Z94C241BAMR123123', plateNumber: 'Е777КХ 178', workDescription: 'Замена передних тормозных колодок, проточка дисков', workCost: 60, materials: 'Колодки тормозные передние TRW', materialCost: 50, notes: 'Износ колодок 90%' }
                 ];
+                saveToLocalStorage();
             }
         }
 
-        // Сохранение изменений конкретной записи в Supabase
-        async function saveRecordToCloud(record) {
+        function saveToLocalStorage() {
             try {
-                const { error } = await supabaseClient
-                    .from('SpeedLine Data')
-                    .upsert([record]);
-                if (error) console.error('Ошибка сохранения записи:', error.message);
+                localStorage.setItem('speedline_records', JSON.stringify(workRecords));
             } catch (e) {
-                console.error('Ошибка сети при сохранении:', e);
+                console.error('Ошибка сохранения в localStorage:', e);
+            }
+        }
+
+        async function saveRecordToCloud(record) {
+            saveToLocalStorage();
+            if (!supabaseClient) return;
+            try {
+                await supabaseClient.from('SpeedLine Data').upsert([record]);
+            } catch (e) {
+                console.error('Ошибка сохранения в облако:', e);
             }
         }
 
@@ -270,19 +294,4 @@
             const newRecord = { id: generateId(), date: today, carBrand: '', vin: '', plateNumber: '', workDescription: '', workCost: 0, materials: '', materialCost: 0, notes: '' };
             workRecords.push(newRecord);
             await saveRecordToCloud(newRecord);
-            if (window.innerWidth <= 768) appendCard(newRecord, workRecords.length); else appendTableRow(newRecord, workRecords.length);
-            updateStatsOnly();
-            setTimeout(() => {
-                const el = document.querySelector(`[data-id="${newRecord.id}"]`);
-                if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); const inp = el.querySelector('input[type="text"]'); if (inp) { inp.focus(); inp.click(); } }
-            }, 200);
-        }
-
-        function appendTableRow(rec, index) {
-            const tbody = getEl('tableBody');
-            if (!tbody) return;
-            const row = document.createElement('tr');
-            row.dataset.id = rec.id;
-            row.innerHTML = `
-                <td style="text-align:center;font-weight:600;color:#ff6b6b;">${index}</td>
-                <td><input type="date" value="${rec.date || ''}" data-id="${rec.id}" data-fi
+            if (window.innerWidth <= 768) appendCard(newRecord, workRecords.length); else appendTableRow(n
