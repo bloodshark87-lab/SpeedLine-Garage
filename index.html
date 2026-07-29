@@ -29,6 +29,12 @@
         .card-field { margin-bottom: 10px; }
         .card-label { font-size: 0.7rem; text-transform: uppercase; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
         .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        .photo-upload-container { width: 100%; aspect-ratio: 4 / 3; background: rgba(0, 0, 0, 0.3); border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: border-color 0.2s; }
+        .photo-upload-container:hover { border-color: #e94560; }
+        .card-photo-preview { width: 100%; height: 100%; object-fit: cover; }
+        .photo-placeholder { color: #a0a0a0; font-size: 0.8rem; text-align: center; padding: 10px; }
+
         .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; color: #ff6b6b; }
         
         input, textarea { width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 0.9rem; font-family: inherit; }
@@ -81,6 +87,7 @@
 
         let workRecords = [];
         let saveTimeouts = {};
+        let pendingRender = false;
 
         const getEl = (id) => document.getElementById(id);
 
@@ -114,7 +121,8 @@
                 work_cost: 0,
                 materials: '',
                 material_cost: 0,
-                notes: ''
+                notes: '',
+                photo_url: ''
             };
 
             const { data, error } = await client
@@ -175,6 +183,37 @@
             }, 500);
         }
 
+        function triggerPhotoUpload(id) {
+            getEl(`fileInput_${id}`).click();
+        }
+
+        async function uploadPhoto(id, inputElement) {
+            const file = inputElement.files[0];
+            if (!file) return;
+
+            getEl('syncStatus').textContent = '⏳ Загрузка фото...';
+            const fileExt = file.name.split('.').pop();
+            const fileName = `car_${id}_${Date.now()}.${fileExt}`;
+
+            const { data, error } = await client.storage
+                .from('Logo')
+                .upload(fileName, file, { upsert: true });
+
+            if (error) {
+                alert('Ошибка загрузки файла: ' + error.message);
+                getEl('syncStatus').textContent = '🔴 Ошибка загрузки';
+                return;
+            }
+
+            const { data: publicUrlData } = client.storage
+                .from('Logo')
+                .getPublicUrl(fileName);
+
+            const photoUrl = publicUrlData.publicUrl;
+            updateField(id, 'photo_url', photoUrl);
+            renderAll();
+        }
+
         function updateCardTotalUI(id) {
             const card = document.querySelector(`.card[data-id="${id}"]`);
             if (!card) return;
@@ -199,6 +238,13 @@
         }
 
         function renderAll() {
+            const activeEl = document.activeElement;
+            if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+                pendingRender = true;
+                return;
+            }
+            pendingRender = false;
+
             const cardsContainer = getEl('cardsContainer');
             if (!cardsContainer) return;
             
@@ -218,6 +264,15 @@
                         <div class="card-field"><div class="card-label">🧬 VIN</div><input type="text" value="${rec.vin || ''}" placeholder="VIN" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'vin', this.value)"></div>
                         <div class="card-field"><div class="card-label">🔢 Госномер</div><input type="text" value="${rec.plate_number || ''}" placeholder="Номер" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'plate_number', this.value)"></div>
                     </div>
+                    
+                    <div class="card-field">
+                        <div class="card-label">📸 Фото автомобиля / узла</div>
+                        <div class="photo-upload-container" onclick="triggerPhotoUpload(${rec.id})">
+                            ${rec.photo_url ? `<img src="${rec.photo_url}" class="card-photo-preview" alt="Car photo">` : `<div class="photo-placeholder"><span>📷 Нажмите, чтобы добавить фото</span></div>`}
+                        </div>
+                        <input type="file" id="fileInput_${rec.id}" style="display:none;" accept="image/*" onchange="uploadPhoto(${rec.id}, this)">
+                    </div>
+
                     <div class="card-field"><div class="card-label">🔧 Работы</div><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></div>
                     <div class="card-row">
                         <div class="card-field"><div class="card-label">💵 Работа (€)</div><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></div>
@@ -233,6 +288,17 @@
 
             updateStatsOnly();
         }
+
+        document.addEventListener('blur', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                setTimeout(() => {
+                    const active = document.activeElement;
+                    if (pendingRender && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA'))) {
+                        renderAll();
+                    }
+                }, 150);
+            }
+        }, true);
 
         function initRealtime() {
             client
