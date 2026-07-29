@@ -350,4 +350,39 @@
                     </div>
                     <div class="card-field"><div class="card-label">🔩 Расходники</div><textarea rows="2" oninput="updateField(${rec.id}, 'materials', this.value)">${rec.materials || ''}</textarea></div>
                     <div class="card-field"><div class="card-label">📝 Заметки</div><textarea rows="2" oninput="updateField(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea></div>
-                    <div class="card-total"><span>💰 Итого по машине:</span><span class="card-total-val">${cardTotal.toFixed(0)} 
+                    <div class="card-total"><span>💰 Итого по машине:</span><span class="card-total-val">${cardTotal.toFixed(0)} €</span></div>
+                    <button class="delete-btn" onclick="deleteRow(${rec.id})">🗑️ Удалить запись</button>
+                `;
+                cardsContainer.appendChild(card);
+            });
+
+            updateStatsOnly();
+        }
+
+        document.addEventListener('blur', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                setTimeout(() => {
+                    const active = document.activeElement;
+                    if (pendingRender && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA'))) {
+                        renderAll();
+                    }
+                }, 150);
+            }
+        }, true);
+
+        function initRealtime() {
+            client
+                .channel('public:speedline_records')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, payload => {
+                    fetchRecords();
+                })
+                .subscribe();
+        }
+
+        getEl('addBtn').addEventListener('click', addRow);
+
+        fetchRecords();
+        initRealtime();
+    </script>
+</body>
+</html>
