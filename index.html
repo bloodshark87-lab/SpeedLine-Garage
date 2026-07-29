@@ -11,7 +11,7 @@
         .container { max-width: 800px; margin: 0 auto; background: rgba(22, 33, 62, 0.85); backdrop-filter: blur(20px); border-radius: 16px; padding: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); }
         .header-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, #111 0%, #1f1f1f 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4); flex-shrink: 0; border: 1px solid rgba(233, 69, 96, 0.4); padding: 5px; }
+        .logo-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4); flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.2); }
         .company-name { font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.2; }
         .company-subtitle { font-size: 0.7rem; color: #a0a0a0; letter-spacing: 0.5px; text-transform: uppercase; }
         .sync-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; background: rgba(0, 255, 100, 0.15); color: #00ff64; border: 1px solid rgba(0, 255, 100, 0.3); }
@@ -46,12 +46,7 @@
     <div class="container">
         <div class="header-section">
             <div class="logo-area">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 16L5 9H19L21 16M3 16H21M3 16V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V16M7 12H17" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M5 9L8 5H16L19 9" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
+                <img src="IMG_20260729_174121.jpg" alt="SpeedLine Garage Logo" class="logo-img">
                 <div>
                     <div class="company-name">SpeedLine Garage</div>
                     <div class="company-subtitle">database</div>
