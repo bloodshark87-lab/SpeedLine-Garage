@@ -35,11 +35,11 @@
         .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
         .photo-gallery { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; align-items: center; }
-        .photo-thumb-wrap { position: relative; width: 70px; height: 70px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); flex-shrink: 0; }
-        .photo-thumb { width: 100%; height: 100%; object-fit: cover; }
-        .photo-delete-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: #ff4b4b; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .add-photo-btn { width: 70px; height: 70px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); color: #a0a0a0; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; gap: 2px; }
-        .add-photo-btn span { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.3px; }
+        .photo-thumb-wrap { position: relative; width: 70px; height: 70px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); flex: 0 0 70px; }
+        .photo-thumb { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform 0.2s; display: block; }
+        .photo-thumb:hover { transform: scale(1.05); }
+        .photo-delete-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: #ff4b4b; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
+        .add-photo-btn { width: 70px; height: 70px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); color: #a0a0a0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; flex: 0 0 70px; }
         .add-photo-btn:hover { border-color: #e94560; color: #e94560; }
 
         .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; color: #ff6b6b; }
@@ -190,12 +190,12 @@
             }, 500);
         }
 
-        function triggerCamera(id) {
-            getEl(`cameraInput_${id}`).click();
+        function triggerPhotoUpload(id) {
+            getEl(`fileInput_${id}`).click();
         }
 
-        function triggerGallery(id) {
-            getEl(`fileInput_${id}`).click();
+        function openFullPhoto(url) {
+            window.open(url, '_blank');
         }
 
         async function uploadPhotos(id, inputElement) {
@@ -328,18 +328,12 @@
                         <div class="photo-gallery">
                             ${photosList.map((url, pIdx) => `
                                 <div class="photo-thumb-wrap">
-                                    <img src="${url}" class="photo-thumb" alt="Repair photo">
+                                    <img src="${url}" class="photo-thumb" alt="Repair photo" onclick="openFullPhoto('${url}')" title="Открыть фото в полный размер">
                                     <button class="photo-delete-btn" onclick="deletePhoto(${rec.id}, ${pIdx})" title="Удалить фото">✕</button>
                                 </div>
                             `).join('')}
-                            <div class="add-photo-btn" onclick="triggerCamera(${rec.id})" title="Снять фото">
-                                📷<span>Камера</span>
-                            </div>
-                            <div class="add-photo-btn" onclick="triggerGallery(${rec.id})" title="Выбрать из галереи">
-                                📁<span>Файлы</span>
-                            </div>
+                            <div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})" title="Добавить фото">＋</div>
                         </div>
-                        <input type="file" id="cameraInput_${rec.id}" style="display:none;" accept="image/*" capture="environment" onchange="uploadPhotos(${rec.id}, this)">
                         <input type="file" id="fileInput_${rec.id}" style="display:none;" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
                     </div>
 
@@ -358,8 +352,9 @@
 
             updateStatsOnly();
         }
-
         document.addEventListener('blur', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') 
+            document.addEventListener('blur', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 setTimeout(() => {
                     const active = document.activeElement;
