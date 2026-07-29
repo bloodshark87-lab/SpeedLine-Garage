@@ -32,10 +32,22 @@
         .delete-btn { background: rgba(255, 75, 75, 0.2); color: #ff4b4b; border: 1px solid rgba(255, 75, 75, 0.3); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
         .total-row { background: rgba(233, 69, 96, 0.15); font-weight: 700; border-top: 2px solid rgba(233, 69, 96, 0.5); }
         .total-row td { padding: 12px 8px; color: #ff6b6b; }
-        .cards-container { display: none; flex-direction: column; gap: 14px; }
+        
+        .cards-container { display: none; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+        .card { background: rgba(0, 0, 0, 0.35); border-radius: 14px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.12); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-number { font-weight: 700; color: #ff6b6b; background: rgba(233, 69, 96, 0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.9rem; }
+        .card-field { margin-bottom: 10px; }
+        .card-label { font-size: 0.7rem; text-transform: uppercase; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
+        .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; color: #ff6b6b; }
+        .grand-total-card { background: rgba(233, 69, 96, 0.2); border-radius: 14px; padding: 16px; border: 1px solid rgba(233, 69, 96, 0.3); display: none; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1rem; color: #ffffff; margin-bottom: 16px; }
+        .grand-total-value { font-size: 1.2rem; color: #ff6b6b; }
+
         @media screen and (max-width: 768px) {
             .table-wrapper { display: none; }
             .cards-container { display: flex; }
+            .grand-total-card { display: flex; }
             .stats { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -92,6 +104,12 @@
                     </tr>
                 </tfoot>
             </table>
+        </div>
+
+        <div class="cards-container" id="cardsContainer"></div>
+        <div class="grand-total-card" id="grandTotalCardContainer">
+            <span>🧾 ИТОГО ПО ВСЕМ</span>
+            <span class="grand-total-value" id="mobileGrandTotal">0 €</span>
         </div>
     </div>
 
@@ -178,6 +196,7 @@
 
             record[field] = (field === 'work_cost' || field === 'material_cost') ? (parseFloat(value) || 0) : value;
             updateStatsOnly();
+            updateCardTotalUI(id);
 
             clearTimeout(saveTimeouts[id]);
             saveTimeouts[id] = setTimeout(async () => {
@@ -195,41 +214,92 @@
             }, 500);
         }
 
+        function updateCardTotalUI(id) {
+            const card = document.querySelector(`.card[data-id="${id}"]`);
+            if (!card) return;
+            const record = workRecords.find(r => r.id === id);
+            if (!record) return;
+            const total = (parseFloat(record.work_cost) || 0) + (parseFloat(record.material_cost) || 0);
+            const totalSpan = card.querySelector('.card-total-val');
+            if (totalSpan) totalSpan.textContent = total.toFixed(0) + ' €';
+        }
+
         function updateStatsOnly() {
-            getEl('totalRecords').textContent = workRecords.length;
+            const totalCount = workRecords.length;
+            getEl('totalRecords').textContent = totalCount;
             const tw = workRecords.reduce((s, r) => s + (parseFloat(r.work_cost) || 0), 0);
             const tm = workRecords.reduce((s, r) => s + (parseFloat(r.material_cost) || 0), 0);
+            const grandTotal = tw + tm;
             
             getEl('totalWorkCost').textContent = tw.toFixed(0) + ' €';
             getEl('totalMaterialCost').textContent = tm.toFixed(0) + ' €';
-            getEl('totalSum').textContent = (tw + tm).toFixed(0) + ' €';
+            getEl('totalSum').textContent = grandTotal.toFixed(0) + ' €';
             
             getEl('footerWorkTotal').textContent = tw.toFixed(0) + ' €';
             getEl('footerMaterialTotal').textContent = tm.toFixed(0) + ' €';
-            getEl('footerGrandTotal').textContent = (tw + tm).toFixed(0) + ' €';
+            getEl('footerGrandTotal').textContent = grandTotal.toFixed(0) + ' €';
+            
+            const mobileGT = getEl('mobileGrandTotal');
+            if (mobileGT) mobileGT.textContent = grandTotal.toFixed(0) + ' €';
         }
 
         function renderAll() {
+            // Отрисовка десктопной таблицы
             const tbody = getEl('tableBody');
-            tbody.innerHTML = '';
+            if (tbody) {
+                tbody.innerHTML = '';
+                workRecords.forEach((rec, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="text-align:center;font-weight:600;color:#ff6b6b;">${index + 1}</td>
+                        <td><input type="date" value="${rec.date || ''}" oninput="updateField(${rec.id}, 'date', this.value)"></td>
+                        <td><input type="text" value="${rec.car_brand || ''}" placeholder="Марка" oninput="updateField(${rec.id}, 'car_brand', this.value)"></td>
+                        <td><input type="text" value="${rec.vin || ''}" placeholder="VIN" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'vin', this.value)"></td>
+                        <td><input type="text" value="${rec.plate_number || ''}" placeholder="Номер" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'plate_number', this.value)"></td>
+                        <td><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></td>
+                        <td><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></td>
+                        <td><textarea rows="2" oninput="updateField(${rec.id}, 'materials', this.value)">${rec.materials || ''}</textarea></td>
+                        <td><input type="number" value="${rec.material_cost || 0}" oninput="updateField(${rec.id}, 'material_cost', this.value)"></td>
+                        <td><textarea rows="2" oninput="updateField(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea></td>
+                        <td style="text-align:center;"><button class="delete-btn" onclick="deleteRow(${rec.id})">🗑️</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
 
-            workRecords.forEach((rec, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="text-align:center;font-weight:600;color:#ff6b6b;">${index + 1}</td>
-                    <td><input type="date" value="${rec.date || ''}" oninput="updateField(${rec.id}, 'date', this.value)"></td>
-                    <td><input type="text" value="${rec.car_brand || ''}" placeholder="Марка" oninput="updateField(${rec.id}, 'car_brand', this.value)"></td>
-                    <td><input type="text" value="${rec.vin || ''}" placeholder="VIN" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'vin', this.value)"></td>
-                    <td><input type="text" value="${rec.plate_number || ''}" placeholder="Номер" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'plate_number', this.value)"></td>
-                    <td><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></td>
-                    <td><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></td>
-                    <td><textarea rows="2" oninput="updateField(${rec.id}, 'materials', this.value)">${rec.materials || ''}</textarea></td>
-                    <td><input type="number" value="${rec.material_cost || 0}" oninput="updateField(${rec.id}, 'material_cost', this.value)"></td>
-                    <td><textarea rows="2" oninput="updateField(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea></td>
-                    <td style="text-align:center;"><button class="delete-btn" onclick="deleteRow(${rec.id})">🗑️</button></td>
-                `;
-                tbody.appendChild(tr);
-            });
+            // Отрисовка мобильных карточек
+            const cardsContainer = getEl('cardsContainer');
+            if (cardsContainer) {
+                cardsContainer.innerHTML = '';
+                workRecords.forEach((rec, index) => {
+                    const cardTotal = (parseFloat(rec.work_cost) || 0) + (parseFloat(rec.material_cost) || 0);
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.dataset.id = rec.id;
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <span class="card-number">#${index + 1}</span>
+                            <span style="color:#a0a0a0; font-size:0.8rem;">📅 <input type="date" value="${rec.date || ''}" style="background:transparent; border:none; color:#a0a0a0; width:auto; display:inline;" oninput="updateField(${rec.id}, 'date', this.value)"></span>
+                        </div>
+                        <div class="card-field"><div class="card-label">🚗 Марка авто</div><input type="text" value="${rec.car_brand || ''}" placeholder="Марка" oninput="updateField(${rec.id}, 'car_brand', this.value)"></div>
+                        <div class="card-row">
+                            <div class="card-field"><div class="card-label">🧬 VIN</div><input type="text" value="${rec.vin || ''}" placeholder="VIN" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'vin', this.value)"></div>
+                            <div class="card-field"><div class="card-label">🔢 Госномер</div><input type="text" value="${rec.plate_number || ''}" placeholder="Номер" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'plate_number', this.value)"></div>
+                        </div>
+                        <div class="card-field"><div class="card-label">🔧 Работы</div><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></div>
+                        <div class="card-row">
+                            <div class="card-field"><div class="card-label">💵 Работа (€)</div><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></div>
+                            <div class="card-field"><div class="card-label">💰 Мат. (€)</div><input type="number" value="${rec.material_cost || 0}" oninput="updateField(${rec.id}, 'material_cost', this.value)"></div>
+                        </div>
+                        <div class="card-field"><div class="card-label">🔩 Расходники</div><textarea rows="2" oninput="updateField(${rec.id}, 'materials', this.value)">${rec.materials || ''}</textarea></div>
+                        <div class="card-field"><div class="card-label">📝 Заметки</div><textarea rows="2" oninput="updateField(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea></div>
+                        <div class="card-total"><span>💰 Итого:</span><span class="card-total-val">${cardTotal.toFixed(0)} €</span></div>
+                        <div style="margin-top: 10px;"><button class="delete-btn" style="width:100%; padding:10px;" onclick="deleteRow(${rec.id})">🗑️ Удалить запись</button></div>
+                    `;
+                    cardsContainer.appendChild(card);
+                });
+            }
+
             updateStatsOnly();
         }
 
