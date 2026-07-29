@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
     
-    <!-- Мобильная консоль Eruda для отладки -->
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>eruda.init();</script>
     
@@ -20,28 +19,14 @@
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --accent: #ef4444;
-            --accent-hover: #dc2626;
             --success: #10b981;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --neutral: #64748b;
-            --status-in-progress: #10b981;
-            --status-waiting: #f59e0b;
-            --status-ready: #3b82f6;
-            --status-completed: #94a3b8;
-            --status-paused: #ef4444;
             --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --radius-xl: 16px;
             --radius-lg: 12px;
             --radius-md: 8px;
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -50,7 +35,6 @@
             padding: 0;
             color: var(--text-primary);
             -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
         }
 
         .container {
@@ -58,9 +42,7 @@
             margin: 0 auto;
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
-            border-radius: 0;
             min-height: 100vh;
-            box-shadow: var(--shadow-lg);
             border-left: 1px solid var(--border);
             border-right: 1px solid var(--border);
             display: flex;
@@ -69,16 +51,13 @@
 
         @media (min-width: 768px) {
             .container {
-                border-radius: var(--radius-xl);
+                border-radius: 16px;
                 margin: 10px auto;
                 min-height: calc(100vh - 20px);
             }
-            body {
-                padding: 10px;
-            }
+            body { padding: 10px; }
         }
 
-        /* Header */
         .header {
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
@@ -107,18 +86,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .company-info {
-            display: flex;
-            flex-direction: column;
-        }
-
         .company-name {
             font-size: 1rem;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 1px;
             text-transform: uppercase;
-            line-height: 1.2;
         }
 
         .company-subtitle {
@@ -135,7 +108,6 @@
             background: rgba(16, 185, 129, 0.15);
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            white-space: nowrap;
             transition: var(--transition);
         }
 
@@ -145,7 +117,6 @@
             border-color: rgba(239, 68, 68, 0.3);
         }
 
-        /* Search */
         .search-container {
             padding: 12px 16px;
             background: rgba(15, 23, 42, 0.9);
@@ -156,24 +127,7 @@
             z-index: 99;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 12px 16px 12px 40px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            font-family: inherit;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-        }
-
+        .search-wrapper { position: relative; }
         .search-icon {
             position: absolute;
             left: 28px;
@@ -183,12 +137,22 @@
             font-size: 1.2rem;
             pointer-events: none;
         }
-
-        .search-wrapper {
-            position: relative;
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
         }
 
-        /* Add Button */
         .add-btn-container {
             padding: 8px 16px;
             position: sticky;
@@ -207,7 +171,6 @@
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            letter-spacing: 1px;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
             display: flex;
@@ -217,13 +180,8 @@
             width: 100%;
             transition: var(--transition);
         }
+        .add-btn:active { transform: scale(0.98); }
 
-        .add-btn:active {
-            transform: scale(0.98);
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-        }
-
-        /* Cards List */
         .cards-list {
             padding: 8px 16px 16px;
             display: flex;
@@ -233,7 +191,6 @@
             overflow-y: auto;
         }
 
-        /* Compact Card */
         .compact-card {
             background: var(--bg-card);
             border-radius: var(--radius-md);
@@ -248,43 +205,16 @@
             backdrop-filter: blur(10px);
             user-select: none;
         }
-
-        .compact-card:active {
-            transform: scale(0.99);
-            background: rgba(30, 41, 59, 0.95);
-        }
-
+        .compact-card:active { transform: scale(0.99); }
         .compact-card.expanded {
             border-color: var(--accent);
             box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3);
         }
 
-        .car-icon {
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-
-        .compact-info {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .compact-primary {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .compact-car {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
+        .car-icon { font-size: 1.8rem; flex-shrink: 0; }
+        .compact-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+        .compact-primary { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .compact-car { font-weight: 700; color: var(--text-primary); font-size: 0.9rem; }
         .compact-plate {
             background: rgba(255, 255, 255, 0.1);
             padding: 2px 8px;
@@ -295,24 +225,9 @@
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
-        .compact-secondary {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .compact-client {
-            color: #cbd5e1;
-            font-weight: 500;
-        }
-
-        .compact-date {
-            color: var(--text-secondary);
-        }
+        .compact-secondary { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); }
+        .compact-client { color: #cbd5e1; font-weight: 500; }
+        .compact-date { color: var(--text-secondary); }
 
         .status-badge {
             padding: 3px 10px;
@@ -324,7 +239,6 @@
             flex-shrink: 0;
             white-space: nowrap;
         }
-
         .status-in_progress { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
         .status-waiting_parts { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
         .status-ready { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
@@ -337,12 +251,8 @@
             transition: transform 0.3s ease;
             flex-shrink: 0;
         }
+        .compact-card.expanded .expand-arrow { transform: rotate(180deg); }
 
-        .compact-card.expanded .expand-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* Expanded Card */
         .expanded-content {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -355,16 +265,8 @@
             gap: 16px;
             backdrop-filter: blur(10px);
         }
-
-        .compact-card.expanded + .expanded-content {
-            display: flex;
-        }
-
-        .card-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .compact-card.expanded + .expanded-content { display: flex; }
+        .card-wrapper { display: flex; flex-direction: column; }
         .section-title {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -375,26 +277,9 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 6px;
         }
-
-        .field-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 4px;
-        }
-
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
+        .field-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .field { display: flex; flex-direction: column; gap: 3px; }
         .field-label {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -402,7 +287,6 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-
         input, textarea, select {
             width: 100%;
             padding: 10px 12px;
@@ -414,30 +298,20 @@
             font-family: inherit;
             transition: var(--transition);
         }
-
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
         }
-
         input:disabled, textarea:disabled, select:disabled {
             opacity: 0.7;
             background: rgba(0, 0, 0, 0.15);
             cursor: default;
             -webkit-text-fill-color: var(--text-primary);
         }
+        input[type="number"] { text-align: right; }
+        textarea { resize: vertical; min-height: 60px; }
 
-        input[type="number"] {
-            text-align: right;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        /* Work items */
         .work-item {
             display: flex;
             align-items: center;
@@ -446,16 +320,8 @@
             padding: 8px;
             border-radius: var(--radius-md);
         }
-
-        .work-item select {
-            flex: 1;
-        }
-
-        .work-item .work-cost {
-            width: 80px;
-            text-align: right;
-        }
-
+        .work-item select { flex: 1; }
+        .work-item .work-cost { width: 80px; text-align: right; }
         .remove-work-btn {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid rgba(239, 68, 68, 0.3);
@@ -470,7 +336,6 @@
             justify-content: center;
             flex-shrink: 0;
         }
-
         .add-work-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px dashed var(--border);
@@ -482,20 +347,14 @@
             text-align: center;
             transition: var(--transition);
         }
+        .add-work-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        .add-work-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Photos */
         .photo-gallery {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             align-items: center;
         }
-
         .photo-thumb-wrap {
             position: relative;
             width: 70px;
@@ -506,7 +365,6 @@
             background: rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
         }
-
         .photo-thumb {
             width: 100%;
             height: 100%;
@@ -514,11 +372,7 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-
-        .photo-thumb:active {
-            transform: scale(1.05);
-        }
-
+        .photo-thumb:active { transform: scale(1.05); }
         .photo-delete-btn {
             position: absolute;
             top: 3px;
@@ -536,7 +390,6 @@
             justify-content: center;
             z-index: 2;
         }
-
         .add-photo-btn {
             width: 70px;
             height: 70px;
@@ -552,18 +405,7 @@
             transition: var(--transition);
             flex-shrink: 0;
         }
-
-        .add-photo-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .add-photo-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         .btn {
             padding: 10px 16px;
@@ -577,48 +419,17 @@
             min-width: 80px;
             text-align: center;
         }
-
-        .btn-save {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-edit {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .hidden-file-input {
-            display: none;
-        }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
-        }
+        .btn-save { background: var(--accent); color: white; }
+        .btn-edit { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--accent); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn:active { transform: scale(0.97); }
+        .hidden-file-input { display: none; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo-area">
                 <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260729_174121.jpg" 
@@ -631,7 +442,6 @@
             <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
         </div>
 
-        <!-- Search -->
         <div class="search-container">
             <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
@@ -641,12 +451,10 @@
             </div>
         </div>
 
-        <!-- Add Button -->
         <div class="add-btn-container">
             <button class="add-btn" id="addBtn">➕ Новое авто</button>
         </div>
 
-        <!-- Cards List -->
         <div class="cards-list" id="cardsList"></div>
     </div>
 
@@ -657,40 +465,99 @@
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-               // ============================================
+
+        // ============================================
         // GLOBAL STATE
         // ============================================
         let workRecords = [];
         let expandedCardId = null;
         let editingCardId = null;
-        let editStates = {}; // Store temporary edit states
+        let editStates = {};
         let saveTimeouts = {};
         let searchQuery = '';
 
-        // Fixed works catalog
+        // ============================================
+        // FULL WORK CATALOG (75 позиций с категориями)
+        // ============================================
         const WORKS_CATALOG = [
-            { name: 'Замена масла ДВС', cost: 35 },
-            { name: 'Замена масла КПП', cost: 45 },
-            { name: 'Замена тормозных колодок (перед)', cost: 40 },
-            { name: 'Замена тормозных колодок (зад)', cost: 40 },
-            { name: 'Замена тормозных дисков (комплект)', cost: 60 },
-            { name: 'Диагностика ходовой', cost: 25 },
-            { name: 'Замена амортизаторов (пара)', cost: 80 },
-            { name: 'Сход-развал', cost: 50 },
-            { name: 'Замена свечей зажигания', cost: 30 },
-            { name: 'Замена ремня ГРМ', cost: 150 },
-            { name: 'Замена фильтров (воздух/салон)', cost: 15 },
-            { name: 'Компьютерная диагностика', cost: 30 },
-            { name: 'Шиномонтаж (4 колеса)', cost: 40 },
-            { name: 'Заправка кондиционера', cost: 55 },
-            { name: 'Сварочные работы (час)', cost: 50 },
-            { name: 'Кузовной ремонт (час)', cost: 60 },
-            { name: 'Покраска элемента', cost: 120 },
-            { name: 'Полировка кузова', cost: 90 },
-            { name: 'Химчистка салона', cost: 70 },
-            { name: 'Другое (цена договорная)', cost: 0 }
+            { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
+            { category: "Тормозная система", name: "Замена передних колодок (труд)", cost: 26 },
+            { category: "Тормозная система", name: "Замена задних колодок (труд)", cost: 40 },
+            { category: "Тормозная система", name: "Замена дисков + колодок (труд)", cost: 55 },
+            { category: "Тормозная система", name: "Ремонт / обслуживание суппортов", cost: 33 },
+            { category: "Тормозная система", name: "Замена тормозной жидкости", cost: 22 },
+            { category: "Тормозная система", name: "Проточка торм. дисков", cost: 30 },
+            { category: "Тормозная система", name: "Профилактика направляющих пальцев суппортов", cost: 22 },
+            { category: "Тормозная система", name: "Очистка барабанов стояночного тормоза", cost: 30 },
+            { category: "Тормозная система", name: "Зачистка / полировка привалочной плоскости диска", cost: 15 },
+            { category: "Двигатель / ТО", name: "Замена масла в двигателе (труд)", cost: 25 },
+            { category: "Двигатель / ТО", name: "Замена масла + фильтры (труд)", cost: 30 },
+            { category: "Двигатель / ТО", name: "Замена воздушного фильтра", cost: 10 },
+            { category: "Двигатель / ТО", name: "Замена салонного фильтра", cost: 10 },
+            { category: "Двигатель / ТО", name: "Замена топливного фильтра", cost: 20 },
+            { category: "Двигатель / ТО", name: "Замена свечей зажигания", cost: 20 },
+            { category: "Двигатель / ТО", name: "Замена свечей накаливания (дизель)", cost: 35 },
+            { category: "Двигатель / ТО", name: "Промывка инжектора / форсунок", cost: 35 },
+            { category: "Двигатель / ТО", name: "Замена охлаждающей жидкости", cost: 22 },
+            { category: "Двигатель / ТО", name: "Диагностика двигателя (компьютерная)", cost: 25 },
+            { category: "Ремни", name: "Замена ремня ГРМ (труд)", cost: 126 },
+            { category: "Ремни", name: "Замена ремня ГРМ + ролики + помпа (труд)", cost: 180 },
+            { category: "Ремни", name: "Замена ремня генератора", cost: 35 },
+            { category: "Подвеска", name: "Диагностика ходовой части", cost: 20 },
+            { category: "Подвеска", name: "Замена переднего амортизатора (1 шт.)", cost: 35 },
+            { category: "Подвеска", name: "Замена заднего амортизатора (1 шт.)", cost: 30 },
+            { category: "Подвеска", name: "Замена пружины подвески", cost: 40 },
+            { category: "Подвеска", name: "Замена рычага подвески", cost: 35 },
+            { category: "Подвеска", name: "Замена шаровой опоры", cost: 25 },
+            { category: "Подвеска", name: "Замена сайлентблока", cost: 25 },
+            { category: "Подвеска", name: "Замена стойки стабилизатора", cost: 15 },
+            { category: "Подвеска", name: "Замена подшипника ступицы (перед.)", cost: 35 },
+            { category: "Подвеска", name: "Замена подшипника ступицы (задн.)", cost: 30 },
+            { category: "Подвеска", name: "Замена передней ступицы в сборе", cost: 45 },
+            { category: "Подвеска", name: "Сход-развал (реглаж передний мост)", cost: 30 },
+            { category: "Подвеска", name: "Сход-развал (реглаж передний + задний мост)", cost: 45 },
+            { category: "Трансмиссия", name: "Замена масла в МКПП", cost: 25 },
+            { category: "Трансмиссия", name: "Замена масла в АКПП", cost: 51 },
+            { category: "Трансмиссия", name: "Замена сцепления (труд)", cost: 150 },
+            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 13-16\")", cost: 8 },
+            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 17-18\")", cost: 12 },
+            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 19-20\")", cost: 16 },
+            { category: "Шиномонтаж", name: "Балансировка колеса (отдельно)", cost: 5 },
+            { category: "Шиномонтаж", name: "Ремонт прокола (латка / жгут)", cost: 8 },
+            { category: "Шиномонтаж", name: "Вулканизация покрышки", cost: 12 },
+            { category: "Шиномонтаж", name: "Монтаж Runflat (1 колесо)", cost: 15 },
+            { category: "Шиномонтаж", name: "Хранение шин (сезон, 4 шт.)", cost: 25 },
+            { category: "Шиномонтаж", name: "Машинная правка диска", cost: 20 },
+            { category: "Электрика", name: "Замена лампы ближнего света", cost: 5 },
+            { category: "Электрика", name: "Замена лампы ксенона / LED", cost: 15 },
+            { category: "Электрика", name: "Полировка фар (пара, базовая)", cost: 25 },
+            { category: "Электрика", name: "Полировка фар + UV керамика (пара)", cost: 40 },
+            { category: "Электрика", name: "Полировка фар + PPF фолио (пара)", cost: 50 },
+            { category: "Электрика", name: "Регулировка света фар", cost: 10 },
+            { category: "Электрика", name: "Диагностика электрооборудования", cost: 25 },
+            { category: "Электрика", name: "Замена аккумулятора", cost: 10 },
+            { category: "Кондиционер", name: "Диагностика кондиционера", cost: 20 },
+            { category: "Кондиционер", name: "Заправка кондиционера (R134a)", cost: 35 },
+            { category: "Кондиционер", name: "Заправка кондиционера (R1234yf)", cost: 55 },
+            { category: "Кондиционер", name: "Ремонт / замена компрессора (труд)", cost: 80 },
+            { category: "Кондиционер", name: "Замена радиатора кондиционера (труд)", cost: 60 },
+            { category: "Рулевое", name: "Замена рулевой тяги / наконечника", cost: 20 },
+            { category: "Рулевое", name: "Замена рулевой рейки (труд)", cost: 80 },
+            { category: "Рулевое", name: "Замена насоса ГУР", cost: 45 },
+            { category: "Рулевое", name: "Замена жидкости ГУР", cost: 20 },
+            { category: "Выхлоп", name: "Замена глушителя (труд)", cost: 30 },
+            { category: "Выхлоп", name: "Замена катализатора (труд)", cost: 50 },
+            { category: "Выхлоп", name: "Сварка выхлопной системы", cost: 20 },
+            { category: "Детейлинг", name: "Мойка кузова (комплекс)", cost: 15 },
+            { category: "Детейлинг", name: "Химчистка салона (базовая)", cost: 50 },
+            { category: "Детейлинг", name: "Химчистка салона (глубокая)", cost: 90 },
+            { category: "Детейлинг", name: "Полировка кузова (1 этап)", cost: 150 },
+            { category: "Детейлинг", name: "Полировка кузова (3 этапа)", cost: 300 },
+            { category: "Детейлинг", name: "Керамическое покрытие кузова", cost: 180 },
+            { category: "Детейлинг", name: "Мойка двигателя (паром)", cost: 40 }
         ];
 
+        // Status options
         const STATUS_OPTIONS = [
             { value: 'in_progress', label: '🟢 В работе' },
             { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
@@ -698,7 +565,7 @@
             { value: 'completed', label: '⚪ Выдан клиенту' },
             { value: 'paused', label: '🔴 Приостановлен' }
         ];
-
+            <script>
         // ============================================
         // UTILS
         // ============================================
@@ -758,7 +625,7 @@
                 car_brand: '',
                 vin: '',
                 plate_number: '',
-                work_description: '',
+                work_description: '[]',
                 work_cost: 0,
                 materials: '',
                 material_cost: 0,
@@ -784,10 +651,7 @@
             if (data && data.length > 0) {
                 workRecords.unshift(data[0]);
                 renderCardsList();
-                // Auto-expand new card
-                setTimeout(() => {
-                    toggleCardExpansion(data[0].id);
-                }, 100);
+                setTimeout(() => toggleCardExpansion(data[0].id), 100);
             }
         }
 
@@ -814,7 +678,7 @@
         }
 
         // ============================================
-        // UPDATE FIELD
+        // UPDATE FIELD (autosave)
         // ============================================
         async function updateField(id, field, value) {
             const record = workRecords.find(r => r.id === id);
@@ -826,18 +690,14 @@
                 record[field] = value;
             }
 
-            // Auto-set date_completed when status changes to completed
             if (field === 'status' && value === 'completed' && !record.date_completed) {
                 record.date_completed = getTodayISO();
-                // Also update UI if card is open
-                if (expandedCardId === id) {
-                    renderExpandedContent(id);
-                }
+                if (expandedCardId === id) renderExpandedContent(id);
             }
 
             updateSyncStatus('saving');
-
             clearTimeout(saveTimeouts[id]);
+
             saveTimeouts[id] = setTimeout(async () => {
                 const updateData = { [field]: record[field] };
                 if (field === 'status' && value === 'completed' && record.date_completed) {
@@ -855,7 +715,6 @@
                 } else {
                     updateSyncStatus('ok');
                 }
-                // Re-render compact cards for status changes
                 if (field === 'status' || field === 'client_name' || field === 'car_brand' || field === 'plate_number' || field === 'date') {
                     renderCardsList();
                 }
@@ -903,7 +762,6 @@
                 }
             }
 
-            // Update Supabase
             const { error: updateError } = await client
                 .from('speedline_records')
                 .update({ photos: photos })
@@ -916,11 +774,8 @@
             } else {
                 record.photos = photos;
                 updateSyncStatus('ok');
-                if (expandedCardId === id) {
-                    renderExpandedContent(id);
-                }
+                if (expandedCardId === id) renderExpandedContent(id);
             }
-
             inputElement.value = '';
         }
 
@@ -941,11 +796,8 @@
                 alert('Ошибка удаления фото: ' + error.message);
                 return;
             }
-
             record.photos = photos;
-            if (expandedCardId === id) {
-                renderExpandedContent(id);
-            }
+            if (expandedCardId === id) renderExpandedContent(id);
         }
 
         // ============================================
@@ -956,7 +808,7 @@
             try {
                 return JSON.parse(desc);
             } catch {
-                return [{ name: desc, cost: 0 }];
+                return [];
             }
         }
 
@@ -966,12 +818,11 @@
 
         // ============================================
         // RENDER: CARDS LIST
-         // ============================================
+        // ============================================
         function renderCardsList() {
             const cardsList = getEl('cardsList');
             if (!cardsList) return;
 
-            // Filter records
             let filtered = workRecords;
             if (searchQuery.trim()) {
                 const q = searchQuery.toLowerCase().trim();
@@ -1027,7 +878,6 @@
                 `;
             }).join('');
 
-            // Re-render expanded content if needed
             if (expandedCardId && editingCardId === expandedCardId) {
                 const content = getEl(`expandedContent_${expandedCardId}`);
                 if (content && content.style.display !== 'none') {
@@ -1039,34 +889,32 @@
             }
         }
 
+        // ============================================
+        // RENDER: EXPANDED CARD CONTENT
+        // ============================================
         function renderExpandedContentHTML(rec, isEditing = false) {
             if (!rec) return '';
             
             const isThisEditing = editingCardId === rec.id;
             const workItems = parseWorkDescription(rec.work_description);
             const photosList = Array.isArray(rec.photos) ? rec.photos : [];
-            const totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
-            const totalMaterialCost = parseFloat(rec.material_cost) || 0;
-            const grandTotal = totalWorkCost + totalMaterialCost;
-
-            // Use edit state if in editing mode
+            
             let displayData = { ...rec };
             if (isThisEditing && editStates[rec.id]) {
                 displayData = { ...displayData, ...editStates[rec.id] };
-                // Recalculate work items from edit state
                 if (editStates[rec.id].work_description) {
                     const editWorkItems = parseWorkDescription(editStates[rec.id].work_description);
                     displayData._workItems = editWorkItems;
                     displayData._totalWorkCost = editWorkItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
                 } else {
                     displayData._workItems = workItems;
-                    displayData._totalWorkCost = totalWorkCost;
+                    displayData._totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
                 }
-                displayData._totalMaterialCost = parseFloat(editStates[rec.id].material_cost) || totalMaterialCost;
+                displayData._totalMaterialCost = parseFloat(editStates[rec.id].material_cost) || 0;
             } else {
                 displayData._workItems = workItems;
-                displayData._totalWorkCost = totalWorkCost;
-                displayData._totalMaterialCost = totalMaterialCost;
+                displayData._totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+                displayData._totalMaterialCost = parseFloat(rec.material_cost) || 0;
             }
             displayData._grandTotal = displayData._totalWorkCost + displayData._totalMaterialCost;
 
@@ -1090,7 +938,6 @@
             `).join('');
 
             return `
-                <!-- Client Block -->
                 <div class="section-title">👤 Клиент и авто</div>
                 <div class="field-group">
                     <div class="field">
@@ -1139,7 +986,6 @@
                     </div>
                 </div>
 
-                <!-- Work Block -->
                 <div class="section-title">🔧 Работы</div>
                 <div class="field-group">
                     ${workItemsHTML}
@@ -1155,7 +1001,6 @@
                     </div>
                 </div>
 
-                <!-- Materials Block -->
                 <div class="section-title">🔩 Расходники</div>
                 <div class="field-group">
                     <div class="field">
@@ -1170,7 +1015,6 @@
                     </div>
                 </div>
 
-                <!-- Photos Block -->
                 <div class="section-title">📸 Фотографии</div>
                 <div class="photo-gallery">
                     ${photosList.map((url, pIdx) => `
@@ -1187,14 +1031,12 @@
                     ` : ''}
                 </div>
 
-                <!-- Notes Block -->
                 <div class="section-title">📝 Заметки</div>
                 <div class="field-group">
                     <textarea ${disabled} rows="2" placeholder="Дополнительные заметки..."
                               oninput="handleEditChange(${rec.id}, 'notes', this.value)">${displayData.notes || ''}</textarea>
                 </div>
 
-                <!-- Total -->
                 <div style="display:flex; justify-content:space-between; align-items:center; 
                             background:rgba(239,68,68,0.15); padding:12px; border-radius:8px; 
                             font-weight:700; font-size:1rem;">
@@ -1202,7 +1044,6 @@
                     <span style="color:#ef4444;">${displayData._grandTotal.toFixed(0)} €</span>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="action-buttons">
                     ${isThisEditing ? `
                         <button class="btn btn-save" onclick="saveRecord(${rec.id})">💾 Сохранить</button>
@@ -1214,6 +1055,7 @@
                 </div>
             `;
         }
+
         function renderExpandedContent(id, isEditing = false) {
             const content = getEl(`expandedContent_${id}`);
             if (!content) return;
@@ -1227,16 +1069,10 @@
         // ============================================
         function toggleCardExpansion(id) {
             if (expandedCardId === id) {
-                // Collapse
                 expandedCardId = null;
-                if (editingCardId === id) {
-                    cancelEdit(id);
-                }
+                if (editingCardId === id) cancelEdit(id);
             } else {
-                // Collapse previous
-                if (expandedCardId && editingCardId === expandedCardId) {
-                    cancelEdit(expandedCardId);
-                }
+                if (expandedCardId && editingCardId === expandedCardId) cancelEdit(expandedCardId);
                 expandedCardId = id;
                 renderExpandedContent(id, editingCardId === id);
             }
@@ -1254,7 +1090,6 @@
                     vin: rec.vin || '',
                     plate_number: rec.plate_number || '',
                     work_description: rec.work_description || '[]',
-                    work_cost: rec.work_cost || 0,
                     materials: rec.materials || '',
                     material_cost: rec.material_cost || 0,
                     notes: rec.notes || '',
@@ -1267,19 +1102,15 @@
         function cancelEdit(id) {
             delete editStates[id];
             editingCardId = null;
-            if (expandedCardId === id) {
-                renderExpandedContent(id, false);
-            }
+            if (expandedCardId === id) renderExpandedContent(id, false);
             renderCardsList();
         }
 
         async function saveRecord(id) {
             const state = editStates[id];
             if (!state) return;
-
             updateSyncStatus('saving');
 
-            // Calculate work cost from work items
             const workItems = parseWorkDescription(state.work_description);
             const totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
 
@@ -1296,7 +1127,6 @@
                 status: state.status
             };
 
-            // Auto-set date_completed
             if (state.status === 'completed') {
                 const rec = workRecords.find(r => r.id === id);
                 if (rec && !rec.date_completed) {
@@ -1315,42 +1145,32 @@
                 return;
             }
 
-            // Update local state
             const rec = workRecords.find(r => r.id === id);
-            if (rec) {
-                Object.assign(rec, updateData);
-                rec.work_cost = totalWorkCost;
-            }
+            if (rec) Object.assign(rec, updateData);
 
             delete editStates[id];
             editingCardId = null;
             updateSyncStatus('ok');
             renderCardsList();
-            if (expandedCardId === id) {
-                renderExpandedContent(id, false);
-            }
+            if (expandedCardId === id) renderExpandedContent(id, false);
         }
 
         function handleEditChange(id, field, value) {
             if (!editStates[id]) editStates[id] = {};
             editStates[id][field] = value;
-
-            // If changing status, update immediately (for compact card)
-            if (field === 'status') {
-                updateField(id, 'status', value);
-            }
+            if (field === 'status') updateField(id, 'status', value);
         }
 
-        // Work item management
+        // ============================================
+        // WORK ITEM INTERACTIONS
+        // ============================================
         function updateWorkItem(recordId, itemIndex, field, value) {
             if (!editStates[recordId]) return;
-            
             const workItems = parseWorkDescription(editStates[recordId].work_description || '[]');
             if (workItems[itemIndex]) {
                 if (field === 'cost') {
                     workItems[itemIndex].cost = parseFloat(value) || 0;
                 } else if (field === 'name') {
-                    // Find matching catalog item for auto-cost
                     const catalogItem = WORKS_CATALOG.find(c => c.name === value);
                     workItems[itemIndex].name = value;
                     if (catalogItem && catalogItem.cost > 0) {
@@ -1406,9 +1226,7 @@
                 .channel('public:speedline_records')
                 .on('postgres_changes', 
                     { event: '*', schema: 'public', table: 'speedline_records' }, 
-                    () => {
-                        fetchRecords();
-                    }
+                    () => fetchRecords()
                 )
                 .subscribe();
         }
@@ -1421,4 +1239,3 @@
     </script>
 </body>
 </html>
-        
