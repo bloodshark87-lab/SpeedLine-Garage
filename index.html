@@ -335,6 +335,7 @@
                         </div>
                         <input type="file" id="fileInput_${rec.id}" style="display:none;" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
                     </div>
+
                     <div class="card-field"><div class="card-label">🔧 Работы</div><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></div>
                     <div class="card-row">
                         <div class="card-field"><div class="card-label">💵 Работа (€)</div><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></div>
@@ -376,5 +377,5 @@
         fetchRecords();
         initRealtime();
     </script>
-</body>
 </html>
+
