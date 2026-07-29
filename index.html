@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage — Database</title>
-   <!-- Мобильная консоль Eruda -->
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+    <!-- Мобильная консоль Eruda для отладки -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,11 +34,12 @@
         .card-label { font-size: 0.7rem; text-transform: uppercase; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
         .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
-        .photo-gallery { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .photo-gallery { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; align-items: center; }
         .photo-thumb-wrap { position: relative; width: 70px; height: 70px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); flex-shrink: 0; }
         .photo-thumb { width: 100%; height: 100%; object-fit: cover; }
         .photo-delete-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: #ff4b4b; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .add-photo-btn { width: 70px; height: 70px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); color: #a0a0a0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; }
+        .add-photo-btn { width: 70px; height: 70px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); color: #a0a0a0; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; gap: 2px; }
+        .add-photo-btn span { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.3px; }
         .add-photo-btn:hover { border-color: #e94560; color: #e94560; }
 
         .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; color: #ff6b6b; }
@@ -127,7 +129,7 @@
                 materials: '',
                 material_cost: 0,
                 notes: '',
-                photos: []
+                photo: []
             };
 
             const { data, error } = await client
@@ -188,7 +190,11 @@
             }, 500);
         }
 
-        function triggerPhotoUpload(id) {
+        function triggerCamera(id) {
+            getEl(`cameraInput_${id}`).click();
+        }
+
+        function triggerGallery(id) {
             getEl(`fileInput_${id}`).click();
         }
 
@@ -200,20 +206,21 @@
             const record = workRecords.find(r => r.id === id);
             if (!record) return;
 
-            if (!Array.isArray(record.photos)) {
-                record.photos = record.photos ? [record.photos] : [];
+            if (!Array.isArray(record.photo)) {
+                record.photo = record.photo ? [record.photo] : [];
             }
 
             for (let file of files) {
-                const fileExt = file.name.split('.').pop();
+                const fileExt = file.name.split('.').pop() || 'jpg';
                 const fileName = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
 
-                const { error } = await client.storage
+                const { error: uploadError } = await client.storage
                     .from('Logo')
                     .upload(fileName, file, { upsert: true });
 
-                if (error) {
-                    console.error('Ошибка загрузки файла:', error);
+                if (uploadError) {
+                    console.error('Ошибка загрузки файла в Storage:', uploadError);
+                    alert('Ошибка загрузки файла: ' + uploadError.message);
                     continue;
                 }
 
@@ -222,35 +229,37 @@
                     .getPublicUrl(fileName);
 
                 if (publicUrlData && publicUrlData.publicUrl) {
-                    record.photos.push(publicUrlData.publicUrl);
+                    record.photo.push(publicUrlData.publicUrl);
                 }
             }
 
             const { error: updateError } = await client
                 .from('speedline_records')
-                .update({ photos: record.photos })
+                .update({ photo: record.photo })
                 .eq('id', id);
 
             if (updateError) {
-                console.error('Ошибка сохранения массива фото:', updateError);
+                console.error('Ошибка сохранения массива фото в базу:', updateError);
+                alert('Ошибка сохранения в базу: ' + updateError.message);
                 getEl('syncStatus').textContent = '🟡 Ошибка сохранения фото';
             } else {
                 getEl('syncStatus').textContent = '🟢 Синхронизировано';
             }
 
+            inputElement.value = '';
             renderAll();
         }
 
         async function deletePhoto(id, photoIndex) {
             if (!confirm('Удалить эту фотографию?')) return;
             const record = workRecords.find(r => r.id === id);
-            if (!record || !Array.isArray(record.photos)) return;
+            if (!record || !Array.isArray(record.photo)) return;
 
-            record.photos.splice(photoIndex, 1);
+            record.photo.splice(photoIndex, 1);
 
             const { error } = await client
                 .from('speedline_records')
-                .update({ photos: record.photos })
+                .update({ photo: record.photo })
                 .eq('id', id);
 
             if (error) {
@@ -298,7 +307,7 @@
             cardsContainer.innerHTML = '';
             workRecords.forEach((rec, index) => {
                 const cardTotal = (parseFloat(rec.work_cost) || 0) + (parseFloat(rec.material_cost) || 0);
-                const photosList = Array.isArray(rec.photos) ? rec.photos : [];
+                const photosList = Array.isArray(rec.photo) ? rec.photo : [];
                 
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -323,8 +332,14 @@
                                     <button class="photo-delete-btn" onclick="deletePhoto(${rec.id}, ${pIdx})" title="Удалить фото">✕</button>
                                 </div>
                             `).join('')}
-                            <div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})" title="Добавить фото">＋</div>
+                            <div class="add-photo-btn" onclick="triggerCamera(${rec.id})" title="Снять фото">
+                                📷<span>Камера</span>
+                            </div>
+                            <div class="add-photo-btn" onclick="triggerGallery(${rec.id})" title="Выбрать из галереи">
+                                📁<span>Файлы</span>
+                            </div>
                         </div>
+                        <input type="file" id="cameraInput_${rec.id}" style="display:none;" accept="image/*" capture="environment" onchange="uploadPhotos(${rec.id}, this)">
                         <input type="file" id="fileInput_${rec.id}" style="display:none;" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
                     </div>
 
@@ -335,39 +350,4 @@
                     </div>
                     <div class="card-field"><div class="card-label">🔩 Расходники</div><textarea rows="2" oninput="updateField(${rec.id}, 'materials', this.value)">${rec.materials || ''}</textarea></div>
                     <div class="card-field"><div class="card-label">📝 Заметки</div><textarea rows="2" oninput="updateField(${rec.id}, 'notes', this.value)">${rec.notes || ''}</textarea></div>
-                    <div class="card-total"><span>💰 Итого по машине:</span><span class="card-total-val">${cardTotal.toFixed(0)} €</span></div>
-                    <button class="delete-btn" onclick="deleteRow(${rec.id})">🗑️ Удалить запись</button>
-                `;
-                cardsContainer.appendChild(card);
-            });
-
-            updateStatsOnly();
-        }
-
-        document.addEventListener('blur', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                setTimeout(() => {
-                    const active = document.activeElement;
-                    if (pendingRender && (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA'))) {
-                        renderAll();
-                    }
-                }, 150);
-            }
-        }, true);
-
-        function initRealtime() {
-            client
-                .channel('public:speedline_records')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, payload => {
-                    fetchRecords();
-                })
-                .subscribe();
-        }
-
-        getEl('addBtn').addEventListener('click', addRow);
-
-        fetchRecords();
-        initRealtime();
-    </script>
-</body>
-</html>
+                    <div class="card-total"><span>💰 Итого по машине:</span><span class="card-total-val">${cardTotal.toFixed(0)} 
