@@ -33,12 +33,6 @@
         .total-row { background: rgba(233, 69, 96, 0.15); font-weight: 700; border-top: 2px solid rgba(233, 69, 96, 0.5); }
         .total-row td { padding: 12px 8px; color: #ff6b6b; }
         .cards-container { display: none; flex-direction: column; gap: 14px; }
-        .card { background: rgba(0, 0, 0, 0.35); border-radius: 14px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.12); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-number { font-weight: 700; color: #ff6b6b; background: rgba(233, 69, 96, 0.2); padding: 4px 10px; border-radius: 20px; }
-        .card-field { margin-bottom: 10px; }
-        .card-label { font-size: 0.7rem; text-transform: uppercase; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
-        .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         @media screen and (max-width: 768px) {
             .table-wrapper { display: none; }
             .cards-container { display: flex; }
@@ -99,8 +93,6 @@
                 </tfoot>
             </table>
         </div>
-
-        <div class="cards-container" id="cardsContainer"></div>
     </div>
 
     <script>
@@ -152,7 +144,8 @@
                 .select();
 
             if (error) {
-                alert('Не удалось добавить запись: ' + error.message);
+                alert('Ошибка добавления: ' + error.message);
+                console.error('Supabase Insert Error:', error);
                 return;
             }
 
