@@ -1,0 +1,404 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Таблица учетных данных — Спидлайн гараж</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; padding: 10px; color: #e0e0e0; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+        .container { max-width: 100%; margin: 0 auto; background: rgba(22, 33, 62, 0.7); backdrop-filter: blur(20px); border-radius: 16px; padding: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .header-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #e94560, #c23152); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4); flex-shrink: 0; }
+        .company-name { font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.2; }
+        .company-subtitle { font-size: 0.7rem; color: #a0a0a0; letter-spacing: 0.5px; }
+        h1 { font-size: 1.2rem; font-weight: 600; background: linear-gradient(135deg, #e94560, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+        .stat-card { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-align: center; }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a0a0a0; margin-bottom: 4px; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; color: #ff6b6b; }
+        .controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .add-btn { background: linear-gradient(135deg, #e94560, #c23152); color: white; border: none; padding: 14px 20px; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 150px; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .add-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(233, 69, 96, 0.4); }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        .zoom-controls { display: flex; gap: 6px; align-items: center; }
+        .zoom-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .zoom-btn:active { background: rgba(233, 69, 96, 0.4); transform: scale(0.9); }
+        .zoom-level { font-size: 0.8rem; color: #a0a0a0; min-width: 42px; text-align: center; }
+        .clear-all-btn { background: rgba(255, 75, 75, 0.15); color: #ff4b4b; border: 1px solid rgba(255, 75, 75, 0.3); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .clear-all-btn:active { background: rgba(255, 75, 75, 0.3); }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(0, 0, 0, 0.3); margin-bottom: 16px; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 1050px; }
+        .table-title-row th { background: linear-gradient(135deg, rgba(233, 69, 96, 0.3), rgba(15, 52, 96, 0.6)); padding: 12px 16px; text-align: center; font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ffffff; border-bottom: 2px solid rgba(233, 69, 96, 0.6); }
+        th { background: rgba(22, 33, 62, 0.95); backdrop-filter: blur(10px); padding: 10px 8px; text-align: left; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.75rem; border-bottom: 2px solid rgba(233, 69, 96, 0.3); cursor: pointer; user-select: none; position: sticky; top: 0; z-index: 10; color: #ff6b6b; white-space: nowrap; }
+        td { padding: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.85rem; }
+        input, textarea { width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 6px; color: #fff; font-size: 0.85rem; font-family: inherit; -webkit-appearance: none; appearance: none; }
+        input:focus, textarea:focus { outline: none; border-color: #e94560; box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.2); }
+        input[type="number"] { text-align: right; }
+        textarea { resize: vertical; min-height: 36px; }
+        .delete-btn { background: rgba(255, 75, 75, 0.2); color: #ff4b4b; border: 1px solid rgba(255, 75, 75, 0.3); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; white-space: nowrap; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .total-row { background: rgba(233, 69, 96, 0.15); font-weight: 700; border-top: 2px solid rgba(233, 69, 96, 0.5); }
+        .total-row td { padding: 12px 8px; color: #ff6b6b; font-size: 0.9rem; }
+        .cards-container { display: flex; flex-direction: column; gap: 14px; }
+        .card { background: rgba(0, 0, 0, 0.35); border-radius: 14px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px); animation: fadeInRow 0.3s ease-out; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-number { font-weight: 700; color: #ff6b6b; font-size: 1rem; background: rgba(233, 69, 96, 0.2); padding: 4px 10px; border-radius: 20px; }
+        .card-date { color: #a0a0a0; font-size: 0.8rem; }
+        .card-field { margin-bottom: 10px; }
+        .card-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
+        .card-field input, .card-field textarea { width: 100%; padding: 10px 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 0.9rem; font-family: inherit; -webkit-appearance: none; appearance: none; }
+        .card-field input:focus, .card-field textarea:focus { outline: none; border-color: #e94560; box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.2); }
+        .card-field input[type="number"] { text-align: left; font-weight: 600; color: #ff6b6b; }
+        .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; font-size: 1rem; color: #ff6b6b; }
+        .card-delete { display: flex; justify-content: flex-end; margin-top: 10px; }
+        .card-delete .delete-btn { padding: 10px 20px; font-size: 0.85rem; width: 100%; text-align: center; }
+        .grand-total-card { background: rgba(233, 69, 96, 0.2); border-radius: 14px; padding: 18px; border: 1px solid rgba(233, 69, 96, 0.3); display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; color: #ffffff; }
+        .grand-total-value { font-size: 1.4rem; color: #ff6b6b; }
+        @keyframes fadeInRow { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { height: 6px; width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(233, 69, 96, 0.4); border-radius: 3px; }
+        @media screen and (min-width: 769px) {
+            .container { max-width: 1400px; padding: 24px; border-radius: 20px; }
+            .stats { grid-template-columns: repeat(4, 1fr); }
+            .table-wrapper { display: block; }
+            #desktopTable { display: table; }
+            #cardsContainer { display: none; }
+            #grandTotalCardContainer { display: none; }
+            .add-btn { flex: 0; }
+        }
+        @media screen and (max-width: 768px) {
+            .table-wrapper { display: none; }
+            #cardsContainer { display: flex; }
+            #grandTotalCardContainer { display: block; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 12px; border-radius: 14px; }
+            .company-name { font-size: 0.95rem; }
+            h1 { font-size: 1rem; }
+        }
+        @media screen and (max-width: 380px) {
+            .stats { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .stat-card { padding: 8px 8px; }
+            .stat-value { font-size: 0.95rem; }
+            .card-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <div class="logo-area">
+                <div class="logo-icon">🏎️</div>
+                <div>
+                    <div class="company-name">Спидлайн гараж</div>
+                    <div class="company-subtitle">профессиональный автосервис</div>
+                </div>
+            </div>
+            <h1>📋 Таблица учетных данных</h1>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">📌 Записей</div>
+                <div class="stat-value" id="totalRecords">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">💰 Работы</div>
+                <div class="stat-value" id="totalWorkCost">0 €</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🔩 Расходники</div>
+                <div class="stat-value" id="totalMaterialCost">0 €</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🧾 ИТОГО</div>
+                <div class="stat-value" id="totalSum">0 €</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="add-btn" id="addBtn">➕ Добавить запись</button>
+        </div>
+
+        <div class="toolbar">
+            <div class="zoom-controls">
+                <span style="color: #a0a0a0; font-size: 0.8rem;">🔍</span>
+                <button class="zoom-btn" id="zoomOutBtn">−</button>
+                <span class="zoom-level" id="zoomLevel">100%</span>
+                <button class="zoom-btn" id="zoomInBtn">+</button>
+                <button class="zoom-btn" id="resetZoomBtn" style="border-radius: 8px; width: auto; padding: 0 10px; font-size: 0.75rem;">Сброс</button>
+            </div>
+            <button class="clear-all-btn" id="clearAllBtn">🗑️ Очистить всё</button>
+        </div>
+
+        <div class="table-wrapper" id="tableWrapper">
+            <table id="desktopTable">
+                <thead>
+                    <tr class="table-title-row">
+                        <th colspan="11">🏎️ Спидлайн гараж — Таблица учетных данных</th>
+                    </tr>
+                    <tr>
+                        <th id="sortCol0" style="width:45px;">№</th>
+                        <th id="sortCol1" style="width:105px;">📅 Дата</th>
+                        <th id="sortCol2">🚗 Марка авто</th>
+                        <th id="sortCol3" style="width:170px;">🧬 VIN-номер</th>
+                        <th id="sortCol4" style="width:100px;">🔢 Госномер</th>
+                        <th id="sortCol5">🔧 Проделанные работы</th>
+                        <th id="sortCol6" style="width:100px;">💵 Работа (€)</th>
+                        <th id="sortCol7">🔩 Расходники</th>
+                        <th id="sortCol8" style="width:110px;">💰 Расходники (€)</th>
+                        <th id="sortCol9">📝 Заметки</th>
+                        <th style="width:90px;">⚙️</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="6" style="text-align:right;">🧾 ИТОГО:</td>
+                        <td id="footerWorkTotal">0 €</td>
+                        <td></td>
+                        <td id="footerMaterialTotal">0 €</td>
+                        <td id="footerGrandTotal" style="font-weight:800;">0 €</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="cards-container" id="cardsContainer"></div>
+        <div id="grandTotalCardContainer" style="margin-top: 4px;"></div>
+    </div>
+        <script>
+        let workRecords = [];
+        let currentZoom = 1;
+        let saveTimeout = null;
+        let isInitialized = false;
+
+        function getEl(id) { return document.getElementById(id); }
+
+        function loadData() {
+            const saved = localStorage.getItem('speedline_garage_data_eur_vin');
+            if (saved) {
+                try { workRecords = JSON.parse(saved); } catch (e) { workRecords = []; }
+            }
+            if (workRecords.length === 0) {
+                const today = new Date().toISOString().split('T')[0];
+                workRecords = [
+                    { id: 1, date: today, carBrand: 'Toyota Camry', vin: 'JTNBE46K003123456', plateNumber: 'А123БВ 777', workDescription: 'Замена масла ДВС, замена масляного фильтра', workCost: 45, materials: 'Масло 5W-30 (5л), фильтр масляный MANN', materialCost: 75, notes: 'Клиент просил проверить тормозные колодки' },
+                    { id: 2, date: today, carBrand: 'BMW X5', vin: 'WBAFE810X0L123789', plateNumber: 'О555ОО 77', workDescription: 'Диагностика ходовой, замена передних амортизаторов', workCost: 140, materials: 'Амортизаторы передние SACHS (2 шт), отбойники', materialCost: 440, notes: 'Замена задних амортизаторов через 5000 км' },
+                    { id: 3, date: today, carBrand: 'Kia Rio', vin: 'Z94C241BAMR123123', plateNumber: 'Е777КХ 178', workDescription: 'Замена передних тормозных колодок, проточка дисков', workCost: 60, materials: 'Колодки тормозные передние TRW', materialCost: 50, notes: 'Износ колодок 90%' }
+                ];
+            }
+        }
+
+        function saveData() {
+            try { localStorage.setItem('speedline_garage_data_eur_vin', JSON.stringify(workRecords)); } catch (e) { alert('Ошибка сохранения данных!'); }
+        }
+
+        function updateStatsOnly() {
+            const tr = getEl('totalRecords'), twc = getEl('totalWorkCost'), tmc = getEl('totalMaterialCost'), ts = getEl('totalSum');
+            if (!tr || !twc || !tmc || !ts) return;
+            tr.textContent = workRecords.length;
+            const tw = workRecords.reduce((s, r) => s + (parseFloat(r.workCost) || 0), 0);
+            const tm = workRecords.reduce((s, r) => s + (parseFloat(r.materialCost) || 0), 0);
+            twc.textContent = tw.toFixed(0) + ' €';
+            tmc.textContent = tm.toFixed(0) + ' €';
+            ts.textContent = (tw + tm).toFixed(0) + ' €';
+            const fwt = getEl('footerWorkTotal'), fmt = getEl('footerMaterialTotal'), fgt = getEl('footerGrandTotal');
+            if (fwt) fwt.textContent = tw.toFixed(0) + ' €';
+            if (fmt) fmt.textContent = tm.toFixed(0) + ' €';
+            if (fgt) fgt.textContent = (tw + tm).toFixed(0) + ' €';
+            updateGrandTotalCardOnly();
+        }
+
+        function updateGrandTotalCardOnly() {
+            const container = getEl('grandTotalCardContainer');
+            if (!container || window.innerWidth > 768) { if (container) container.innerHTML = ''; return; }
+            const tw = workRecords.reduce((s, r) => s + (parseFloat(r.workCost) || 0), 0);
+            const tm = workRecords.reduce((s, r) => s + (parseFloat(r.materialCost) || 0), 0);
+            const gt = tw + tm;
+            container.innerHTML = `<div class="grand-total-card"><span>🧾 ИТОГО ПО ВСЕМ ЗАПИСЯМ</span><span class="grand-total-value">${gt.toFixed(0)} €</span></div>`;
+        }
+
+        function updateCardTotal(id) {
+            const card = document.querySelector(`.card[data-id="${id}"]`);
+            if (!card) return;
+            const record = workRecords.find(r => r.id === id);
+            if (!record) return;
+            const total = (parseFloat(record.workCost) || 0) + (parseFloat(record.materialCost) || 0);
+            const totalSpan = card.querySelector('.card-total span:last-child');
+            if (totalSpan) totalSpan.textContent = total.toFixed(0) + ' €';
+        }
+
+        function generateId() { return workRecords.length > 0 ? Math.max(...workRecords.map(r => r.id)) + 1 : 1; }
+
+        function addRow() {
+            const today = new Date().toISOString().split('T')[0];
+            const newRecord = { id: generateId(), date: today, carBrand: '', vin: '', plateNumber: '', workDescription: '', workCost: 0, materials: '', materialCost: 0, notes: '' };
+            workRecords.push(newRecord);
+            saveData();
+            if (window.innerWidth <= 768) appendCard(newRecord, workRecords.length); else appendTableRow(newRecord, workRecords.length);
+            updateStatsOnly();
+            setTimeout(() => {
+                const el = document.querySelector(`[data-id="${newRecord.id}"]`);
+                if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); const inp = el.querySelector('input[type="text"]'); if (inp) { inp.focus(); inp.click(); } }
+            }, 200);
+        }
+
+        function appendTableRow(rec, index) {
+            const tbody = getEl('tableBody');
+            if (!tbody) return;
+            const row = document.createElement('tr');
+            row.dataset.id = rec.id;
+            row.innerHTML = `
+                <td style="text-align:center;font-weight:600;color:#ff6b6b;">${index}</td>
+                <td><input type="date" value="${rec.date || ''}" data-id="${rec.id}" data-field="date"></td>
+                <td><input type="text" value="${rec.carBrand || ''}" placeholder="Марка, модель" data-id="${rec.id}" data-field="carBrand"></td>
+                <td><input type="text" value="${rec.vin || ''}" placeholder="VIN (17 знаков)" data-id="${rec.id}" data-field="vin" style="text-transform:uppercase; letter-spacing:0.5px;"></td>
+                <td><input type="text" value="${rec.plateNumber || ''}" placeholder="А123БВ" data-id="${rec.id}" data-field="plateNumber" style="text-transform:uppercase;"></td>
+                <td><textarea rows="2" placeholder="Работы..." data-id="${rec.id}" data-field="workDescription">${rec.workDescription || ''}</textarea></td>
+                <td><input type="number" value="${rec.workCost || 0}" min="0" step="1" data-id="${rec.id}" data-field="workCost"></td>
+                <td><textarea rows="2" placeholder="Расходники..." data-id="${rec.id}" data-field="materials">${rec.materials || ''}</textarea></td>
+                <td><input type="number" value="${rec.materialCost || 0}" min="0" step="1" data-id="${rec.id}" data-field="materialCost"></td>
+                <td><textarea rows="2" placeholder="Заметки..." data-id="${rec.id}" data-field="notes">${rec.notes || ''}</textarea></td>
+                <td style="text-align:center;"><button class="delete-btn" data-id="${rec.id}">🗑️</button></td>
+            `;
+            tbody.appendChild(row);
+            attachRowHandlers(row);
+        }
+
+        function appendCard(rec, index) {
+            const container = getEl('cardsContainer');
+            if (!container) return;
+            const cardTotal = (parseFloat(rec.workCost) || 0) + (parseFloat(rec.materialCost) || 0);
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.id = rec.id;
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="card-number">#${index}</span>
+                    <span class="card-date">📅 <input type="date" value="${rec.date || ''}" data-id="${rec.id}" data-field="date" style="background:transparent;border:none;color:#a0a0a0;padding:2px;width:auto;"></span>
+                </div>
+                <div class="card-field"><div class="card-label">🚗 Марка авто</div><input type="text" value="${rec.carBrand || ''}" placeholder="Марка, модель" data-id="${rec.id}" data-field="carBrand"></div>
+                <div class="card-row">
+                    <div class="card-field"><div class="card-label">🧬 VIN-номер</div><input type="text" value="${rec.vin || ''}" placeholder="VIN" data-id="${rec.id}" data-field="vin" style="text-transform:uppercase;"></div>
+                    <div class="card-field"><div class="card-label">🔢 Госномер</div><input type="text" value="${rec.plateNumber || ''}" placeholder="Госномер" data-id="${rec.id}" data-field="plateNumber" style="text-transform:uppercase;"></div>
+                </div>
+                <div class="card-field"><div class="card-label">🔧 Проделанные работы</div><textarea rows="2" placeholder="Работы..." data-id="${rec.id}" data-field="workDescription">${rec.workDescription || ''}</textarea></div>
+                <div class="card-row">
+                    <div class="card-field"><div class="card-label">💵 Работа (€)</div><input type="number" value="${rec.workCost || 0}" min="0" data-id="${rec.id}" data-field="workCost"></div>
+                    <div class="card-field"><div class="card-label">💰 Расходники (€)</div><input type="number" value="${rec.materialCost || 0}" min="0" data-id="${rec.id}" data-field="materialCost"></div>
+                </div>
+                <div class="card-field"><div class="card-label">🔩 Расходники</div><textarea rows="2" placeholder="Расходники..." data-id="${rec.id}" data-field="materials">${rec.materials || ''}</textarea></div>
+                <div class="card-field"><div class="card-label">📝 Заметки</div><textarea rows="2" placeholder="Заметки..." data-id="${rec.id}" data-field="notes">${rec.notes || ''}</textarea></div>
+                <div class="card-total"><span>💰 Итого:</span><span>${cardTotal.toFixed(0)} €</span></div>
+                <div class="card-delete"><button class="delete-btn" data-id="${rec.id}">🗑️ Удалить запись</button></div>
+            `;
+            container.appendChild(card);
+            attachCardHandlers(card);
+        }
+
+        function deleteRow(id) {
+            if (confirm('Удалить эту запись?')) {
+                workRecords = workRecords.filter(r => r.id !== id);
+                workRecords.forEach((r, i) => r.id = i + 1);
+                saveData();
+                renderAll();
+            }
+        }
+
+        function updateField(id, field, value) {
+            const record = workRecords.find(r => r.id === id);
+            if (!record) return;
+            record[field] = (field === 'workCost' || field === 'materialCost') ? (parseFloat(value) || 0) : value;
+            if (field === 'workCost' || field === 'materialCost') updateCardTotal(id);
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => { saveData(); updateStatsOnly(); }, 500);
+        }
+
+        function handleInput(e) { const el = e.target; updateField(parseInt(el.dataset.id), el.dataset.field, el.value); }
+        function handleChange(e) { const el = e.target; updateField(parseInt(el.dataset.id), el.dataset.field, el.value); saveData(); updateStatsOnly(); }
+
+        function attachRowHandlers(row) {
+            row.querySelectorAll('input, textarea').forEach(el => { el.addEventListener('input', handleInput); el.addEventListener('change', handleChange); });
+            row.querySelector('.delete-btn')?.addEventListener('click', function() { deleteRow(parseInt(this.dataset.id)); });
+        }
+
+        function attachCardHandlers(card) {
+            card.querySelectorAll('input, textarea').forEach(el => { el.addEventListener('input', handleInput); el.addEventListener('change', handleChange); });
+            card.querySelector('.delete-btn')?.addEventListener('click', function() { deleteRow(parseInt(this.dataset.id)); });
+        }
+
+        function renderAll() {
+            if (!isInitialized) return;
+            const tbody = getEl('tableBody');
+            if (tbody) { tbody.innerHTML = ''; workRecords.forEach((rec, i) => appendTableRow(rec, i + 1)); }
+            const cardsContainer = getEl('cardsContainer');
+            if (cardsContainer) { cardsContainer.innerHTML = ''; workRecords.forEach((rec, i) => appendCard(rec, i + 1)); }
+            updateStatsOnly();
+        }
+
+        let sortDirection = {};
+        function sortTable(colIdx) {
+            const tbody = getEl('tableBody');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            if (rows.length === 0) return;
+            sortDirection[colIdx] = sortDirection[colIdx] === 'asc' ? 'desc' : 'asc';
+            const dir = sortDirection[colIdx];
+            const fields = [null, 'date', 'carBrand', 'vin', 'plateNumber', 'workDescription', 'workCost', 'materials', 'materialCost', 'notes'];
+            rows.sort((a, b) => {
+                const recA = workRecords.find(r => r.id === parseInt(a.dataset.id));
+                const recB = workRecords.find(r => r.id === parseInt(b.dataset.id));
+                if (!recA || !recB) return 0;
+                let va, vb;
+                if (colIdx === 0) { va = workRecords.indexOf(recA); vb = workRecords.indexOf(recB); }
+                else if (colIdx === 6 || colIdx === 8) { va = parseFloat(recA[colIdx === 6 ? 'workCost' : 'materialCost']) || 0; vb = parseFloat(recB[colIdx === 6 ? 'workCost' : 'materialCost']) || 0; }
+                else { va = (recA[fields[colIdx]] || '').toString().toLowerCase(); vb = (recB[fields[colIdx]] || '').toString().toLowerCase(); }
+                if (typeof va === 'number') return dir === 'asc' ? va - vb : vb - va;
+                return va < vb ? (dir === 'asc' ? -1 : 1) : (va > vb ? (dir === 'asc' ? 1 : -1) : 0);
+            });
+            rows.forEach(r => tbody.appendChild(r));
+        }
+
+        function zoomTable(delta) { currentZoom = Math.max(0.6, Math.min(1.5, currentZoom + delta)); applyZoom(); }
+        function resetZoom() { currentZoom = 1; applyZoom(); }
+        function applyZoom() {
+            const wrapper = getEl('tableWrapper');
+            if (wrapper) { wrapper.style.transform = `scale(${currentZoom})`; wrapper.style.transformOrigin = 'top left'; wrapper.style.transition = 'transform 0.3s ease'; }
+            const zoomLevel = getEl('zoomLevel');
+            if (zoomLevel) zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        function clearAllRecords() {
+            if (workRecords.length === 0) { alert('Нет записей.'); return; }
+            if (confirm('⚠️ Удалить ВСЕ записи?')) { workRecords = []; saveData(); renderAll(); }
+        }
+
+        function initEventListeners() {
+            getEl('addBtn')?.addEventListener('click', addRow);
+            getEl('zoomOutBtn')?.addEventListener('click', () => zoomTable(-0.1));
+            getEl('zoomInBtn')?.addEventListener('click', () => zoomTable(0.1));
+            getEl('resetZoomBtn')?.addEventListener('click', resetZoom);
+            getEl('clearAllBtn')?.addEventListener('click', clearAllRecords);
+            for (let i = 0; i < 10; i++) { getEl('sortCol' + i)?.addEventListener('click', () => sortTable(i)); }
+            
+            // Фикс: перерисовываем только если изменилась именно ширина экрана (поворот), а не высота от клавиатуры
+            let resizeTimeout;
+            let lastInnerWidth = window.innerWidth;
+            window.addEventListener('resize', () => {
+                if (window.innerWidth !== lastInnerWidth) {
+                    lastInnerWidth = window.innerWidth;
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(renderAll, 250);
+                }
+            });
+        }
+
+        function init() { loadData(); initEventListeners(); isInitialized = true; renderAll(); }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+    </script>
+</body>
+</html>
