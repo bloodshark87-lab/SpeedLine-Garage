@@ -29,6 +29,14 @@
         .card-field { margin-bottom: 10px; }
         .card-label { font-size: 0.7rem; text-transform: uppercase; color: #a0a0a0; margin-bottom: 4px; font-weight: 600; }
         .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        .photo-gallery { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .photo-thumb-wrap { position: relative; width: 70px; height: 70px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); flex-shrink: 0; }
+        .photo-thumb { width: 100%; height: 100%; object-fit: cover; }
+        .photo-delete-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: #ff4b4b; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .add-photo-btn { width: 70px; height: 70px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); color: #a0a0a0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; }
+        .add-photo-btn:hover { border-color: #e94560; color: #e94560; }
+
         .card-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; color: #ff6b6b; }
         
         input, textarea { width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 0.9rem; font-family: inherit; }
@@ -46,7 +54,7 @@
     <div class="container">
         <div class="header-section">
             <div class="logo-area">
-                <img src="IMG_20260729_174121.jpg" alt="SpeedLine Garage Logo" class="logo-img">
+                <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260729_174121.jpg" alt="SpeedLine Garage Logo" class="logo-img">
                 <div>
                     <div class="company-name">SpeedLine Garage</div>
                     <div class="company-subtitle">database</div>
@@ -115,7 +123,8 @@
                 work_cost: 0,
                 materials: '',
                 material_cost: 0,
-                notes: ''
+                notes: '',
+                photos: []
             };
 
             const { data, error } = await client
@@ -176,6 +185,79 @@
             }, 500);
         }
 
+        function triggerPhotoUpload(id) {
+            getEl(`fileInput_${id}`).click();
+        }
+
+        async function uploadPhotos(id, inputElement) {
+            const files = inputElement.files;
+            if (!files || files.length === 0) return;
+
+            getEl('syncStatus').textContent = '⏳ Загрузка фото...';
+            const record = workRecords.find(r => r.id === id);
+            if (!record) return;
+
+            if (!Array.isArray(record.photos)) {
+                record.photos = record.photos ? [record.photos] : [];
+            }
+
+            for (let file of files) {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+
+                const { error } = await client.storage
+                    .from('Logo')
+                    .upload(fileName, file, { upsert: true });
+
+                if (error) {
+                    console.error('Ошибка загрузки файла:', error);
+                    continue;
+                }
+
+                const { data: publicUrlData } = client.storage
+                    .from('Logo')
+                    .getPublicUrl(fileName);
+
+                if (publicUrlData && publicUrlData.publicUrl) {
+                    record.photos.push(publicUrlData.publicUrl);
+                }
+            }
+
+            const { error: updateError } = await client
+                .from('speedline_records')
+                .update({ photos: record.photos })
+                .eq('id', id);
+
+            if (updateError) {
+                console.error('Ошибка сохранения массива фото:', updateError);
+                getEl('syncStatus').textContent = '🟡 Ошибка сохранения фото';
+            } else {
+                getEl('syncStatus').textContent = '🟢 Синхронизировано';
+            }
+
+            renderAll();
+        }
+
+        async function deletePhoto(id, photoIndex) {
+            if (!confirm('Удалить эту фотографию?')) return;
+            const record = workRecords.find(r => r.id === id);
+            if (!record || !Array.isArray(record.photos)) return;
+
+            record.photos.splice(photoIndex, 1);
+
+            const { error } = await client
+                .from('speedline_records')
+                .update({ photos: record.photos })
+                .eq('id', id);
+
+            if (error) {
+                alert('Ошибка удаления фото: ' + error.message);
+                return;
+            }
+
+            renderAll();
+        }
+
         function updateCardTotalUI(id) {
             const card = document.querySelector(`.card[data-id="${id}"]`);
             if (!card) return;
@@ -213,6 +295,8 @@
             cardsContainer.innerHTML = '';
             workRecords.forEach((rec, index) => {
                 const cardTotal = (parseFloat(rec.work_cost) || 0) + (parseFloat(rec.material_cost) || 0);
+                const photosList = Array.isArray(rec.photos) ? rec.photos : [];
+                
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.dataset.id = rec.id;
@@ -226,6 +310,21 @@
                         <div class="card-field"><div class="card-label">🧬 VIN</div><input type="text" value="${rec.vin || ''}" placeholder="VIN" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'vin', this.value)"></div>
                         <div class="card-field"><div class="card-label">🔢 Госномер</div><input type="text" value="${rec.plate_number || ''}" placeholder="Номер" style="text-transform:uppercase;" oninput="updateField(${rec.id}, 'plate_number', this.value)"></div>
                     </div>
+                    
+                    <div class="card-field">
+                        <div class="card-label">📸 Фотографии ремонта</div>
+                        <div class="photo-gallery">
+                            ${photosList.map((url, pIdx) => `
+                                <div class="photo-thumb-wrap">
+                                    <img src="${url}" class="photo-thumb" alt="Repair photo">
+                                    <button class="photo-delete-btn" onclick="deletePhoto(${rec.id}, ${pIdx})" title="Удалить фото">✕</button>
+                                </div>
+                            `).join('')}
+                            <div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})" title="Добавить фото">＋</div>
+                        </div>
+                        <input type="file" id="fileInput_${rec.id}" style="display:none;" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
+                    </div>
+
                     <div class="card-field"><div class="card-label">🔧 Работы</div><textarea rows="2" oninput="updateField(${rec.id}, 'work_description', this.value)">${rec.work_description || ''}</textarea></div>
                     <div class="card-row">
                         <div class="card-field"><div class="card-label">💵 Работа (€)</div><input type="number" value="${rec.work_cost || 0}" oninput="updateField(${rec.id}, 'work_cost', this.value)"></div>
