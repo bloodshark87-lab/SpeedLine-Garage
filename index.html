@@ -86,12 +86,18 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        .company-info {
+            display: flex;
+            flex-direction: column;
+        }
+
         .company-name {
             font-size: 1rem;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 1px;
             text-transform: uppercase;
+            line-height: 1.2;
         }
 
         .company-subtitle {
@@ -128,15 +134,17 @@
         }
 
         .search-wrapper { position: relative; }
+        
         .search-icon {
             position: absolute;
-            left: 28px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 1.2rem;
             pointer-events: none;
         }
+        
         .search-input {
             width: 100%;
             padding: 12px 16px 12px 40px;
@@ -145,8 +153,10 @@
             border-radius: var(--radius-lg);
             color: var(--text-primary);
             font-size: 0.95rem;
+            font-family: inherit;
             transition: var(--transition);
         }
+        
         .search-input:focus {
             outline: none;
             border-color: var(--accent);
@@ -180,6 +190,7 @@
             width: 100%;
             transition: var(--transition);
         }
+        
         .add-btn:active { transform: scale(0.98); }
 
         .cards-list {
@@ -205,16 +216,22 @@
             backdrop-filter: blur(10px);
             user-select: none;
         }
+        
         .compact-card:active { transform: scale(0.99); }
+        
         .compact-card.expanded {
             border-color: var(--accent);
             box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3);
         }
 
         .car-icon { font-size: 1.8rem; flex-shrink: 0; }
+        
         .compact-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+        
         .compact-primary { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        
         .compact-car { font-weight: 700; color: var(--text-primary); font-size: 0.9rem; }
+        
         .compact-plate {
             background: rgba(255, 255, 255, 0.1);
             padding: 2px 8px;
@@ -225,7 +242,16 @@
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .compact-secondary { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); }
+        
+        .compact-secondary { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+            font-size: 0.75rem; 
+            color: var(--text-secondary); 
+        }
+        
         .compact-client { color: #cbd5e1; font-weight: 500; }
         .compact-date { color: var(--text-secondary); }
 
@@ -239,6 +265,7 @@
             flex-shrink: 0;
             white-space: nowrap;
         }
+        
         .status-in_progress { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
         .status-waiting_parts { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
         .status-ready { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
@@ -251,6 +278,7 @@
             transition: transform 0.3s ease;
             flex-shrink: 0;
         }
+        
         .compact-card.expanded .expand-arrow { transform: rotate(180deg); }
 
         .expanded-content {
@@ -265,8 +293,11 @@
             gap: 16px;
             backdrop-filter: blur(10px);
         }
+        
         .compact-card.expanded + .expanded-content { display: flex; }
+        
         .card-wrapper { display: flex; flex-direction: column; }
+        
         .section-title {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -277,9 +308,13 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 6px;
         }
+        
         .field-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+        
         .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
         .field { display: flex; flex-direction: column; gap: 3px; }
+        
         .field-label {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -287,6 +322,7 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
+        
         input, textarea, select {
             width: 100%;
             padding: 10px 12px;
@@ -298,18 +334,22 @@
             font-family: inherit;
             transition: var(--transition);
         }
+        
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
         }
+        
         input:disabled, textarea:disabled, select:disabled {
             opacity: 0.7;
             background: rgba(0, 0, 0, 0.15);
             cursor: default;
             -webkit-text-fill-color: var(--text-primary);
         }
+        
         input[type="number"] { text-align: right; }
+        
         textarea { resize: vertical; min-height: 60px; }
 
         .work-item {
@@ -320,8 +360,11 @@
             padding: 8px;
             border-radius: var(--radius-md);
         }
+        
         .work-item select { flex: 1; }
+        
         .work-item .work-cost { width: 80px; text-align: right; }
+        
         .remove-work-btn {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid rgba(239, 68, 68, 0.3);
@@ -336,6 +379,7 @@
             justify-content: center;
             flex-shrink: 0;
         }
+        
         .add-work-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px dashed var(--border);
@@ -347,6 +391,7 @@
             text-align: center;
             transition: var(--transition);
         }
+        
         .add-work-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         .photo-gallery {
@@ -355,6 +400,7 @@
             gap: 8px;
             align-items: center;
         }
+        
         .photo-thumb-wrap {
             position: relative;
             width: 70px;
@@ -365,6 +411,7 @@
             background: rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
         }
+        
         .photo-thumb {
             width: 100%;
             height: 100%;
@@ -372,7 +419,9 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
+        
         .photo-thumb:active { transform: scale(1.05); }
+        
         .photo-delete-btn {
             position: absolute;
             top: 3px;
@@ -390,6 +439,7 @@
             justify-content: center;
             z-index: 2;
         }
+        
         .add-photo-btn {
             width: 70px;
             height: 70px;
@@ -405,7 +455,14 @@
             transition: var(--transition);
             flex-shrink: 0;
         }
+        
         .add-photo-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
         .btn {
             padding: 10px 16px;
@@ -419,10 +476,12 @@
             min-width: 80px;
             text-align: center;
         }
+        
         .btn-save { background: var(--accent); color: white; }
         .btn-edit { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border: 1px solid var(--border); }
         .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--accent); border: 1px solid rgba(239, 68, 68, 0.3); }
         .btn:active { transform: scale(0.97); }
+        
         .hidden-file-input { display: none; }
         .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
@@ -581,6 +640,15 @@
             return new Date().toISOString().split('T')[0];
         }
 
+        // Group catalog for optgroup rendering
+        function getGroupedCatalog() {
+            return WORKS_CATALOG.reduce((acc, cat) => {
+                if (!acc[cat.category]) acc[cat.category] = [];
+                acc[cat.category].push(cat);
+                return acc;
+            }, {});
+        }
+
         // ============================================
         // DATA FETCHING
         // ============================================
@@ -692,7 +760,10 @@
 
             if (field === 'status' && value === 'completed' && !record.date_completed) {
                 record.date_completed = getTodayISO();
-                if (expandedCardId === id) renderExpandedContent(id);
+                if (expandedCardId === id) {
+                    const isEditing = editingCardId === id;
+                    renderExpandedContent(id, isEditing);
+                }
             }
 
             updateSyncStatus('saving');
@@ -774,7 +845,10 @@
             } else {
                 record.photos = photos;
                 updateSyncStatus('ok');
-                if (expandedCardId === id) renderExpandedContent(id);
+                if (expandedCardId === id) {
+                    const isEditing = editingCardId === id;
+                    renderExpandedContent(id, isEditing);
+                }
             }
             inputElement.value = '';
         }
@@ -797,7 +871,10 @@
                 return;
             }
             record.photos = photos;
-            if (expandedCardId === id) renderExpandedContent(id);
+            if (expandedCardId === id) {
+                const isEditing = editingCardId === id;
+                renderExpandedContent(id, isEditing);
+            }
         }
 
         // ============================================
@@ -806,7 +883,8 @@
         function parseWorkDescription(desc) {
             if (!desc) return [];
             try {
-                return JSON.parse(desc);
+                const parsed = JSON.parse(desc);
+                return Array.isArray(parsed) ? parsed : [];
             } catch {
                 return [];
             }
@@ -848,6 +926,8 @@
                 return;
             }
 
+            const groupedCatalog = getGroupedCatalog();
+            
             cardsList.innerHTML = filtered.map(rec => {
                 const isExpanded = expandedCardId === rec.id;
                 const statusInfo = STATUS_OPTIONS.find(s => s.value === rec.status) || STATUS_OPTIONS[0];
@@ -872,7 +952,7 @@
                             <span class="expand-arrow">▼</span>
                         </div>
                         <div class="expanded-content" id="expandedContent_${rec.id}">
-                            ${isExpanded ? renderExpandedContentHTML(rec) : ''}
+                            ${isExpanded ? renderExpandedContentHTML(rec, groupedCatalog) : ''}
                         </div>
                     </div>
                 `;
@@ -881,10 +961,10 @@
             if (expandedCardId && editingCardId === expandedCardId) {
                 const content = getEl(`expandedContent_${expandedCardId}`);
                 if (content && content.style.display !== 'none') {
-                    content.innerHTML = renderExpandedContentHTML(
-                        workRecords.find(r => r.id === expandedCardId),
-                        true
-                    );
+                    const rec = workRecords.find(r => r.id === expandedCardId);
+                    if (rec) {
+                        content.innerHTML = renderExpandedContentHTML(rec, groupedCatalog, true);
+                    }
                 }
             }
         }
@@ -892,7 +972,7 @@
         // ============================================
         // RENDER: EXPANDED CARD CONTENT
         // ============================================
-        function renderExpandedContentHTML(rec, isEditing = false) {
+        function renderExpandedContentHTML(rec, groupedCatalog, isEditing = false) {
             if (!rec) return '';
             
             const isThisEditing = editingCardId === rec.id;
@@ -923,28 +1003,28 @@
                 `<option value="${s.value}" ${displayData.status === s.value ? 'selected' : ''}>${s.label}</option>`
             ).join('');
 
+            // Build optgroups for work select
+            const optgroupsHTML = Object.entries(groupedCatalog).map(([category, items]) => `
+                <optgroup label="${category}">
+                    ${items.map(item => `
+                        <option value="${item.name.replace(/"/g, '&quot;')}" data-cost="${item.cost}">
+                            ${item.name} (${item.cost}€)
+                        </option>
+                    `).join('')}
+                </optgroup>
+            `).join('');
+
             let workItemsHTML = displayData._workItems.map((w, idx) => `
                 <div class="work-item">
-<select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
-    ${Object.entries(
-        WORKS_CATALOG.reduce((acc, cat) => {
-            if (!acc[cat.category]) acc[cat.category] = [];
-            acc[cat.category].push(cat);
-            return acc;
-        }, {})
-    ).map(([category, items]) => `
-        <optgroup label="${category}">
-            ${items.map(item => `
-                <option value="${item.name}" ${w.name === item.name ? 'selected' : ''}>
-                    ${item.name} (${item.cost}€)
-                </option>
-            `).join('')}
-        </optgroup>
-    `).join('')}
-</select>
-<input type="number" class="work-cost" value="${w.cost}" ${disabled}
-       oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
-${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})" title="Удалить">✕</button>` : ''}
+                    <select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
+                        ${optgroupsHTML.replace(
+                            new RegExp(`value="${w.name.replace(/"/g, '&quot;')}"`),
+                            `value="${w.name.replace(/"/g, '&quot;')}" selected`
+                        )}
+                    </select>
+                    <input type="number" class="work-cost" value="${w.cost || 0}" ${disabled}
+                           oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
+                    ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})" title="Удалить">✕</button>` : ''}
                 </div>
             `).join('');
 
@@ -953,14 +1033,14 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                 <div class="field-group">
                     <div class="field">
                         <div class="field-label">ФИО клиента</div>
-                        <input type="text" value="${displayData.client_name || ''}" ${disabled}
+                        <input type="text" value="${(displayData.client_name || '').replace(/"/g, '&quot;')}" ${disabled}
                                placeholder="Иванов Иван Иванович"
                                oninput="handleEditChange(${rec.id}, 'client_name', this.value)">
                     </div>
                     <div class="field-row">
                         <div class="field">
                             <div class="field-label">🚗 Марка авто</div>
-                            <input type="text" value="${displayData.car_brand || ''}" ${disabled}
+                            <input type="text" value="${(displayData.car_brand || '').replace(/"/g, '&quot;')}" ${disabled}
                                    placeholder="Марка"
                                    oninput="handleEditChange(${rec.id}, 'car_brand', this.value)">
                         </div>
@@ -972,13 +1052,13 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                     <div class="field-row">
                         <div class="field">
                             <div class="field-label">🧬 VIN</div>
-                            <input type="text" value="${displayData.vin || ''}" ${disabled}
+                            <input type="text" value="${(displayData.vin || '').replace(/"/g, '&quot;')}" ${disabled}
                                    placeholder="VIN" style="text-transform:uppercase;"
                                    oninput="handleEditChange(${rec.id}, 'vin', this.value)">
                         </div>
                         <div class="field">
                             <div class="field-label">🔢 Госномер</div>
-                            <input type="text" value="${displayData.plate_number || ''}" ${disabled}
+                            <input type="text" value="${(displayData.plate_number || '').replace(/"/g, '&quot;')}" ${disabled}
                                    placeholder="Номер" style="text-transform:uppercase;"
                                    oninput="handleEditChange(${rec.id}, 'plate_number', this.value)">
                         </div>
@@ -999,7 +1079,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
 
                 <div class="section-title">🔧 Работы</div>
                 <div class="field-group">
-                    ${workItemsHTML}
+                    ${workItemsHTML || '<div style="color:var(--text-secondary); font-size:0.85rem; padding:8px;">Нет добавленных работ</div>'}
                     ${!disabled ? `
                         <button class="add-work-btn" onclick="addWorkItem(${rec.id})">➕ Добавить работу</button>
                     ` : ''}
@@ -1072,7 +1152,8 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             if (!content) return;
             const rec = workRecords.find(r => r.id === id);
             if (!rec) return;
-            content.innerHTML = renderExpandedContentHTML(rec, isEditing);
+            const groupedCatalog = getGroupedCatalog();
+            content.innerHTML = renderExpandedContentHTML(rec, groupedCatalog, isEditing);
         }
 
         // ============================================
@@ -1085,7 +1166,8 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             } else {
                 if (expandedCardId && editingCardId === expandedCardId) cancelEdit(expandedCardId);
                 expandedCardId = id;
-                renderExpandedContent(id, editingCardId === id);
+                const isEditing = editingCardId === id;
+                renderExpandedContent(id, isEditing);
             }
             renderCardsList();
         }
@@ -1157,7 +1239,10 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             }
 
             const rec = workRecords.find(r => r.id === id);
-            if (rec) Object.assign(rec, updateData);
+            if (rec) {
+                Object.assign(rec, updateData);
+                rec.work_cost = totalWorkCost;
+            }
 
             delete editStates[id];
             editingCardId = null;
