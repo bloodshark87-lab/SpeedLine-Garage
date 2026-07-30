@@ -925,18 +925,23 @@
 
             let workItemsHTML = displayData._workItems.map((w, idx) => `
                 <div class="work-item">
-                    <select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
-                        ${WORKS_CATALOG.map(cat => 
-                            `<option value="${cat.name}" ${w.name === cat.name ? 'selected' : ''}>${cat.name} (${cat.cost}€)</option>`
-                        ).join('')}
-                    </select>
-                    <input type="number" class="work-cost" value="${w.cost || 0}" 
-                           placeholder="€" ${disabled}
-                           oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
-                    ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})">✕</button>` : ''}
-                </div>
-            `).join('');
-
+<select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
+    ${Object.entries(
+        WORKS_CATALOG.reduce((acc, cat) => {
+            if (!acc[cat.category]) acc[cat.category] = [];
+            acc[cat.category].push(cat);
+            return acc;
+        }, {})
+    ).map(([category, items]) => `
+        <optgroup label="${category}">
+            ${items.map(item => `
+                <option value="${item.name}" ${w.name === item.name ? 'selected' : ''}>
+                    ${item.name} (${item.cost}€)
+                </option>
+            `).join('')}
+        </optgroup>
+    `).join('')}
+</select>
             return `
                 <div class="section-title">👤 Клиент и авто</div>
                 <div class="field-group">
