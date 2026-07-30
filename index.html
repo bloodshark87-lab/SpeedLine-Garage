@@ -457,262 +457,260 @@
 
         <div class="cards-list" id="cardsList"></div>
     </div>
-
     <script>
-        // ============================================
-        // SUPABASE CONFIG
-        // ============================================
-        const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
-        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ============================================
+    // SUPABASE CONFIG
+    // ============================================
+    const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ============================================
-        // GLOBAL STATE
-        // ============================================
-        let workRecords = [];
-        let expandedCardId = null;
-        let editingCardId = null;
-        let editStates = {};
-        let saveTimeouts = {};
-        let searchQuery = '';
+    // ============================================
+    // GLOBAL STATE
+    // ============================================
+    let workRecords = [];
+    let expandedCardId = null;
+    let editingCardId = null;
+    let editStates = {};
+    let saveTimeouts = {};
+    let searchQuery = '';
 
-        // ============================================
-        // FULL WORK CATALOG (75 позиций с категориями)
-        // ============================================
-        const WORKS_CATALOG = [
-            { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
-            { category: "Тормозная система", name: "Замена передних колодок (труд)", cost: 26 },
-            { category: "Тормозная система", name: "Замена задних колодок (труд)", cost: 40 },
-            { category: "Тормозная система", name: "Замена дисков + колодок (труд)", cost: 55 },
-            { category: "Тормозная система", name: "Ремонт / обслуживание суппортов", cost: 33 },
-            { category: "Тормозная система", name: "Замена тормозной жидкости", cost: 22 },
-            { category: "Тормозная система", name: "Проточка торм. дисков", cost: 30 },
-            { category: "Тормозная система", name: "Профилактика направляющих пальцев суппортов", cost: 22 },
-            { category: "Тормозная система", name: "Очистка барабанов стояночного тормоза", cost: 30 },
-            { category: "Тормозная система", name: "Зачистка / полировка привалочной плоскости диска", cost: 15 },
-            { category: "Двигатель / ТО", name: "Замена масла в двигателе (труд)", cost: 25 },
-            { category: "Двигатель / ТО", name: "Замена масла + фильтры (труд)", cost: 30 },
-            { category: "Двигатель / ТО", name: "Замена воздушного фильтра", cost: 10 },
-            { category: "Двигатель / ТО", name: "Замена салонного фильтра", cost: 10 },
-            { category: "Двигатель / ТО", name: "Замена топливного фильтра", cost: 20 },
-            { category: "Двигатель / ТО", name: "Замена свечей зажигания", cost: 20 },
-            { category: "Двигатель / ТО", name: "Замена свечей накаливания (дизель)", cost: 35 },
-            { category: "Двигатель / ТО", name: "Промывка инжектора / форсунок", cost: 35 },
-            { category: "Двигатель / ТО", name: "Замена охлаждающей жидкости", cost: 22 },
-            { category: "Двигатель / ТО", name: "Диагностика двигателя (компьютерная)", cost: 25 },
-            { category: "Ремни", name: "Замена ремня ГРМ (труд)", cost: 126 },
-            { category: "Ремни", name: "Замена ремня ГРМ + ролики + помпа (труд)", cost: 180 },
-            { category: "Ремни", name: "Замена ремня генератора", cost: 35 },
-            { category: "Подвеска", name: "Диагностика ходовой части", cost: 20 },
-            { category: "Подвеска", name: "Замена переднего амортизатора (1 шт.)", cost: 35 },
-            { category: "Подвеска", name: "Замена заднего амортизатора (1 шт.)", cost: 30 },
-            { category: "Подвеска", name: "Замена пружины подвески", cost: 40 },
-            { category: "Подвеска", name: "Замена рычага подвески", cost: 35 },
-            { category: "Подвеска", name: "Замена шаровой опоры", cost: 25 },
-            { category: "Подвеска", name: "Замена сайлентблока", cost: 25 },
-            { category: "Подвеска", name: "Замена стойки стабилизатора", cost: 15 },
-            { category: "Подвеска", name: "Замена подшипника ступицы (перед.)", cost: 35 },
-            { category: "Подвеска", name: "Замена подшипника ступицы (задн.)", cost: 30 },
-            { category: "Подвеска", name: "Замена передней ступицы в сборе", cost: 45 },
-            { category: "Подвеска", name: "Сход-развал (реглаж передний мост)", cost: 30 },
-            { category: "Подвеска", name: "Сход-развал (реглаж передний + задний мост)", cost: 45 },
-            { category: "Трансмиссия", name: "Замена масла в МКПП", cost: 25 },
-            { category: "Трансмиссия", name: "Замена масла в АКПП", cost: 51 },
-            { category: "Трансмиссия", name: "Замена сцепления (труд)", cost: 150 },
-            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 13-16\")", cost: 8 },
-            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 17-18\")", cost: 12 },
-            { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 19-20\")", cost: 16 },
-            { category: "Шиномонтаж", name: "Балансировка колеса (отдельно)", cost: 5 },
-            { category: "Шиномонтаж", name: "Ремонт прокола (латка / жгут)", cost: 8 },
-            { category: "Шиномонтаж", name: "Вулканизация покрышки", cost: 12 },
-            { category: "Шиномонтаж", name: "Монтаж Runflat (1 колесо)", cost: 15 },
-            { category: "Шиномонтаж", name: "Хранение шин (сезон, 4 шт.)", cost: 25 },
-            { category: "Шиномонтаж", name: "Машинная правка диска", cost: 20 },
-            { category: "Электрика", name: "Замена лампы ближнего света", cost: 5 },
-            { category: "Электрика", name: "Замена лампы ксенона / LED", cost: 15 },
-            { category: "Электрика", name: "Полировка фар (пара, базовая)", cost: 25 },
-            { category: "Электрика", name: "Полировка фар + UV керамика (пара)", cost: 40 },
-            { category: "Электрика", name: "Полировка фар + PPF фолио (пара)", cost: 50 },
-            { category: "Электрика", name: "Регулировка света фар", cost: 10 },
-            { category: "Электрика", name: "Диагностика электрооборудования", cost: 25 },
-            { category: "Электрика", name: "Замена аккумулятора", cost: 10 },
-            { category: "Кондиционер", name: "Диагностика кондиционера", cost: 20 },
-            { category: "Кондиционер", name: "Заправка кондиционера (R134a)", cost: 35 },
-            { category: "Кондиционер", name: "Заправка кондиционера (R1234yf)", cost: 55 },
-            { category: "Кондиционер", name: "Ремонт / замена компрессора (труд)", cost: 80 },
-            { category: "Кондиционер", name: "Замена радиатора кондиционера (труд)", cost: 60 },
-            { category: "Рулевое", name: "Замена рулевой тяги / наконечника", cost: 20 },
-            { category: "Рулевое", name: "Замена рулевой рейки (труд)", cost: 80 },
-            { category: "Рулевое", name: "Замена насоса ГУР", cost: 45 },
-            { category: "Рулевое", name: "Замена жидкости ГУР", cost: 20 },
-            { category: "Выхлоп", name: "Замена глушителя (труд)", cost: 30 },
-            { category: "Выхлоп", name: "Замена катализатора (труд)", cost: 50 },
-            { category: "Выхлоп", name: "Сварка выхлопной системы", cost: 20 },
-            { category: "Детейлинг", name: "Мойка кузова (комплекс)", cost: 15 },
-            { category: "Детейлинг", name: "Химчистка салона (базовая)", cost: 50 },
-            { category: "Детейлинг", name: "Химчистка салона (глубокая)", cost: 90 },
-            { category: "Детейлинг", name: "Полировка кузова (1 этап)", cost: 150 },
-            { category: "Детейлинг", name: "Полировка кузова (3 этапа)", cost: 300 },
-            { category: "Детейлинг", name: "Керамическое покрытие кузова", cost: 180 },
-            { category: "Детейлинг", name: "Мойка двигателя (паром)", cost: 40 }
-        ];
+    // ============================================
+    // FULL WORK CATALOG (75 позиций с категориями)
+    // ============================================
+    const WORKS_CATALOG = [
+        { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
+        { category: "Тормозная система", name: "Замена передних колодок (труд)", cost: 26 },
+        { category: "Тормозная система", name: "Замена задних колодок (труд)", cost: 40 },
+        { category: "Тормозная система", name: "Замена дисков + колодок (труд)", cost: 55 },
+        { category: "Тормозная система", name: "Ремонт / обслуживание суппортов", cost: 33 },
+        { category: "Тормозная система", name: "Замена тормозной жидкости", cost: 22 },
+        { category: "Тормозная система", name: "Проточка торм. дисков", cost: 30 },
+        { category: "Тормозная система", name: "Профилактика направляющих пальцев суппортов", cost: 22 },
+        { category: "Тормозная система", name: "Очистка барабанов стояночного тормоза", cost: 30 },
+        { category: "Тормозная система", name: "Зачистка / полировка привалочной плоскости диска", cost: 15 },
+        { category: "Двигатель / ТО", name: "Замена масла в двигателе (труд)", cost: 25 },
+        { category: "Двигатель / ТО", name: "Замена масла + фильтры (труд)", cost: 30 },
+        { category: "Двигатель / ТО", name: "Замена воздушного фильтра", cost: 10 },
+        { category: "Двигатель / ТО", name: "Замена салонного фильтра", cost: 10 },
+        { category: "Двигатель / ТО", name: "Замена топливного фильтра", cost: 20 },
+        { category: "Двигатель / ТО", name: "Замена свечей зажигания", cost: 20 },
+        { category: "Двигатель / ТО", name: "Замена свечей накаливания (дизель)", cost: 35 },
+        { category: "Двигатель / ТО", name: "Промывка инжектора / форсунок", cost: 35 },
+        { category: "Двигатель / ТО", name: "Замена охлаждающей жидкости", cost: 22 },
+        { category: "Двигатель / ТО", name: "Диагностика двигателя (компьютерная)", cost: 25 },
+        { category: "Ремни", name: "Замена ремня ГРМ (труд)", cost: 126 },
+        { category: "Ремни", name: "Замена ремня ГРМ + ролики + помпа (труд)", cost: 180 },
+        { category: "Ремни", name: "Замена ремня генератора", cost: 35 },
+        { category: "Подвеска", name: "Диагностика ходовой части", cost: 20 },
+        { category: "Подвеска", name: "Замена переднего амортизатора (1 шт.)", cost: 35 },
+        { category: "Подвеска", name: "Замена заднего амортизатора (1 шт.)", cost: 30 },
+        { category: "Подвеска", name: "Замена пружины подвески", cost: 40 },
+        { category: "Подвеска", name: "Замена рычага подвески", cost: 35 },
+        { category: "Подвеска", name: "Замена шаровой опоры", cost: 25 },
+        { category: "Подвеска", name: "Замена сайлентблока", cost: 25 },
+        { category: "Подвеска", name: "Замена стойки стабилизатора", cost: 15 },
+        { category: "Подвеска", name: "Замена подшипника ступицы (перед.)", cost: 35 },
+        { category: "Подвеска", name: "Замена подшипника ступицы (задн.)", cost: 30 },
+        { category: "Подвеска", name: "Замена передней ступицы в сборе", cost: 45 },
+        { category: "Подвеска", name: "Сход-развал (реглаж передний мост)", cost: 30 },
+        { category: "Подвеска", name: "Сход-развал (реглаж передний + задний мост)", cost: 45 },
+        { category: "Трансмиссия", name: "Замена масла в МКПП", cost: 25 },
+        { category: "Трансмиссия", name: "Замена масла в АКПП", cost: 51 },
+        { category: "Трансмиссия", name: "Замена сцепления (труд)", cost: 150 },
+        { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 13-16\")", cost: 8 },
+        { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 17-18\")", cost: 12 },
+        { category: "Шиномонтаж", name: "Демонтаж / монтаж + балансировка (1 колесо, 19-20\")", cost: 16 },
+        { category: "Шиномонтаж", name: "Балансировка колеса (отдельно)", cost: 5 },
+        { category: "Шиномонтаж", name: "Ремонт прокола (латка / жгут)", cost: 8 },
+        { category: "Шиномонтаж", name: "Вулканизация покрышки", cost: 12 },
+        { category: "Шиномонтаж", name: "Монтаж Runflat (1 колесо)", cost: 15 },
+        { category: "Шиномонтаж", name: "Хранение шин (сезон, 4 шт.)", cost: 25 },
+        { category: "Шиномонтаж", name: "Машинная правка диска", cost: 20 },
+        { category: "Электрика", name: "Замена лампы ближнего света", cost: 5 },
+        { category: "Электрика", name: "Замена лампы ксенона / LED", cost: 15 },
+        { category: "Электрика", name: "Полировка фар (пара, базовая)", cost: 25 },
+        { category: "Электрика", name: "Полировка фар + UV керамика (пара)", cost: 40 },
+        { category: "Электрика", name: "Полировка фар + PPF фолио (пара)", cost: 50 },
+        { category: "Электрика", name: "Регулировка света фар", cost: 10 },
+        { category: "Электрика", name: "Диагностика электрооборудования", cost: 25 },
+        { category: "Электрика", name: "Замена аккумулятора", cost: 10 },
+        { category: "Кондиционер", name: "Диагностика кондиционера", cost: 20 },
+        { category: "Кондиционер", name: "Заправка кондиционера (R134a)", cost: 35 },
+        { category: "Кондиционер", name: "Заправка кондиционера (R1234yf)", cost: 55 },
+        { category: "Кондиционер", name: "Ремонт / замена компрессора (труд)", cost: 80 },
+        { category: "Кондиционер", name: "Замена радиатора кондиционера (труд)", cost: 60 },
+        { category: "Рулевое", name: "Замена рулевой тяги / наконечника", cost: 20 },
+        { category: "Рулевое", name: "Замена рулевой рейки (труд)", cost: 80 },
+        { category: "Рулевое", name: "Замена насоса ГУР", cost: 45 },
+        { category: "Рулевое", name: "Замена жидкости ГУР", cost: 20 },
+        { category: "Выхлоп", name: "Замена глушителя (труд)", cost: 30 },
+        { category: "Выхлоп", name: "Замена катализатора (труд)", cost: 50 },
+        { category: "Выхлоп", name: "Сварка выхлопной системы", cost: 20 },
+        { category: "Детейлинг", name: "Мойка кузова (комплекс)", cost: 15 },
+        { category: "Детейлинг", name: "Химчистка салона (базовая)", cost: 50 },
+        { category: "Детейлинг", name: "Химчистка салона (глубокая)", cost: 90 },
+        { category: "Детейлинг", name: "Полировка кузова (1 этап)", cost: 150 },
+        { category: "Детейлинг", name: "Полировка кузова (3 этапа)", cost: 300 },
+        { category: "Детейлинг", name: "Керамическое покрытие кузова", cost: 180 },
+        { category: "Детейлинг", name: "Мойка двигателя (паром)", cost: 40 }
+    ];
 
-        // Status options
-        const STATUS_OPTIONS = [
-            { value: 'in_progress', label: '🟢 В работе' },
-            { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
-            { value: 'ready', label: '🔵 Готов к выдаче' },
-            { value: 'completed', label: '⚪ Выдан клиенту' },
-            { value: 'paused', label: '🔴 Приостановлен' }
-        ];
-            <script>
+    // Status options
+    const STATUS_OPTIONS = [
+        { value: 'in_progress', label: '🟢 В работе' },
+        { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
+        { value: 'ready', label: '🔵 Готов к выдаче' },
+        { value: 'completed', label: '⚪ Выдан клиенту' },
+        { value: 'paused', label: '🔴 Приостановлен' }
+    ];
         // ============================================
-        // UTILS
-        // ============================================
-        const getEl = (id) => document.getElementById(id);
+// UTILS
+// ============================================
+const getEl = (id) => document.getElementById(id);
 
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const parts = dateStr.split('-');
-            return `${parts[2]}.${parts[1]}.${parts[0]}`;
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+
+function getTodayISO() {
+    return new Date().toISOString().split('T')[0];
+}
+
+// ============================================
+// DATA FETCHING
+// ============================================
+async function fetchRecords() {
+    const { data, error } = await client
+        .from('speedline_records')
+        .select('*')
+        .order('id', { ascending: false });
+
+    if (error) {
+        console.error('Ошибка загрузки:', error);
+        updateSyncStatus('error');
+        return;
+    }
+
+    workRecords = data || [];
+    updateSyncStatus('ok');
+    renderCardsList();
+}
+
+function updateSyncStatus(status) {
+    const el = getEl('syncStatus');
+    if (status === 'error') {
+        el.textContent = '🔴 Офлайн';
+        el.className = 'sync-badge error';
+    } else if (status === 'saving') {
+        el.textContent = '🟡 Сохранение...';
+        el.className = 'sync-badge';
+    } else {
+        el.textContent = '🟢 Онлайн';
+        el.className = 'sync-badge';
+    }
+}
+
+// ============================================
+// ADD NEW RECORD
+// ============================================
+async function addRecord() {
+    const today = getTodayISO();
+    const newRecord = {
+        date: today,
+        car_brand: '',
+        vin: '',
+        plate_number: '',
+        work_description: '[]',
+        work_cost: 0,
+        materials: '',
+        material_cost: 0,
+        notes: '',
+        photos: [],
+        client_name: '',
+        status: 'in_progress',
+        date_completed: null,
+        archived: false
+    };
+
+    const { data, error } = await client
+        .from('speedline_records')
+        .insert([newRecord])
+        .select();
+
+    if (error) {
+        alert('Ошибка добавления: ' + error.message);
+        console.error('Supabase Insert Error:', error);
+        return;
+    }
+
+    if (data && data.length > 0) {
+        workRecords.unshift(data[0]);
+        renderCardsList();
+        setTimeout(() => toggleCardExpansion(data[0].id), 100);
+    }
+}
+
+// ============================================
+// DELETE RECORD
+// ============================================
+async function deleteRecord(id) {
+    if (!confirm('Удалить эту запись из общей базы?')) return;
+
+    const { error } = await client
+        .from('speedline_records')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        alert('Ошибка удаления: ' + error.message);
+        return;
+    }
+
+    workRecords = workRecords.filter(r => r.id !== id);
+    expandedCardId = null;
+    editingCardId = null;
+    renderCardsList();
+}
+
+// ============================================
+// UPDATE FIELD (autosave)
+// ============================================
+async function updateField(id, field, value) {
+    const record = workRecords.find(r => r.id === id);
+    if (!record) return;
+
+    if (field === 'work_cost' || field === 'material_cost') {
+        record[field] = parseFloat(value) || 0;
+    } else {
+        record[field] = value;
+    }
+
+    if (field === 'status' && value === 'completed' && !record.date_completed) {
+        record.date_completed = getTodayISO();
+        if (expandedCardId === id) renderExpandedContent(id);
+    }
+
+    updateSyncStatus('saving');
+    clearTimeout(saveTimeouts[id]);
+
+    saveTimeouts[id] = setTimeout(async () => {
+        const updateData = { [field]: record[field] };
+        if (field === 'status' && value === 'completed' && record.date_completed) {
+            updateData.date_completed = record.date_completed;
         }
 
-        function getTodayISO() {
-            return new Date().toISOString().split('T')[0];
-        }
+        const { error } = await client
+            .from('speedline_records')
+            .update(updateData)
+            .eq('id', id);
 
-        // ============================================
-        // DATA FETCHING
-        // ============================================
-        async function fetchRecords() {
-            const { data, error } = await client
-                .from('speedline_records')
-                .select('*')
-                .order('id', { ascending: false });
-
-            if (error) {
-                console.error('Ошибка загрузки:', error);
-                updateSyncStatus('error');
-                return;
-            }
-
-            workRecords = data || [];
-            updateSyncStatus('ok');
-            renderCardsList();
-        }
-
-        function updateSyncStatus(status) {
-            const el = getEl('syncStatus');
-            if (status === 'error') {
-                el.textContent = '🔴 Офлайн';
-                el.className = 'sync-badge error';
-            } else if (status === 'saving') {
-                el.textContent = '🟡 Сохранение...';
-                el.className = 'sync-badge';
-            } else {
-                el.textContent = '🟢 Онлайн';
-                el.className = 'sync-badge';
-            }
-        }
-
-        // ============================================
-        // ADD NEW RECORD
-        // ============================================
-        async function addRecord() {
-            const today = getTodayISO();
-            const newRecord = {
-                date: today,
-                car_brand: '',
-                vin: '',
-                plate_number: '',
-                work_description: '[]',
-                work_cost: 0,
-                materials: '',
-                material_cost: 0,
-                notes: '',
-                photos: [],
-                client_name: '',
-                status: 'in_progress',
-                date_completed: null,
-                archived: false
-            };
-
-            const { data, error } = await client
-                .from('speedline_records')
-                .insert([newRecord])
-                .select();
-
-            if (error) {
-                alert('Ошибка добавления: ' + error.message);
-                console.error('Supabase Insert Error:', error);
-                return;
-            }
-
-            if (data && data.length > 0) {
-                workRecords.unshift(data[0]);
-                renderCardsList();
-                setTimeout(() => toggleCardExpansion(data[0].id), 100);
-            }
-        }
-
-        // ============================================
-        // DELETE RECORD
-        // ============================================
-        async function deleteRecord(id) {
-            if (!confirm('Удалить эту запись из общей базы?')) return;
-
-            const { error } = await client
-                .from('speedline_records')
-                .delete()
-                .eq('id', id);
-
-            if (error) {
-                alert('Ошибка удаления: ' + error.message);
-                return;
-            }
-
-            workRecords = workRecords.filter(r => r.id !== id);
-            expandedCardId = null;
-            editingCardId = null;
-            renderCardsList();
-        }
-
-        // ============================================
-        // UPDATE FIELD (autosave)
-        // ============================================
-        async function updateField(id, field, value) {
-            const record = workRecords.find(r => r.id === id);
-            if (!record) return;
-
-            if (field === 'work_cost' || field === 'material_cost') {
-                record[field] = parseFloat(value) || 0;
-            } else {
-                record[field] = value;
-            }
-
-            if (field === 'status' && value === 'completed' && !record.date_completed) {
-                record.date_completed = getTodayISO();
-                if (expandedCardId === id) renderExpandedContent(id);
-            }
-
-            updateSyncStatus('saving');
-            clearTimeout(saveTimeouts[id]);
-
-            saveTimeouts[id] = setTimeout(async () => {
-                const updateData = { [field]: record[field] };
-                if (field === 'status' && value === 'completed' && record.date_completed) {
-                    updateData.date_completed = record.date_completed;
-                }
-
-                const { error } = await client
-                    .from('speedline_records')
-                    .update(updateData)
-                    .eq('id', id);
-
-                if (error) {
-                    console.error('Ошибка сохранения:', error);
-                    updateSyncStatus('error');
-                } else {
+        if (error) {
+            console.error('Ошибка сохранения:', error);
+            updateSyncStatus('error');
+        } else {
                     updateSyncStatus('ok');
                 }
                 if (field === 'status' || field === 'client_name' || field === 'car_brand' || field === 'plate_number' || field === 'date') {
@@ -888,7 +886,13 @@
                 }
             }
         }
+```
 
+---
+
+📄 Часть 4 (Отрисовка раскрытой карточки, взаимодействия, поиск, инициализация)
+
+```html
         // ============================================
         // RENDER: EXPANDED CARD CONTENT
         // ============================================
@@ -925,23 +929,30 @@
 
             let workItemsHTML = displayData._workItems.map((w, idx) => `
                 <div class="work-item">
-<select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
-    ${Object.entries(
-        WORKS_CATALOG.reduce((acc, cat) => {
-            if (!acc[cat.category]) acc[cat.category] = [];
-            acc[cat.category].push(cat);
-            return acc;
-        }, {})
-    ).map(([category, items]) => `
-        <optgroup label="${category}">
-            ${items.map(item => `
-                <option value="${item.name}" ${w.name === item.name ? 'selected' : ''}>
-                    ${item.name} (${item.cost}€)
-                </option>
-            `).join('')}
-        </optgroup>
-    `).join('')}
-</select>
+                    <select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
+                        ${Object.entries(
+                            WORKS_CATALOG.reduce((acc, cat) => {
+                                if (!acc[cat.category]) acc[cat.category] = [];
+                                acc[cat.category].push(cat);
+                                return acc;
+                            }, {})
+                        ).map(([category, items]) => `
+                            <optgroup label="${category}">
+                                ${items.map(item => `
+                                    <option value="${item.name}" ${w.name === item.name ? 'selected' : ''}>
+                                        ${item.name} (${item.cost}€)
+                                    </option>
+                                `).join('')}
+                            </optgroup>
+                        `).join('')}
+                    </select>
+                    <input type="number" class="work-cost" value="${w.cost || 0}" 
+                           placeholder="€" ${disabled}
+                           oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
+                    ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})">✕</button>` : ''}
+                </div>
+            `).join('');
+
             return `
                 <div class="section-title">👤 Клиент и авто</div>
                 <div class="field-group">
@@ -1243,4 +1254,4 @@
         initRealtime();
     </script>
 </body>
-</html>
+</html> 
