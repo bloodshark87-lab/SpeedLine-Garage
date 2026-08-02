@@ -275,7 +275,6 @@
             user-select: none;
             font-size: 0.8rem;
             color: var(--text-secondary);
-            transition: var(--transition);
             margin-top: 4px;
         }
         .visit-works-toggle:hover {
@@ -430,6 +429,7 @@
         let editingCardId = null;
         let editingVisitId = null;
         let expandedVisitIds = {};
+        let expandedWorksInVisit = {};
         let editStates = {};
         let visitEditStates = {};
         let saveTimeouts = {};
@@ -798,12 +798,10 @@
             renderExpandedContent(recordId);
         }
 
-        function toggleVisitWorks(element) {
-            element.classList.toggle('expanded');
-            const compact = element.nextElementSibling;
-            if (compact) {
-                compact.classList.toggle('open');
-            }
+        function toggleVisitWorks(recordId, visitIndex) {
+            const key = `${recordId}_${visitIndex}`;
+            expandedWorksInVisit[key] = !expandedWorksInVisit[key];
+            renderExpandedContent(recordId);
         }
 
         function startEditVisit(recordId, visitIndex) {
@@ -1003,7 +1001,6 @@
             });
             const allTimeTotal = grandTotal + allVisitsTotal;
 
-            // Рендерим историю визитов
             let visitsHTML = '';
             visitsHTML = `<div class="section-title visit-section">
                 <span>📋 История обслуживания (${visits.length})</span>
@@ -1015,6 +1012,7 @@
                     const visitKey = `${rec.id}_${idx}`;
                     const isVisitEditing = editingVisitId === visitKey;
                     const isOpen = expandedVisitIds[visitKey];
+                    const worksExpanded = expandedWorksInVisit[visitKey];
                     const vs = visitEditStates[visitKey] || {};
                     const vDisplay = isVisitEditing ? { ...v, ...vs } : v;
                     const vWorkItems = isVisitEditing && vs.work_description ? parseWorkDescription(vs.work_description) : parseWorkDescription(v.work_description);
@@ -1068,11 +1066,11 @@
                                 </div>
                                 <div class="field"><div class="field-label">📌 Статус</div><input value="${vStatusInfo.label}" disabled></div>
                                 ${vWorkItems.length > 0 ? `
-                                    <div class="visit-works-toggle" onclick="toggleVisitWorks(this)">
+                                    <div class="visit-works-toggle ${worksExpanded ? 'expanded' : ''}" onclick="event.stopPropagation(); toggleVisitWorks(${rec.id}, ${idx})">
                                         <span>🔧 Работы (${vWorkItems.length} поз.) — ${vWorkCost.toFixed(0)} €</span>
                                         <span class="toggle-arrow">▼</span>
                                     </div>
-                                    <div class="visit-works-compact">
+                                    <div class="visit-works-compact ${worksExpanded ? 'open' : ''}">
                                         ${vWorkItems.map(w => `
                                             <div class="visit-work-row">
                                                 <span class="visit-work-name-col" title="${escapeHTML(w.name)}">${escapeHTML(w.name)}</span>
@@ -1288,6 +1286,7 @@
                 editStates = {};
                 visitEditStates = {};
                 expandedVisitIds = {};
+                expandedWorksInVisit = {};
                 renderCardsList();
             }, 200);
         });
