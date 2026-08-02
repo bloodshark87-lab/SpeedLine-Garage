@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+    <!-- Раскомментируй для отладки на телефоне -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script> -->
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -20,7 +22,6 @@
             --text-secondary: #94a3b8;
             --accent: #ef4444;
             --success: #10b981;
-            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             --radius-lg: 12px;
             --radius-md: 8px;
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -109,6 +110,7 @@
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.3);
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .sync-badge.error {
@@ -128,15 +130,17 @@
         }
 
         .search-wrapper { position: relative; }
+        
         .search-icon {
             position: absolute;
-            left: 28px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 1.2rem;
             pointer-events: none;
         }
+        
         .search-input {
             width: 100%;
             padding: 12px 16px 12px 40px;
@@ -267,6 +271,7 @@
         }
         .compact-card.expanded + .expanded-content { display: flex; }
         .card-wrapper { display: flex; flex-direction: column; }
+        
         .section-title {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -287,6 +292,7 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
+        
         input, textarea, select {
             width: 100%;
             padding: 10px 12px;
@@ -407,6 +413,11 @@
         }
         .add-photo-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
         .btn {
             padding: 10px 16px;
             border-radius: var(--radius-md);
@@ -477,7 +488,7 @@
         let searchQuery = '';
 
         // ============================================
-        // FULL WORK CATALOG (75 позиций с категориями)
+        // FULL WORK CATALOG
         // ============================================
         const WORKS_CATALOG = [
             { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
@@ -557,7 +568,6 @@
             { category: "Детейлинг", name: "Мойка двигателя (паром)", cost: 40 }
         ];
 
-        // Status options
         const STATUS_OPTIONS = [
             { value: 'in_progress', label: '🟢 В работе' },
             { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
@@ -571,6 +581,13 @@
         // ============================================
         const getEl = (id) => document.getElementById(id);
 
+        function escapeHTML(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const parts = dateStr.split('-');
@@ -579,6 +596,28 @@
 
         function getTodayISO() {
             return new Date().toISOString().split('T')[0];
+        }
+
+        function parseWorkDescription(desc) {
+            if (!desc) return [];
+            try {
+                const parsed = JSON.parse(desc);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function serializeWorkDescription(items) {
+            return JSON.stringify(items);
+        }
+
+        function getGroupedCatalog() {
+            return WORKS_CATALOG.reduce((acc, cat) => {
+                if (!acc[cat.category]) acc[cat.category] = [];
+                acc[cat.category].push(cat);
+                return acc;
+            }, {});
         }
 
         // ============================================
@@ -603,6 +642,8 @@
 
         function updateSyncStatus(status) {
             const el = getEl('syncStatus');
+            if (!el) return;
+            
             if (status === 'error') {
                 el.textContent = '🔴 Офлайн';
                 el.className = 'sync-badge error';
@@ -692,7 +733,6 @@
 
             if (field === 'status' && value === 'completed' && !record.date_completed) {
                 record.date_completed = getTodayISO();
-                if (expandedCardId === id) renderExpandedContent(id);
             }
 
             updateSyncStatus('saving');
@@ -715,7 +755,9 @@
                 } else {
                     updateSyncStatus('ok');
                 }
-                if (field === 'status' || field === 'client_name' || field === 'car_brand' || field === 'plate_number' || field === 'date') {
+                
+                if (field === 'status' || field === 'client_name' || field === 'car_brand' || 
+                    field === 'plate_number' || field === 'date') {
                     renderCardsList();
                 }
             }, 500);
@@ -801,22 +843,6 @@
         }
 
         // ============================================
-        // WORK ITEMS MANAGEMENT
-        // ============================================
-        function parseWorkDescription(desc) {
-            if (!desc) return [];
-            try {
-                return JSON.parse(desc);
-            } catch {
-                return [];
-            }
-        }
-
-        function serializeWorkDescription(items) {
-            return JSON.stringify(items);
-        }
-
-        // ============================================
         // RENDER: CARDS LIST
         // ============================================
         function renderCardsList() {
@@ -860,11 +886,11 @@
                             <span class="car-icon">🚗</span>
                             <div class="compact-info">
                                 <div class="compact-primary">
-                                    <span class="compact-car">${rec.car_brand || 'Без марки'}</span>
-                                    ${rec.plate_number ? `<span class="compact-plate">${rec.plate_number}</span>` : ''}
+                                    <span class="compact-car">${escapeHTML(rec.car_brand || 'Без марки')}</span>
+                                    ${rec.plate_number ? `<span class="compact-plate">${escapeHTML(rec.plate_number)}</span>` : ''}
                                 </div>
                                 <div class="compact-secondary">
-                                    ${rec.client_name ? `<span class="compact-client">👤 ${rec.client_name}</span>` : ''}
+                                    ${rec.client_name ? `<span class="compact-client">👤 ${escapeHTML(rec.client_name)}</span>` : ''}
                                     <span class="compact-date">📅 ${formatDate(rec.date)}</span>
                                 </div>
                             </div>
@@ -877,22 +903,12 @@
                     </div>
                 `;
             }).join('');
-
-            if (expandedCardId && editingCardId === expandedCardId) {
-                const content = getEl(`expandedContent_${expandedCardId}`);
-                if (content && content.style.display !== 'none') {
-                    content.innerHTML = renderExpandedContentHTML(
-                        workRecords.find(r => r.id === expandedCardId),
-                        true
-                    );
-                }
-            }
         }
 
         // ============================================
         // RENDER: EXPANDED CARD CONTENT
         // ============================================
-        function renderExpandedContentHTML(rec, isEditing = false) {
+        function renderExpandedContentHTML(rec) {
             if (!rec) return '';
             
             const isThisEditing = editingCardId === rec.id;
@@ -923,28 +939,23 @@
                 `<option value="${s.value}" ${displayData.status === s.value ? 'selected' : ''}>${s.label}</option>`
             ).join('');
 
+            const groupedCatalog = getGroupedCatalog();
             let workItemsHTML = displayData._workItems.map((w, idx) => `
                 <div class="work-item">
-<select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
-    ${Object.entries(
-        WORKS_CATALOG.reduce((acc, cat) => {
-            if (!acc[cat.category]) acc[cat.category] = [];
-            acc[cat.category].push(cat);
-            return acc;
-        }, {})
-    ).map(([category, items]) => `
-        <optgroup label="${category}">
-            ${items.map(item => `
-                <option value="${item.name}" ${w.name === item.name ? 'selected' : ''}>
-                    ${item.name} (${item.cost}€)
-                </option>
-            `).join('')}
-        </optgroup>
-    `).join('')}
-</select>
-<input type="number" class="work-cost" value="${w.cost}" ${disabled}
-       oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
-${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})" title="Удалить">✕</button>` : ''}
+                    <select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">
+                        ${Object.entries(groupedCatalog).map(([category, items]) => `
+                            <optgroup label="${escapeHTML(category)}">
+                                ${items.map(item => `
+                                    <option value="${escapeHTML(item.name)}" ${w.name === item.name ? 'selected' : ''}>
+                                        ${escapeHTML(item.name)} (${item.cost}€)
+                                    </option>
+                                `).join('')}
+                            </optgroup>
+                        `).join('')}
+                    </select>
+                    <input type="number" class="work-cost" value="${w.cost}" ${disabled}
+                           oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
+                    ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})" title="Удалить">✕</button>` : ''}
                 </div>
             `).join('');
 
@@ -953,14 +964,14 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                 <div class="field-group">
                     <div class="field">
                         <div class="field-label">ФИО клиента</div>
-                        <input type="text" value="${displayData.client_name || ''}" ${disabled}
+                        <input type="text" value="${escapeHTML(displayData.client_name || '')}" ${disabled}
                                placeholder="Иванов Иван Иванович"
                                oninput="handleEditChange(${rec.id}, 'client_name', this.value)">
                     </div>
                     <div class="field-row">
                         <div class="field">
                             <div class="field-label">🚗 Марка авто</div>
-                            <input type="text" value="${displayData.car_brand || ''}" ${disabled}
+                            <input type="text" value="${escapeHTML(displayData.car_brand || '')}" ${disabled}
                                    placeholder="Марка"
                                    oninput="handleEditChange(${rec.id}, 'car_brand', this.value)">
                         </div>
@@ -972,13 +983,13 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                     <div class="field-row">
                         <div class="field">
                             <div class="field-label">🧬 VIN</div>
-                            <input type="text" value="${displayData.vin || ''}" ${disabled}
+                            <input type="text" value="${escapeHTML(displayData.vin || '')}" ${disabled}
                                    placeholder="VIN" style="text-transform:uppercase;"
                                    oninput="handleEditChange(${rec.id}, 'vin', this.value)">
                         </div>
                         <div class="field">
                             <div class="field-label">🔢 Госномер</div>
-                            <input type="text" value="${displayData.plate_number || ''}" ${disabled}
+                            <input type="text" value="${escapeHTML(displayData.plate_number || '')}" ${disabled}
                                    placeholder="Номер" style="text-transform:uppercase;"
                                    oninput="handleEditChange(${rec.id}, 'plate_number', this.value)">
                         </div>
@@ -999,7 +1010,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
 
                 <div class="section-title">🔧 Работы</div>
                 <div class="field-group">
-                    ${workItemsHTML}
+                    ${workItemsHTML || '<div style="color:var(--text-secondary); font-size:0.85rem; padding:8px;">Нет добавленных работ</div>'}
                     ${!disabled ? `
                         <button class="add-work-btn" onclick="addWorkItem(${rec.id})">➕ Добавить работу</button>
                     ` : ''}
@@ -1017,7 +1028,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                     <div class="field">
                         <div class="field-label">Описание расходников</div>
                         <textarea ${disabled} rows="2" placeholder="Список запчастей и материалов..."
-                                  oninput="handleEditChange(${rec.id}, 'materials', this.value)">${displayData.materials || ''}</textarea>
+                                  oninput="handleEditChange(${rec.id}, 'materials', this.value)">${escapeHTML(displayData.materials || '')}</textarea>
                     </div>
                     <div class="field">
                         <div class="field-label">💰 Стоимость расходников (€)</div>
@@ -1040,12 +1051,13 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                         <input type="file" id="fileInput_${rec.id}" class="hidden-file-input" 
                                accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
                     ` : ''}
+                    ${photosList.length === 0 && disabled ? '<div style="color:var(--text-secondary); font-size:0.85rem;">Нет фотографий</div>' : ''}
                 </div>
 
                 <div class="section-title">📝 Заметки</div>
                 <div class="field-group">
                     <textarea ${disabled} rows="2" placeholder="Дополнительные заметки..."
-                              oninput="handleEditChange(${rec.id}, 'notes', this.value)">${displayData.notes || ''}</textarea>
+                              oninput="handleEditChange(${rec.id}, 'notes', this.value)">${escapeHTML(displayData.notes || '')}</textarea>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; 
@@ -1067,12 +1079,12 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             `;
         }
 
-        function renderExpandedContent(id, isEditing = false) {
+        function renderExpandedContent(id) {
             const content = getEl(`expandedContent_${id}`);
             if (!content) return;
             const rec = workRecords.find(r => r.id === id);
             if (!rec) return;
-            content.innerHTML = renderExpandedContentHTML(rec, isEditing);
+            content.innerHTML = renderExpandedContentHTML(rec);
         }
 
         // ============================================
@@ -1085,7 +1097,6 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             } else {
                 if (expandedCardId && editingCardId === expandedCardId) cancelEdit(expandedCardId);
                 expandedCardId = id;
-                renderExpandedContent(id, editingCardId === id);
             }
             renderCardsList();
         }
@@ -1113,7 +1124,9 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
         function cancelEdit(id) {
             delete editStates[id];
             editingCardId = null;
-            if (expandedCardId === id) renderExpandedContent(id, false);
+            if (expandedCardId === id) {
+                renderExpandedContent(id);
+            }
             renderCardsList();
         }
 
@@ -1163,7 +1176,9 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             editingCardId = null;
             updateSyncStatus('ok');
             renderCardsList();
-            if (expandedCardId === id) renderExpandedContent(id, false);
+            if (expandedCardId === id) {
+                renderExpandedContent(id);
+            }
         }
 
         function handleEditChange(id, field, value) {
@@ -1189,7 +1204,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
                     }
                 }
                 editStates[recordId].work_description = serializeWorkDescription(workItems);
-                renderExpandedContent(recordId, true);
+                renderExpandedContent(recordId);
             }
         }
 
@@ -1198,7 +1213,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             const workItems = parseWorkDescription(editStates[recordId].work_description || '[]');
             workItems.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost });
             editStates[recordId].work_description = serializeWorkDescription(workItems);
-            renderExpandedContent(recordId, true);
+            renderExpandedContent(recordId);
         }
 
         function removeWorkItem(recordId, itemIndex) {
@@ -1206,7 +1221,7 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
             const workItems = parseWorkDescription(editStates[recordId].work_description || '[]');
             workItems.splice(itemIndex, 1);
             editStates[recordId].work_description = serializeWorkDescription(workItems);
-            renderExpandedContent(recordId, true);
+            renderExpandedContent(recordId);
         }
 
         // ============================================
@@ -1250,3 +1265,5 @@ ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}
     </script>
 </body>
 </html>
+```
+
