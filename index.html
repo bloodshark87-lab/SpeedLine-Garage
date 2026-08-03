@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
-        eruda.init({
-            tool: ['console', 'elements', 'network', 'resources', 'sources', 'info'],
-            useShadowDom: true
-        });
-        eruda.hide();
-        
+         eruda.init({
+    tool: ['console', 'elements', 'network', 'resources', 'sources', 'info'],
+    useShadowDom: true
+});
+eruda.hide();       
         function toggleEruda() {
             const el = document.getElementById('eruda-container');
             if (el && el.style.display !== 'none') {
@@ -167,13 +165,6 @@
         .hidden-file-input { display: none; }
         .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
-        .debug-btn {
-            position: fixed; bottom: 20px; right: 20px; width: 44px; height: 44px;
-            border-radius: 50%; background: rgba(239, 68, 68, 0.3);
-            border: 1px solid rgba(239, 68, 68, 0.5); color: white; font-size: 1.2rem;
-            cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(10px); transition: all 0.2s;
-        }
         .debug-btn:hover { background: rgba(239, 68, 68, 0.5); transform: scale(1.1); }
     </style>
 </head>
@@ -203,8 +194,6 @@
         </div>
         <div class="cards-list" id="cardsList"></div>
     </div>
-
-    <button class="debug-btn" onclick="toggleEruda()" title="Консоль отладки">🐛</button>
 
     <script>
         // ============================================
