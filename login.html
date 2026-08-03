@@ -1,3 +1,4 @@
+123
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,165 +11,281 @@
         eruda.init();
     </script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+
         .login-container {
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
-            border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 16px;
-            padding: 40px 30px; width: 100%; max-width: 380px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
-        .logo { text-align: center; margin-bottom: 35px; }
-        .logo-img { width: 60px; height: 60px; border-radius: 15px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
-        .logo-text { font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
-        .logo-sub { font-size: 0.65rem; color: #94a3b8; letter-spacing: 3px; text-transform: uppercase; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; }
-        input { width: 100%; padding: 14px 16px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 10px; color: #f1f5f9; font-size: 1rem; font-family: inherit; transition: all 0.2s; }
-        input:focus { outline: none; border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; transition: all 0.2s; }
-        .btn:active { transform: scale(0.98); }
-        .btn:disabled { opacity: 0.5; cursor: default; }
-        .btn-login { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-        .btn-check { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); margin-top: 6px; font-size: 0.8rem; }
-        .error-message { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.8rem; text-align: center; margin-bottom: 16px; display: none; }
-        .error-message.show { display: block; }
-        .success-message { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; padding: 10px; border-radius: 8px; font-size: 0.8rem; text-align: center; margin-bottom: 16px; display: none; }
-        .success-message.show { display: block; }
-        .setup-hint { text-align: center; font-size: 0.7rem; color: #64748b; margin-top: 24px; line-height: 1.5; }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo-sub {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-login:hover {
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <!-- Логотип -->
         <div class="logo">
-            <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260729_174121.jpg" alt="Logo" class="logo-img">
+            <img 
+                src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260729_174121.jpg" 
+                alt="SpeedLine Garage Logo" 
+                class="logo-img"
+            >
             <div class="logo-text">SpeedLine Garage</div>
             <div class="logo-sub">доска мастера</div>
         </div>
 
+        <!-- Сообщение об ошибке -->
         <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
 
-        <form id="loginForm">
+        <!-- Форма входа -->
+        <form id="loginForm" autocomplete="off">
             <div class="form-group">
-                <label>Логин</label>
-                <input type="text" id="loginUsername" placeholder="Введите логин" required autocomplete="username">
+                <label for="loginUsername">Логин</label>
+                <input 
+                    type="text" 
+                    id="loginUsername" 
+                    placeholder="Введите логин" 
+                    required 
+                    autocomplete="off"
+                >
             </div>
             <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="loginPassword" placeholder="Введите пароль" required autocomplete="current-password">
+                <label for="loginPassword">Пароль</label>
+                <input 
+                    type="password" 
+                    id="loginPassword" 
+                    placeholder="Введите пароль" 
+                    required 
+                    autocomplete="off"
+                >
             </div>
-            <button type="submit" class="btn btn-login" id="loginBtn">Войти</button>
+            <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
-
-        <button class="btn btn-check" id="checkUserBtn">Проверить пользователя</button>
-
-        <div class="setup-hint">
-            Логин: <strong>yura</strong><br>
-            Пароль: <strong>yura1987</strong>
-        </div>
     </div>
 
     <script>
+        // ============================================
+        // КОНФИГУРАЦИЯ SUPABASE
+        // ============================================
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
-        console.log('Supabase init start');
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase client created');
 
+        // ============================================
+        // DOM-ЭЛЕМЕНТЫ
+        // ============================================
         const errorMsg = document.getElementById('errorMessage');
-        const successMsg = document.getElementById('successMessage');
         const loginBtn = document.getElementById('loginBtn');
+        const loginForm = document.getElementById('loginForm');
 
+        // ============================================
+        // ПОЛЬЗОВАТЕЛИ (логин → email)
+        // ============================================
+        const USERS = {
+            'yura':    'yura@speedline.local',
+            'oleg':    'oleg@speedline.local',
+            'valeriy': 'valeriy@speedline.local'
+        };
+
+        // ============================================
+        // ПРОВЕРКА СЕССИИ (если уже вошёл — в index.html)
+        // ============================================
         async function checkSession() {
-            console.log('Checking session...');
-            const { data: { session }, error } = await client.auth.getSession();
-            console.log('Session check:', { session: !!session, error: error?.message });
+            const { data: { session } } = await client.auth.getSession();
             if (session) {
-                console.log('Already logged in, redirecting...');
                 window.location.href = 'index.html';
             }
         }
         checkSession();
 
-        // Кнопка проверки пользователя
-        document.getElementById('checkUserBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('checkUserBtn');
-            btn.disabled = true;
-            btn.textContent = 'Проверяю...';
-            hideMessages();
+        // ============================================
+        // ОБРАБОТЧИК ВХОДА
+        // ============================================
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            // Проверяем пользователя через signUp (если уже есть — вернёт ошибку)
-            const { data: signUpData, error: signUpError } = await client.auth.signUp({
-                email: 'yura@speedline.local',
-                password: 'yura1987',
-                options: { data: { role: 'admin', username: 'yura' } }
-            });
+            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
 
-            console.log('SignUp check:', { 
-                user: !!signUpData?.user, 
-                error: signUpError?.message 
-            });
-
-            if (signUpError) {
-                if (signUpError.message.includes('already registered') || signUpError.message.includes('already exists')) {
-                    showSuccess('Пользователь yura СУЩЕСТВУЕТ! Можно входить.');
-                } else {
-                    showError('Ошибка: ' + signUpError.message);
-                }
-            } else if (signUpData?.user) {
-                showSuccess('Пользователь yura СОЗДАН! Теперь войдите.');
+            // Проверка на пустые поля
+            if (!username || !password) {
+                showError('Заполните все поля');
+                return;
             }
 
-            btn.disabled = false;
-            btn.textContent = 'Проверить пользователя';
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            console.log('Login attempt:', { username, passwordLength: password.length });
-            
-            if (!username || !password) { showError('Заполните все поля'); return; }
-
+            // Блокируем кнопку на время запроса
             loginBtn.disabled = true;
             loginBtn.textContent = 'Вход...';
-            hideMessages();
+            hideError();
 
-            const email = `${username.toLowerCase()}@speedline.local`;
-            console.log('Signing in:', { email });
-            
-            const { data, error } = await client.auth.signInWithPassword({ email, password });
-
-            console.log('Result:', { 
-                success: !!data?.user, 
-                error: error?.message,
-                status: error?.status,
-                userId: data?.user?.id,
-                role: data?.user?.user_metadata?.role
-            });
-
-            if (error) {
-                showError('Неверный логин или пароль (код: ' + (error.status || '?') + ')');
+            // Получаем email по логину
+            const email = USERS[username];
+            if (!email) {
+                showError('Пользователь не найден');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
-            } else {
-                const role = data.user?.user_metadata?.role || 'master';
-                localStorage.setItem('userRole', role);
-                localStorage.setItem('username', username);
-                window.location.href = 'index.html';
+                return;
             }
+
+            // Пытаемся войти
+            const { data, error } = await client.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                // Неверный пароль или другая ошибка
+                showError('Неверный логин или пароль');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Войти';
+                return;
+            }
+
+            // Успешный вход — сохраняем данные и переходим
+            const role = data.user?.user_metadata?.role || 'master';
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('username', username);
+            window.location.href = 'index.html';
         });
 
-        function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('show'); successMsg.classList.remove('show'); }
-        function showSuccess(msg) { successMsg.textContent = msg; successMsg.classList.add('show'); errorMsg.classList.remove('show'); }
-        function hideMessages() { errorMsg.classList.remove('show'); successMsg.classList.remove('show'); }
+        // ============================================
+        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ============================================
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('show');
+        }
+
+        function hideError() {
+            errorMsg.classList.remove('show');
+        }
     </script>
 </body>
 </html>
