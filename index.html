@@ -1,4 +1,4 @@
-html
+`htm
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -31,22 +31,15 @@ html
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            min-height: 100vh;
-            padding: 0;
-            color: var(--text-primary);
+            min-height: 100vh; padding: 0; color: var(--text-primary);
             -webkit-tap-highlight-color: transparent;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px);
-            min-height: 100vh;
-            border-left: 1px solid var(--border);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
+            max-width: 800px; margin: 0 auto; background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px); min-height: 100vh;
+            border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
         }
 
         @media (min-width: 768px) {
@@ -55,22 +48,14 @@ html
         }
 
         .header {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px);
+            padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
         }
 
         .logo-area { display: flex; align-items: center; gap: 10px; }
         .logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .company-info { display: flex; flex-direction: column; }
-        .company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; line-height: 1.2; }
+        .company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; }
         .company-subtitle { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; }
 
         .sync-badge {
@@ -89,7 +74,7 @@ html
         .search-input {
             width: 100%; padding: 12px 16px 12px 40px; background: var(--bg-secondary);
             border: 1px solid var(--border); border-radius: var(--radius-lg);
-            color: var(--text-primary); font-size: 0.95rem; font-family: inherit; transition: var(--transition);
+            color: var(--text-primary); font-size: 0.95rem; transition: var(--transition);
         }
         .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
 
@@ -151,6 +136,26 @@ html
         .compact-card.expanded + .expanded-content { display: flex; }
         .card-wrapper { display: flex; flex-direction: column; }
 
+        .info-section {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 14px;
+        }
+        .info-section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .info-section-title {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--info); font-weight: 700;
+        }
+        .btn-edit-info {
+            background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--info); padding: 6px 14px; border-radius: 20px;
+            cursor: pointer; font-size: 0.7rem; font-weight: 600; transition: var(--transition);
+        }
+        .btn-edit-info:hover { background: rgba(59, 130, 246, 0.25); }
+        .btn-edit-info.active { background: var(--accent); color: white; border-color: var(--accent); }
+
         .section-title {
             font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
             color: var(--accent); margin-bottom: 8px; font-weight: 700;
@@ -159,6 +164,7 @@ html
         .section-title.visit-section { color: var(--warning); display: flex; align-items: center; justify-content: space-between; }
         .field-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
         .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .field-row-three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .field { display: flex; flex-direction: column; gap: 3px; }
         .field-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.5px; }
 
@@ -207,20 +213,15 @@ html
         .visit-body-content.open { display: flex; }
 
         .invoice-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md); padding: 16px; margin-top: 12px;
         }
         .invoice-title {
             font-size: 0.85rem; font-weight: 700; color: var(--info);
             text-align: center; margin-bottom: 12px; text-transform: uppercase;
             letter-spacing: 1px; border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding-bottom: 8px;
         }
-        .invoice-table {
-            width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 8px;
-        }
+        .invoice-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 8px; }
         .invoice-table th {
             background: rgba(0, 0, 0, 0.3); color: var(--text-secondary);
             font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
@@ -245,9 +246,7 @@ html
             background: rgba(245, 158, 11, 0.08); border-radius: var(--radius-md);
             border: 1px solid rgba(245, 158, 11, 0.2);
         }
-        .discount-checkbox-wrap input[type="checkbox"] {
-            width: 20px; height: 20px; accent-color: var(--warning); cursor: pointer; flex-shrink: 0;
-        }
+        .discount-checkbox-wrap input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--warning); cursor: pointer; flex-shrink: 0; }
         .discount-checkbox-wrap label { font-size: 0.85rem; color: var(--warning); cursor: pointer; font-weight: 600; }
 
         .btn-close-visit {
@@ -348,11 +347,11 @@ html
         // ============================================
         let workRecords = [];
         let expandedCardId = null;
-        let editingCardId = null;
+        let editingInfoId = null; // ID карточки, где редактируется общая информация
         let editingVisitId = null;
         let expandedVisitIds = {};
         let expandedInvoiceIds = {};
-        let editStates = {};
+        let infoEditStates = {}; // Состояние редактирования общей информации
         let visitEditStates = {};
         let saveTimeouts = {};
         let searchQuery = '';
@@ -464,16 +463,13 @@ html
             return `${parts[2]}.${parts[1]}.${parts[0]}`;
         }
 
-        function getTodayISO() {
-            return new Date().toISOString().split('T')[0];
-        }
+        function getTodayISO() { return new Date().toISOString().split('T')[0]; }
 
         function parseWorkDescription(desc) {
             if (!desc) return [];
             try { const p = JSON.parse(desc); return Array.isArray(p) ? p : []; }
             catch { return []; }
         }
-
         function serializeWorkDescription(items) { return JSON.stringify(items); }
 
         function parseVisits(json) {
@@ -481,7 +477,6 @@ html
             try { const p = JSON.parse(json); return Array.isArray(p) ? p : []; }
             catch { return []; }
         }
-
         function serializeVisits(arr) { return JSON.stringify(arr); }
 
         function parseInvoices(json) {
@@ -489,7 +484,6 @@ html
             try { const p = JSON.parse(json); return Array.isArray(p) ? p : []; }
             catch { return []; }
         }
-
         function serializeInvoices(arr) { return JSON.stringify(arr); }
 
         function getGroupedCatalog() {
@@ -518,10 +512,7 @@ html
         // DATA FETCHING
         // ============================================
         async function fetchRecords() {
-            const { data, error } = await client
-                .from('speedline_records')
-                .select('*')
-                .order('id', { ascending: false });
+            const { data, error } = await client.from('speedline_records').select('*').order('id', { ascending: false });
             if (error) { console.error('Ошибка загрузки:', error); updateSyncStatus('error'); return; }
             workRecords = data || [];
             updateSyncStatus('ok');
@@ -529,8 +520,7 @@ html
         }
 
         function updateSyncStatus(status) {
-            const el = getEl('syncStatus');
-            if (!el) return;
+            const el = getEl('syncStatus'); if (!el) return;
             if (status === 'error') { el.textContent = '🔴 Офлайн'; el.className = 'sync-badge error'; }
             else if (status === 'saving') { el.textContent = '🟡 Сохранение...'; el.className = 'sync-badge'; }
             else { el.textContent = '🟢 Онлайн'; el.className = 'sync-badge'; }
@@ -538,7 +528,7 @@ html
 
         async function addRecord() {
             const today = getTodayISO();
-            const nr = { date: today, car_brand: '', vin: '', plate_number: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], client_name: '', status: 'in_progress', date_completed: null, archived: false, visits: '[]', invoice_data: '[]' };
+            const nr = { date: today, car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'in_progress', date_completed: null, archived: false, visits: '[]', invoice_data: '[]' };
             const { data, error } = await client.from('speedline_records').insert([nr]).select();
             if (error) { alert('Ошибка добавления: ' + error.message); return; }
             if (data && data.length > 0) { workRecords.unshift(data[0]); renderCardsList(); setTimeout(() => toggleCardExpansion(data[0].id), 100); }
@@ -549,71 +539,59 @@ html
             const { error } = await client.from('speedline_records').delete().eq('id', id);
             if (error) { alert('Ошибка удаления: ' + error.message); return; }
             workRecords = workRecords.filter(r => r.id !== id);
-            expandedCardId = null; editingCardId = null; renderCardsList();
+            expandedCardId = null; editingInfoId = null; renderCardsList();
         }
 
-        async function updateField(id, field, value) {
-            const record = workRecords.find(r => r.id === id);
-            if (!record) return;
-            if (field === 'work_cost' || field === 'material_cost') record[field] = parseFloat(value) || 0;
-            else record[field] = value;
-            if (field === 'status' && value === 'completed' && !record.date_completed) record.date_completed = getTodayISO();
-            updateSyncStatus('saving');
-            clearTimeout(saveTimeouts[id]);
-            saveTimeouts[id] = setTimeout(async () => {
-                const upd = { [field]: record[field] };
-                if (field === 'status' && value === 'completed' && record.date_completed) upd.date_completed = record.date_completed;
-                const { error } = await client.from('speedline_records').update(upd).eq('id', id);
-                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
-                if (['status','client_name','car_brand','plate_number','date'].includes(field)) renderCardsList();
-            }, 500);
-        }
-
-        async function updateVisitsField(id, visitsArr) {
-            updateSyncStatus('saving');
-            clearTimeout(saveTimeouts['visits_'+id]);
-            saveTimeouts['visits_'+id] = setTimeout(async () => {
-                const { error } = await client.from('speedline_records').update({ visits: serializeVisits(visitsArr) }).eq('id', id);
-                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
-            }, 500);
-        }
-
-        async function updateInvoicesField(id, invoicesArr) {
-            updateSyncStatus('saving');
-            clearTimeout(saveTimeouts['invoices_'+id]);
-            saveTimeouts['invoices_'+id] = setTimeout(async () => {
-                const { error } = await client.from('speedline_records').update({ invoice_data: serializeInvoices(invoicesArr) }).eq('id', id);
-                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
-            }, 500);
-        }
-
-        function triggerPhotoUpload(id) { const input = document.getElementById(`fileInput_${id}`); if (input) input.click(); }
-
-        async function uploadPhotos(id, inputElement) {
-            const files = inputElement.files; if (!files || files.length === 0) return;
-            updateSyncStatus('saving'); const rec = workRecords.find(r => r.id === id); if (!rec) return;
-            let photos = Array.isArray(rec.photos) ? [...rec.photos] : [];
-            for (let file of files) {
-                const ext = file.name.split('.').pop() || 'jpg';
-                const fn = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${ext}`;
-                const { error: uploadError } = await client.storage.from('Logo').upload(fn, file, { upsert: true });
-                if (uploadError) { alert('Ошибка загрузки: ' + uploadError.message); continue; }
-                const { data: urlData } = client.storage.from('Logo').getPublicUrl(fn);
-                if (urlData && urlData.publicUrl) photos.push(urlData.publicUrl);
+        // ============================================
+        // INFO EDITING
+        // ============================================
+        function startEditInfo(id) {
+            editingInfoId = id;
+            const rec = workRecords.find(r => r.id === id);
+            if (rec) {
+                infoEditStates[id] = {
+                    client_name: rec.client_name || '',
+                    client_phone: rec.client_phone || '',
+                    car_brand: rec.car_brand || '',
+                    vin: rec.vin || '',
+                    plate_number: rec.plate_number || '',
+                    date: rec.date || ''
+                };
             }
-            const { error: updateError } = await client.from('speedline_records').update({ photos }).eq('id', id);
-            if (updateError) { alert('Ошибка сохранения: ' + updateError.message); updateSyncStatus('error'); }
-            else { rec.photos = photos; updateSyncStatus('ok'); if (expandedCardId === id) renderExpandedContent(id); }
-            inputElement.value = '';
+            renderExpandedContent(id);
         }
 
-        async function deletePhoto(id, photoIndex) {
-            if (!confirm('Удалить эту фотографию?')) return;
-            const rec = workRecords.find(r => r.id === id); if (!rec || !Array.isArray(rec.photos)) return;
-            const photos = [...rec.photos]; photos.splice(photoIndex, 1);
-            const { error } = await client.from('speedline_records').update({ photos }).eq('id', id);
-            if (error) { alert('Ошибка удаления: ' + error.message); return; }
-            rec.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
+        function cancelEditInfo(id) {
+            delete infoEditStates[id];
+            editingInfoId = null;
+            renderExpandedContent(id);
+        }
+
+        async function saveInfo(id) {
+            const state = infoEditStates[id]; if (!state) return;
+            updateSyncStatus('saving');
+            const upd = {
+                client_name: state.client_name,
+                client_phone: state.client_phone,
+                car_brand: state.car_brand,
+                vin: state.vin,
+                plate_number: state.plate_number,
+                date: state.date
+            };
+            const { error } = await client.from('speedline_records').update(upd).eq('id', id);
+            if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
+            const rec = workRecords.find(r => r.id === id);
+            if (rec) Object.assign(rec, upd);
+            delete infoEditStates[id];
+            editingInfoId = null;
+            updateSyncStatus('ok');
+            renderExpandedContent(id);
+            renderCardsList();
+        }
+
+        function handleInfoChange(id, field, value) {
+            if (!infoEditStates[id]) infoEditStates[id] = {};
+            infoEditStates[id][field] = value;
         }
 
         // ============================================
@@ -700,10 +678,9 @@ html
         }
 
         async function closeVisitAndCreateInvoice(recordId, visitIndex) {
-            if (!confirm('Закрыть визит и создать счёт-фактуру? Дата завершения будет установлена автоматически.')) return;
+            if (!confirm('Закрыть визит и создать счёт-фактуру?')) return;
             const rec = workRecords.find(r => r.id === recordId); if (!rec) return;
-            const visits = getVisitsArr(rec);
-            const v = visits[visitIndex]; if (!v) return;
+            const visits = getVisitsArr(rec); const v = visits[visitIndex]; if (!v) return;
             const discountCheckbox = document.getElementById(`discount_${recordId}_${visitIndex}`);
             const applyDiscount = discountCheckbox ? discountCheckbox.checked : false;
             const workItems = parseWorkDescription(v.work_description);
@@ -715,7 +692,8 @@ html
             const invoice = {
                 invoice_number: `INV-${recordId}-${visitIndex}-${Date.now().toString(36).toUpperCase()}`,
                 invoice_date: getTodayISO(), car_brand: rec.car_brand || 'Без марки', plate_number: rec.plate_number || '',
-                client_name: rec.client_name || '', visit_date: v.visit_date, mileage: v.mileage || '',
+                client_name: rec.client_name || '', client_phone: rec.client_phone || '',
+                visit_date: v.visit_date, mileage: v.mileage || '',
                 works: workItems, work_cost: workCost, materials: v.materials || '', material_cost: materialCost,
                 subtotal: subtotal, discount_10: applyDiscount, discount_amount: discountAmount, total: total
             };
@@ -734,7 +712,7 @@ html
         }
 
         async function closeCurrentVisitAndCreateInvoice(recordId) {
-            if (!confirm('Завершить текущий визит и создать счёт-фактуру? Работы будут сохранены как выполненный визит.')) return;
+            if (!confirm('Завершить текущий визит и создать счёт-фактуру?')) return;
             const rec = workRecords.find(r => r.id === recordId); if (!rec) return;
             const discountCheckbox = document.getElementById(`discount_current_${recordId}`);
             const applyDiscount = discountCheckbox ? discountCheckbox.checked : false;
@@ -754,7 +732,8 @@ html
             const invoice = {
                 invoice_number: `INV-${recordId}-${visits.length - 1}-${Date.now().toString(36).toUpperCase()}`,
                 invoice_date: today, car_brand: rec.car_brand || 'Без марки', plate_number: rec.plate_number || '',
-                client_name: rec.client_name || '', visit_date: rec.date || today, mileage: '',
+                client_name: rec.client_name || '', client_phone: rec.client_phone || '',
+                visit_date: rec.date || today, mileage: '',
                 works: workItems, work_cost: workCost, materials: rec.materials || '', material_cost: materialCost,
                 subtotal: subtotal, discount_10: applyDiscount, discount_amount: discountAmount, total: total
             };
@@ -769,12 +748,20 @@ html
             if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
             Object.assign(rec, updateData);
             updateSyncStatus('ok');
-            if (editingCardId === recordId) { delete editStates[recordId]; editingCardId = null; }
             expandedInvoiceIds[`${recordId}_${visits.length - 1}`] = true;
             expandedVisitIds[`${recordId}_${visits.length - 1}`] = true;
             renderCardsList();
             if (expandedCardId === recordId) renderExpandedContent(recordId);
             alert('Визит завершён! Счёт-фактура создана в истории обслуживания.');
+        }
+
+        async function updateVisitsField(id, visitsArr) {
+            updateSyncStatus('saving');
+            clearTimeout(saveTimeouts['visits_'+id]);
+            saveTimeouts['visits_'+id] = setTimeout(async () => {
+                const { error } = await client.from('speedline_records').update({ visits: serializeVisits(visitsArr) }).eq('id', id);
+                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
+            }, 500);
         }
 
         function startEditVisit(recordId, visitIndex) {
@@ -830,6 +817,35 @@ html
             visitEditStates[key].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
         }
 
+        function triggerPhotoUpload(id) { const input = document.getElementById(`fileInput_${id}`); if (input) input.click(); }
+
+        async function uploadPhotos(id, inputElement) {
+            const files = inputElement.files; if (!files || files.length === 0) return;
+            updateSyncStatus('saving'); const rec = workRecords.find(r => r.id === id); if (!rec) return;
+            let photos = Array.isArray(rec.photos) ? [...rec.photos] : [];
+            for (let file of files) {
+                const ext = file.name.split('.').pop() || 'jpg';
+                const fn = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${ext}`;
+                const { error: uploadError } = await client.storage.from('Logo').upload(fn, file, { upsert: true });
+                if (uploadError) { alert('Ошибка загрузки: ' + uploadError.message); continue; }
+                const { data: urlData } = client.storage.from('Logo').getPublicUrl(fn);
+                if (urlData && urlData.publicUrl) photos.push(urlData.publicUrl);
+            }
+            const { error: updateError } = await client.from('speedline_records').update({ photos }).eq('id', id);
+            if (updateError) { alert('Ошибка сохранения: ' + updateError.message); updateSyncStatus('error'); }
+            else { rec.photos = photos; updateSyncStatus('ok'); if (expandedCardId === id) renderExpandedContent(id); }
+            inputElement.value = '';
+        }
+
+        async function deletePhoto(id, photoIndex) {
+            if (!confirm('Удалить эту фотографию?')) return;
+            const rec = workRecords.find(r => r.id === id); if (!rec || !Array.isArray(rec.photos)) return;
+            const photos = [...rec.photos]; photos.splice(photoIndex, 1);
+            const { error } = await client.from('speedline_records').update({ photos }).eq('id', id);
+            if (error) { alert('Ошибка удаления: ' + error.message); return; }
+            rec.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
+        }
+
         // ============================================
         // RENDER
         // ============================================
@@ -838,7 +854,7 @@ html
             let filtered = workRecords;
             if (searchQuery.trim()) {
                 const q = searchQuery.toLowerCase().trim();
-                filtered = workRecords.filter(r => (r.car_brand||'').toLowerCase().includes(q) || (r.vin||'').toLowerCase().includes(q) || (r.plate_number||'').toLowerCase().includes(q) || (r.client_name||'').toLowerCase().includes(q) || (r.date||'').includes(q) || formatDate(r.date).includes(q));
+                filtered = workRecords.filter(r => (r.car_brand||'').toLowerCase().includes(q) || (r.vin||'').toLowerCase().includes(q) || (r.plate_number||'').toLowerCase().includes(q) || (r.client_name||'').toLowerCase().includes(q) || (r.client_phone||'').includes(q) || (r.date||'').includes(q) || formatDate(r.date).includes(q));
             }
             if (filtered.length === 0) {
                 cardsList.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery?'Ничего не найдено':'Нет записей. Добавьте первое авто!'}</p></div>`;
@@ -848,74 +864,89 @@ html
                 const isExpanded = expandedCardId === rec.id;
                 const statusInfo = STATUS_OPTIONS.find(s => s.value === rec.status) || STATUS_OPTIONS[0];
                 const visits = getVisitsArr(rec);
-                return `<div class="card-wrapper" id="cardWrapper_${rec.id}"><div class="compact-card ${isExpanded?'expanded':''}" onclick="toggleCardExpansion(${rec.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(rec.car_brand||'Без марки')}</span>${rec.plate_number?`<span class="compact-plate">${escapeHTML(rec.plate_number)}</span>`:''}</div><div class="compact-secondary">${rec.client_name?`<span class="compact-client">👤 ${escapeHTML(rec.client_name)}</span>`:''}<span class="compact-date">📅 ${formatDate(rec.date)}</span>${visits.length>0?`<span class="compact-visits">🔄 ${visits.length} визит(ов)</span>`:''}</div></div><span class="status-badge status-${rec.status}">${statusInfo.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="expandedContent_${rec.id}">${isExpanded?renderExpandedContentHTML(rec):''}</div></div>`;
+                return `<div class="card-wrapper" id="cardWrapper_${rec.id}"><div class="compact-card ${isExpanded?'expanded':''}" onclick="toggleCardExpansion(${rec.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(rec.car_brand||'Без марки')}</span>${rec.plate_number?`<span class="compact-plate">${escapeHTML(rec.plate_number)}</span>`:''}</div><div class="compact-secondary">${rec.client_name?`<span class="compact-client">👤 ${escapeHTML(rec.client_name)}</span>`:''}${rec.client_phone?`<span style="color:var(--text-secondary); font-size:0.7rem;">📱 ${escapeHTML(rec.client_phone)}</span>`:''}<span class="compact-date">📅 ${formatDate(rec.date)}</span>${visits.length>0?`<span class="compact-visits">🔄 ${visits.length}</span>`:''}</div></div><span class="status-badge status-${rec.status}">${statusInfo.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="expandedContent_${rec.id}">${isExpanded?renderExpandedContentHTML(rec):''}</div></div>`;
             }).join('');
         }
 
         function renderExpandedContentHTML(rec) {
             if (!rec) return '';
-            const isThisEditing = editingCardId === rec.id;
+            const isEditingInfo = editingInfoId === rec.id;
+            const infoState = infoEditStates[rec.id] || {};
+            const infoData = isEditingInfo ? { ...rec, ...infoState } : rec;
+            const infoDisabled = isEditingInfo ? '' : 'disabled';
+
             const workItems = parseWorkDescription(rec.work_description);
             const photosList = Array.isArray(rec.photos) ? rec.photos : [];
             const visits = getVisitsArr(rec);
             const invoices = getInvoicesArr(rec);
 
-            let displayData = { ...rec };
-            if (isThisEditing && editStates[rec.id]) {
-                displayData = { ...displayData, ...editStates[rec.id] };
-                const ew = editStates[rec.id].work_description ? parseWorkDescription(editStates[rec.id].work_description) : workItems;
-                displayData._workItems = ew;
-                displayData._totalWorkCost = ew.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-                displayData._totalMaterialCost = parseFloat(editStates[rec.id].material_cost) || 0;
-            } else {
-                displayData._workItems = workItems;
-                displayData._totalWorkCost = workItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-                displayData._totalMaterialCost = parseFloat(rec.material_cost) || 0;
-            }
-            const grandTotal = displayData._totalWorkCost + displayData._totalMaterialCost;
-            const disabled = isThisEditing ? '' : 'disabled';
-            const statusOptions = STATUS_OPTIONS.map(s => `<option value="${s.value}" ${displayData.status===s.value?'selected':''}>${s.label}</option>`).join('');
+            const hasCurrentWork = workItems.length > 0;
             const groupedCatalog = getGroupedCatalog();
 
-            // Секция текущего визита показывается только если есть работы
-            const hasCurrentWork = displayData._workItems.length > 0;
+            // Секция общей информации
+            let infoHTML = `
+                <div class="info-section">
+                    <div class="info-section-header">
+                        <span class="info-section-title">👤 Общая информация</span>
+                        ${isEditingInfo ? `
+                            <div style="display:flex; gap:6px;">
+                                <button class="btn-edit-info active" onclick="event.stopPropagation(); saveInfo(${rec.id})">💾 Сохранить</button>
+                                <button class="btn-edit-info" onclick="event.stopPropagation(); cancelEditInfo(${rec.id})">↩ Отменить</button>
+                            </div>
+                        ` : `
+                            <button class="btn-edit-info" onclick="event.stopPropagation(); startEditInfo(${rec.id})">✏️ Редактировать</button>
+                        `}
+                    </div>
+                    <div class="field-group">
+                        <div class="field-row">
+                            <div class="field"><div class="field-label">🚗 Марка авто</div><input type="text" value="${escapeHTML(infoData.car_brand||'')}" ${infoDisabled} placeholder="Марка" oninput="handleInfoChange(${rec.id},'car_brand',this.value)"></div>
+                            <div class="field"><div class="field-label">🔢 Госномер</div><input type="text" value="${escapeHTML(infoData.plate_number||'')}" ${infoDisabled} placeholder="Номер" style="text-transform:uppercase;" oninput="handleInfoChange(${rec.id},'plate_number',this.value)"></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><div class="field-label">👤 ФИО клиента</div><input type="text" value="${escapeHTML(infoData.client_name||'')}" ${infoDisabled} placeholder="Иванов Иван Иванович" oninput="handleInfoChange(${rec.id},'client_name',this.value)"></div>
+                            <div class="field"><div class="field-label">📱 Телефон</div><input type="text" value="${escapeHTML(infoData.client_phone||'')}" ${infoDisabled} placeholder="+7 (999) 123-45-67" oninput="handleInfoChange(${rec.id},'client_phone',this.value)"></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><div class="field-label">🧬 VIN</div><input type="text" value="${escapeHTML(infoData.vin||'')}" ${infoDisabled} placeholder="VIN" style="text-transform:uppercase;" oninput="handleInfoChange(${rec.id},'vin',this.value)"></div>
+                            <div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${infoData.date||''}" ${infoDisabled} oninput="handleInfoChange(${rec.id},'date',this.value)"></div>
+                        </div>
+                    </div>
+                </div>`;
 
+            // Секция текущего визита
             let currentVisitHTML = '';
-            if (hasCurrentWork || isThisEditing) {
-                let workItemsHTML = displayData._workItems.map((w, idx) => `
+            if (hasCurrentWork) {
+                let workItemsHTML = workItems.map((w, idx) => `
                     <div class="work-item">
-                        <select ${disabled} onchange="updateWorkItem(${rec.id},${idx},'name',this.value)">${Object.entries(groupedCatalog).map(([cat,items]) => `<optgroup label="${escapeHTML(cat)}">${items.map(item => `<option value="${escapeHTML(item.name)}" ${w.name===item.name?'selected':''}>${escapeHTML(item.name)} (${item.cost}€)</option>`).join('')}</optgroup>`).join('')}</select>
-                        <input type="number" class="work-cost" value="${w.cost}" ${disabled} oninput="updateWorkItem(${rec.id},${idx},'cost',this.value)">
-                        ${!disabled?`<button class="remove-work-btn" onclick="removeWorkItem(${rec.id},${idx})">✕</button>`:''}
+                        <span style="flex:1; font-size:0.85rem;">${escapeHTML(w.name)}</span>
+                        <span style="color:var(--text-secondary); font-weight:600;">${(parseFloat(w.cost)||0).toFixed(0)} €</span>
                     </div>`).join('');
 
+                const totalWorkCost = workItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+                const totalMaterialCost = parseFloat(rec.material_cost) || 0;
+
                 currentVisitHTML = `
-                    <div class="section-title">🔧 Работы (текущий визит)</div>
+                    <div class="section-title">🔧 Текущий визит</div>
                     <div class="field-group">
-                        ${workItemsHTML || '<div style="color:var(--text-secondary); font-size:0.85rem; padding:8px;">Нет добавленных работ</div>'}
-                        ${!disabled ? `<button class="add-work-btn" onclick="addWorkItem(${rec.id})">➕ Добавить работу</button>` : ''}
-                        <div class="field-row"><div class="field"><div class="field-label">💵 Итого работы (€)</div><input type="number" value="${displayData._totalWorkCost.toFixed(0)}" disabled></div><div class="field"></div></div>
-                    </div>
-                    <div class="section-title">🔩 Расходники (текущий визит)</div>
-                    <div class="field-group">
-                        <div class="field"><div class="field-label">Описание расходников</div><textarea ${disabled} rows="2" placeholder="Список запчастей..." oninput="handleEditChange(${rec.id},'materials',this.value)">${escapeHTML(displayData.materials||'')}</textarea></div>
-                        <div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${displayData._totalMaterialCost||0}" ${disabled} oninput="handleEditChange(${rec.id},'material_cost',this.value)"></div>
-                    </div>
-                    ${!disabled ? `
+                        ${workItemsHTML}
+                        <div class="field-row"><div class="field"><div class="field-label">💵 Работы</div><input value="${totalWorkCost.toFixed(0)} €" disabled></div><div class="field"></div></div>
+                        ${rec.materials ? `<div class="field"><div class="field-label">🔩 Расходники</div><div style="font-size:0.85rem; padding:8px; background:rgba(0,0,0,0.2); border-radius:var(--radius-md);">${escapeHTML(rec.materials)}</div></div>` : ''}
+                        ${totalMaterialCost > 0 ? `<div class="field"><div class="field-label">💰 Расходники</div><input value="${totalMaterialCost.toFixed(0)} €" disabled></div>` : ''}
                         <div class="discount-checkbox-wrap">
                             <input type="checkbox" id="discount_current_${rec.id}" onchange="event.stopPropagation();">
                             <label for="discount_current_${rec.id}">Применить скидку 10%</label>
                         </div>
                         <button class="btn-close-visit" onclick="event.stopPropagation(); closeCurrentVisitAndCreateInvoice(${rec.id})">
-                            🔒 Завершить текущий визит и создать счёт-фактуру
+                            🔒 Завершить и создать счёт-фактуру
                         </button>
-                    ` : ''}
-                `;
+                    </div>`;
             }
 
+            // История визитов
             let allVisitsTotal = 0;
             visits.forEach(v => { const vw = parseWorkDescription(v.work_description); allVisitsTotal += vw.reduce((s,w) => s+(parseFloat(w.cost)||0),0) + (parseFloat(v.material_cost)||0); });
-            const allTimeTotal = grandTotal + allVisitsTotal;
+            const currentTotal = (parseFloat(rec.work_cost)||0) + (parseFloat(rec.material_cost)||0);
+            const allTimeTotal = currentTotal + allVisitsTotal;
 
             let visitsHTML = `<div class="section-title visit-section"><span>📋 История обслуживания (${visits.length})</span></div><div class="field-group">`;
 
@@ -942,7 +973,7 @@ html
                                 <span class="visit-header-date">📅 ${formatDate(vDisplay.visit_date)}</span>
                                 ${vDisplay.mileage?`<span class="visit-header-mileage">🔢 ${vDisplay.mileage} км</span>`:''}
                                 <span class="visit-header-status status-${vDisplay.status}">${vStatusInfo.label}</span>
-                                ${visitInvoice ? '<span style="font-size:0.7rem; color:var(--info);">🧾 Счёт</span>' : ''}
+                                ${visitInvoice ? '<span style="font-size:0.7rem; color:var(--info);">🧾</span>' : ''}
                             </div>
                             <span class="visit-header-total">${vTotal.toFixed(0)} €</span>
                             <span class="visit-header-arrow">▼</span>
@@ -977,72 +1008,54 @@ html
                                 ` : ''}
                                 ${visitInvoice ? `
                                     <button class="btn-invoice-toggle" onclick="event.stopPropagation(); toggleInvoiceDisplay(${rec.id},${idx})">
-                                        ${invoiceOpen ? '📊 Скрыть счёт-фактуру' : '🧾 Показать счёт-фактуру'}
+                                        ${invoiceOpen ? '📊 Скрыть счёт' : '🧾 Показать счёт'}
                                     </button>
                                     ${invoiceOpen ? `
                                         <div class="invoice-box">
                                             <div class="invoice-title">📋 СЧЁТ-ФАКТУРА №${visitInvoice.invoice_number}</div>
-                                            <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap; gap:4px;">
-                                                <span>🚗 ${escapeHTML(visitInvoice.car_brand)} ${escapeHTML(visitInvoice.plate_number)}</span>
-                                                <span>📅 ${formatDate(visitInvoice.invoice_date)}</span>
-                                            </div>
-                                            ${visitInvoice.client_name ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">👤 ${escapeHTML(visitInvoice.client_name)}</div>` : ''}
-                                            ${visitInvoice.mileage ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">🔢 Пробег: ${visitInvoice.mileage} км</div>` : ''}
+                                            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px;">🚗 ${escapeHTML(visitInvoice.car_brand)} ${escapeHTML(visitInvoice.plate_number)} | 📅 ${formatDate(visitInvoice.invoice_date)}</div>
+                                            ${visitInvoice.client_name ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px;">👤 ${escapeHTML(visitInvoice.client_name)}${visitInvoice.client_phone ? ' | 📱 '+escapeHTML(visitInvoice.client_phone) : ''}</div>` : ''}
                                             <table class="invoice-table">
                                                 <thead><tr><th>Категория</th><th>Наименование</th><th>Сумма</th></tr></thead>
-                                                <tbody>
-                                                    ${Object.entries(groupWorksByCategory(visitInvoice.works)).map(([cat, items]) => `
-                                                        <tr class="invoice-category-row"><td colspan="3">${escapeHTML(cat)}</td></tr>
-                                                        ${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}
-                                                    `).join('')}
-                                                </tbody>
+                                                <tbody>${Object.entries(groupWorksByCategory(visitInvoice.works)).map(([cat, items]) => `<tr class="invoice-category-row"><td colspan="3">${escapeHTML(cat)}</td></tr>${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}`).join('')}</tbody>
                                             </table>
-                                            <div class="invoice-total-line"><span>💵 Итого работы:</span><span>${visitInvoice.work_cost.toFixed(0)} €</span></div>
+                                            <div class="invoice-total-line"><span>💵 Работы:</span><span>${visitInvoice.work_cost.toFixed(0)} €</span></div>
                                             ${visitInvoice.materials ? `<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${visitInvoice.material_cost.toFixed(0)} €</span></div>` : ''}
                                             <div class="invoice-total-line"><span>Подытог:</span><span>${visitInvoice.subtotal.toFixed(0)} €</span></div>
                                             ${visitInvoice.discount_10 ? `<div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${visitInvoice.discount_amount.toFixed(0)} €</span></div>` : ''}
-                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
+                                            <div class="invoice-final-line"><span>💰 ИТОГО:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
                                             <div style="text-align:center; margin-top:10px; padding-top:8px; border-top:1px solid var(--border);">
                                                 <button class="btn-pdf-download" onclick="event.stopPropagation(); downloadInvoicePDF(${rec.id},${idx})">📥 Скачать PDF</button>
                                             </div>
                                         </div>
                                     ` : ''}
                                 ` : ''}
-                                ${!isCompleted && !visitInvoice ? `<div style="color:var(--text-secondary); font-size:0.8rem; padding:6px 0; text-align:center;">Закройте визит чтобы сформировать счёт</div>` : ''}
                                 <div style="display:flex; gap:8px; margin-top:8px;">
-                                    ${!isCompleted ? `<button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️ Редактировать</button>` : ''}
-                                    <button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button>
+                                    ${!isCompleted ? `<button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️</button>` : ''}
+                                    <button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️</button>
                                 </div>
                             `}
                         </div>
                     </div>`;
                 });
             } else {
-                visitsHTML += `<div style="color:var(--text-secondary); font-size:0.85rem; text-align:center; padding:12px;">Нет предыдущих визитов</div>`;
+                visitsHTML += `<div style="color:var(--text-secondary); font-size:0.85rem; text-align:center; padding:12px;">Нет завершённых визитов</div>`;
             }
             visitsHTML += `<button class="visit-new-btn" onclick="event.stopPropagation(); addVisit(${rec.id})">🔄 Новый визит</button></div>`;
 
             return `
-                <div class="section-title">👤 Клиент и авто</div>
-                <div class="field-group">
-                    <div class="field"><div class="field-label">ФИО клиента</div><input type="text" value="${escapeHTML(displayData.client_name||'')}" ${disabled} placeholder="Иванов Иван Иванович" oninput="handleEditChange(${rec.id},'client_name',this.value)"></div>
-                    <div class="field-row"><div class="field"><div class="field-label">🚗 Марка авто</div><input type="text" value="${escapeHTML(displayData.car_brand||'')}" ${disabled} placeholder="Марка" oninput="handleEditChange(${rec.id},'car_brand',this.value)"></div><div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${displayData.date||''}" disabled></div></div>
-                    <div class="field-row"><div class="field"><div class="field-label">🧬 VIN</div><input type="text" value="${escapeHTML(displayData.vin||'')}" ${disabled} placeholder="VIN" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id},'vin',this.value)"></div><div class="field"><div class="field-label">🔢 Госномер</div><input type="text" value="${escapeHTML(displayData.plate_number||'')}" ${disabled} placeholder="Номер" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id},'plate_number',this.value)"></div></div>
-                    <div class="field-row"><div class="field"><div class="field-label">📌 Статус</div><select ${disabled} onchange="handleEditChange(${rec.id},'status',this.value); updateField(${rec.id},'status',this.value)">${statusOptions}</select></div><div class="field"><div class="field-label">📅 Дата завершения</div><input type="date" value="${displayData.date_completed||''}" disabled></div></div>
-                </div>
+                ${infoHTML}
                 ${currentVisitHTML}
                 ${visitsHTML}
                 <div class="section-title">📸 Фотографии</div>
                 <div class="photo-gallery">
-                    ${photosList.map((url,pIdx) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" onclick="window.open('${url}','_blank')">${!disabled?`<button class="photo-delete-btn" onclick="event.stopPropagation(); deletePhoto(${rec.id},${pIdx})">✕</button>`:''}</div>`).join('')}
-                    ${!disabled?`<div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})">＋</div><input type="file" id="fileInput_${rec.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">`:''}
+                    ${photosList.map((url,pIdx) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" onclick="window.open('${url}','_blank')"><button class="photo-delete-btn" onclick="event.stopPropagation(); deletePhoto(${rec.id},${pIdx})">✕</button></div>`).join('')}
+                    <div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})">＋</div>
+                    <input type="file" id="fileInput_${rec.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">
                 </div>
-                <div class="section-title">📝 Заметки</div>
-                <div class="field-group"><textarea ${disabled} rows="2" placeholder="Заметки..." oninput="handleEditChange(${rec.id},'notes',this.value)">${escapeHTML(displayData.notes||'')}</textarea></div>
                 <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(239,68,68,0.15); padding:12px; border-radius:8px; font-weight:700; font-size:1rem;"><span>💰 Итого по машине (все визиты):</span><span style="color:#ef4444;">${allTimeTotal.toFixed(0)} €</span></div>
                 <div class="action-buttons">
-                    ${isThisEditing?`<button class="btn btn-save" onclick="saveRecord(${rec.id})">💾 Сохранить</button><button class="btn btn-edit" onclick="cancelEdit(${rec.id})">↩ Отменить</button>`:`<button class="btn btn-edit" onclick="startEdit(${rec.id})">✏️ Редактировать</button>`}
-                    <button class="btn btn-delete" onclick="event.stopPropagation(); deleteRecord(${rec.id})">🗑️ Удалить</button>
+                    <button class="btn btn-delete" onclick="event.stopPropagation(); deleteRecord(${rec.id})">🗑️ Удалить авто</button>
                 </div>`;
         }
 
@@ -1053,45 +1066,13 @@ html
         }
 
         function toggleCardExpansion(id) {
-            if (expandedCardId === id) { expandedCardId = null; if (editingCardId === id) cancelEdit(id); }
-            else { if (expandedCardId && editingCardId === expandedCardId) cancelEdit(expandedCardId); expandedCardId = id; }
+            if (expandedCardId === id) { expandedCardId = null; }
+            else { expandedCardId = id; }
             renderCardsList();
         }
-
-        function startEdit(id) {
-            editingCardId = id; expandedCardId = id;
-            const rec = workRecords.find(r => r.id === id);
-            if (rec) editStates[id] = { client_name: rec.client_name||'', car_brand: rec.car_brand||'', vin: rec.vin||'', plate_number: rec.plate_number||'', work_description: rec.work_description||'[]', materials: rec.materials||'', material_cost: rec.material_cost||0, notes: rec.notes||'', status: rec.status||'in_progress' };
-            renderCardsList();
-        }
-
-        function cancelEdit(id) { delete editStates[id]; editingCardId = null; if (expandedCardId === id) renderExpandedContent(id); renderCardsList(); }
-
-        async function saveRecord(id) {
-            const state = editStates[id]; if (!state) return;
-            updateSyncStatus('saving');
-            const workItems = parseWorkDescription(state.work_description);
-            const totalWorkCost = workItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-            const upd = { client_name: state.client_name, car_brand: state.car_brand, vin: state.vin, plate_number: state.plate_number, work_description: state.work_description, work_cost: totalWorkCost, materials: state.materials, material_cost: parseFloat(state.material_cost)||0, notes: state.notes, status: state.status };
-            if (state.status === 'completed') { const rec = workRecords.find(r => r.id === id); if (rec && !rec.date_completed) upd.date_completed = getTodayISO(); }
-            const { error } = await client.from('speedline_records').update(upd).eq('id', id);
-            if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
-            const rec = workRecords.find(r => r.id === id); if (rec) Object.assign(rec, upd);
-            delete editStates[id]; editingCardId = null; updateSyncStatus('ok');
-            renderCardsList(); if (expandedCardId === id) renderExpandedContent(id);
-        }
-
-        function handleEditChange(id, field, value) { if (!editStates[id]) editStates[id] = {}; editStates[id][field] = value; if (field === 'status') updateField(id, 'status', value); }
-        function updateWorkItem(recordId, itemIndex, field, value) {
-            if (!editStates[recordId]) return;
-            const workItems = parseWorkDescription(editStates[recordId].work_description || '[]');
-            if (workItems[itemIndex]) { if (field === 'cost') workItems[itemIndex].cost = parseFloat(value)||0; else if (field === 'name') { const ci = WORKS_CATALOG.find(c => c.name === value); workItems[itemIndex].name = value; if (ci) workItems[itemIndex].cost = ci.cost; } editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
-        }
-        function addWorkItem(recordId) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description||'[]'); workItems.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost }); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
-        function removeWorkItem(recordId, itemIndex) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description||'[]'); workItems.splice(itemIndex, 1); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
 
         let searchTimeout;
-        getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingCardId = null; editingVisitId = null; editStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedInvoiceIds = {}; renderCardsList(); }, 200); });
+        getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingInfoId = null; editingVisitId = null; infoEditStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedInvoiceIds = {}; renderCardsList(); }, 200); });
         getEl('addBtn').addEventListener('click', addRecord);
 
         function initRealtime() { client.channel('public:speedline_records').on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, () => fetchRecords()).subscribe(); }
