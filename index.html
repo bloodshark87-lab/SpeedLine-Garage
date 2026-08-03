@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <style>
         :root {
             --bg-primary: #0f172a;
@@ -18,6 +16,7 @@
             --accent: #ef4444;
             --success: #10b981;
             --warning: #f59e0b;
+            --info: #3b82f6;
             --radius-lg: 12px;
             --radius-md: 8px;
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -152,12 +151,7 @@
             color: var(--accent); margin-bottom: 8px; font-weight: 700;
             border-bottom: 1px solid var(--border); padding-bottom: 6px;
         }
-        .section-title.visit-section {
-            color: var(--warning);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        .section-title.visit-section { color: var(--warning); display: flex; align-items: center; justify-content: space-between; }
         .field-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
         .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .field { display: flex; flex-direction: column; gap: 3px; }
@@ -189,37 +183,15 @@
         .add-work-btn:hover, .add-visit-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         /* Визиты */
-        .visit-block {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            margin-bottom: 8px;
-            transition: var(--transition);
-        }
+        .visit-block { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 8px; transition: var(--transition); }
         .visit-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            background: rgba(245, 158, 11, 0.06);
-            cursor: pointer;
-            user-select: none;
-            gap: 8px;
-            border-bottom: 1px solid transparent;
-            transition: var(--transition);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; background: rgba(245, 158, 11, 0.06);
+            cursor: pointer; user-select: none; gap: 8px;
+            border-bottom: 1px solid transparent; transition: var(--transition);
         }
-        .visit-header-row.expanded {
-            border-bottom-color: var(--border);
-            background: rgba(245, 158, 11, 0.12);
-        }
-        .visit-header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 0;
-            flex-wrap: wrap;
-        }
+        .visit-header-row.expanded { border-bottom-color: var(--border); background: rgba(245, 158, 11, 0.12); }
+        .visit-header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; flex-wrap: wrap; }
         .visit-header-date { font-weight: 600; font-size: 0.85rem; color: var(--text-primary); white-space: nowrap; }
         .visit-header-mileage { font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; }
         .visit-header-status { padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 600; white-space: nowrap; }
@@ -227,88 +199,119 @@
         .visit-header-arrow { color: var(--text-secondary); font-size: 1rem; transition: transform 0.3s ease; flex-shrink: 0; }
         .visit-header-row.expanded .visit-header-arrow { transform: rotate(180deg); }
 
-        .visit-body-content {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.15);
-        }
+        .visit-body-content { display: none; flex-direction: column; gap: 10px; padding: 12px; background: rgba(0, 0, 0, 0.15); }
         .visit-body-content.open { display: flex; }
 
-        /* Бухгалтерская таблица */
-        .accounting-report-btn {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #3b82f6;
-            padding: 8px 14px;
+        /* Счёт-фактура */
+        .invoice-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 12px;
+        }
+        .invoice-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--info);
+            text-align: center;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding-bottom: 8px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            margin-bottom: 8px;
+        }
+        .invoice-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.65rem;
+        }
+        .invoice-table th:last-child { text-align: right; }
+        .invoice-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+        .invoice-table td:last-child { text-align: right; font-weight: 600; color: var(--text-secondary); }
+        .invoice-total-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 4px 0;
+            color: var(--text-primary);
+        }
+        .invoice-discount-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--warning);
+            padding: 2px 0;
+        }
+        .invoice-final-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent);
+            border-top: 2px solid rgba(239, 68, 68, 0.3);
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        .discount-checkbox-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+        .discount-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--warning);
+            cursor: pointer;
+        }
+        .discount-checkbox-wrap label {
+            font-size: 0.8rem;
+            color: var(--warning);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-close-visit {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            padding: 10px 14px;
             border-radius: var(--radius-md);
             cursor: pointer;
             font-size: 0.8rem;
             font-weight: 600;
-            text-align: center;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
         }
-        .accounting-report-btn:hover {
-            background: rgba(59, 130, 246, 0.25);
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-
-        .accounting-table-wrap {
-            display: none;
-            margin-top: 8px;
-            overflow-x: auto;
-        }
-        .accounting-table-wrap.open { display: block; }
-
-        .accounting-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-        .accounting-table thead th {
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 8px 10px;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-            white-space: nowrap;
-        }
-        .accounting-table thead th:last-child,
-        .accounting-table thead th:nth-child(3) { text-align: right; }
-        .accounting-table tbody td {
-            padding: 7px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-        }
-        .accounting-table tbody td:last-child,
-        .accounting-table tbody td:nth-child(3) { text-align: right; font-weight: 600; color: var(--text-secondary); }
-        .accounting-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
-        .accounting-table tfoot td {
-            padding: 8px 10px;
-            font-weight: 700;
-            border-top: 2px solid var(--border);
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .accounting-table tfoot td:last-child { text-align: right; color: var(--accent); }
-        .accounting-table .category-header {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            font-weight: 600;
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 6px 10px;
+        .btn-close-visit:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: rgba(16, 185, 129, 0.5);
         }
 
         .visit-new-btn {
@@ -400,7 +403,7 @@
         let editingCardId = null;
         let editingVisitId = null;
         let expandedVisitIds = {};
-        let expandedReportIds = {}; // Для бухгалтерских отчётов
+        let expandedReportIds = {};
         let editStates = {};
         let visitEditStates = {};
         let saveTimeouts = {};
@@ -523,9 +526,7 @@
             catch { return []; }
         }
 
-        function serializeWorkDescription(items) {
-            return JSON.stringify(items);
-        }
+        function serializeWorkDescription(items) { return JSON.stringify(items); }
 
         function parseVisits(json) {
             if (!json) return [];
@@ -533,9 +534,15 @@
             catch { return []; }
         }
 
-        function serializeVisits(arr) {
-            return JSON.stringify(arr);
+        function serializeVisits(arr) { return JSON.stringify(arr); }
+
+        function parseInvoices(json) {
+            if (!json) return [];
+            try { const p = JSON.parse(json); return Array.isArray(p) ? p : []; }
+            catch { return []; }
         }
+
+        function serializeInvoices(arr) { return JSON.stringify(arr); }
 
         function getGroupedCatalog() {
             return WORKS_CATALOG.reduce((acc, cat) => {
@@ -545,22 +552,8 @@
             }, {});
         }
 
-        function getVisitsArr(rec) {
-            if (!rec) return [];
-            return parseVisits(rec.visits);
-        }
-
-        // Группировка работ по категориям для бухгалтерского отчёта
-        function groupWorksByCategory(workItems) {
-            const grouped = {};
-            workItems.forEach(w => {
-                const catalogItem = WORKS_CATALOG.find(c => c.name === w.name);
-                const cat = catalogItem ? catalogItem.category : 'Прочее';
-                if (!grouped[cat]) grouped[cat] = [];
-                grouped[cat].push(w);
-            });
-            return grouped;
-        }
+        function getVisitsArr(rec) { return rec ? parseVisits(rec.visits) : []; }
+        function getInvoicesArr(rec) { return rec ? parseInvoices(rec.invoice_data) : []; }
 
         // ============================================
         // DATA FETCHING
@@ -570,7 +563,6 @@
                 .from('speedline_records')
                 .select('*')
                 .order('id', { ascending: false });
-
             if (error) { console.error('Ошибка загрузки:', error); updateSyncStatus('error'); return; }
             workRecords = data || [];
             updateSyncStatus('ok');
@@ -587,8 +579,8 @@
 
         async function addRecord() {
             const today = getTodayISO();
-            const newRecord = { date: today, car_brand: '', vin: '', plate_number: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], client_name: '', status: 'in_progress', date_completed: null, archived: false, visits: '[]' };
-            const { data, error } = await client.from('speedline_records').insert([newRecord]).select();
+            const nr = { date: today, car_brand: '', vin: '', plate_number: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], client_name: '', status: 'in_progress', date_completed: null, archived: false, visits: '[]', invoice_data: '[]' };
+            const { data, error } = await client.from('speedline_records').insert([nr]).select();
             if (error) { alert('Ошибка добавления: ' + error.message); return; }
             if (data && data.length > 0) { workRecords.unshift(data[0]); renderCardsList(); setTimeout(() => toggleCardExpansion(data[0].id), 100); }
         }
@@ -604,17 +596,17 @@
         async function updateField(id, field, value) {
             const record = workRecords.find(r => r.id === id);
             if (!record) return;
-            if (field === 'work_cost' || field === 'material_cost') { record[field] = parseFloat(value) || 0; }
-            else { record[field] = value; }
-            if (field === 'status' && value === 'completed' && !record.date_completed) { record.date_completed = getTodayISO(); }
+            if (field === 'work_cost' || field === 'material_cost') record[field] = parseFloat(value) || 0;
+            else record[field] = value;
+            if (field === 'status' && value === 'completed' && !record.date_completed) record.date_completed = getTodayISO();
             updateSyncStatus('saving');
             clearTimeout(saveTimeouts[id]);
             saveTimeouts[id] = setTimeout(async () => {
-                const updateData = { [field]: record[field] };
-                if (field === 'status' && value === 'completed' && record.date_completed) { updateData.date_completed = record.date_completed; }
-                const { error } = await client.from('speedline_records').update(updateData).eq('id', id);
-                if (error) { updateSyncStatus('error'); } else { updateSyncStatus('ok'); }
-                if (['status','client_name','car_brand','plate_number','date'].includes(field)) { renderCardsList(); }
+                const upd = { [field]: record[field] };
+                if (field === 'status' && value === 'completed' && record.date_completed) upd.date_completed = record.date_completed;
+                const { error } = await client.from('speedline_records').update(upd).eq('id', id);
+                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
+                if (['status','client_name','car_brand','plate_number','date'].includes(field)) renderCardsList();
             }, 500);
         }
 
@@ -623,7 +615,16 @@
             clearTimeout(saveTimeouts['visits_'+id]);
             saveTimeouts['visits_'+id] = setTimeout(async () => {
                 const { error } = await client.from('speedline_records').update({ visits: serializeVisits(visitsArr) }).eq('id', id);
-                if (error) { updateSyncStatus('error'); } else { updateSyncStatus('ok'); }
+                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
+            }, 500);
+        }
+
+        async function updateInvoicesField(id, invoicesArr) {
+            updateSyncStatus('saving');
+            clearTimeout(saveTimeouts['invoices_'+id]);
+            saveTimeouts['invoices_'+id] = setTimeout(async () => {
+                const { error } = await client.from('speedline_records').update({ invoice_data: serializeInvoices(invoicesArr) }).eq('id', id);
+                if (error) updateSyncStatus('error'); else updateSyncStatus('ok');
             }, 500);
         }
 
@@ -631,29 +632,29 @@
 
         async function uploadPhotos(id, inputElement) {
             const files = inputElement.files; if (!files || files.length === 0) return;
-            updateSyncStatus('saving'); const record = workRecords.find(r => r.id === id); if (!record) return;
-            let photos = Array.isArray(record.photos) ? [...record.photos] : [];
+            updateSyncStatus('saving'); const rec = workRecords.find(r => r.id === id); if (!rec) return;
+            let photos = Array.isArray(rec.photos) ? [...rec.photos] : [];
             for (let file of files) {
-                const fileExt = file.name.split('.').pop() || 'jpg';
-                const fileName = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${fileExt}`;
-                const { error: uploadError } = await client.storage.from('Logo').upload(fileName, file, { upsert: true });
+                const ext = file.name.split('.').pop() || 'jpg';
+                const fn = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${ext}`;
+                const { error: uploadError } = await client.storage.from('Logo').upload(fn, file, { upsert: true });
                 if (uploadError) { alert('Ошибка загрузки: ' + uploadError.message); continue; }
-                const { data: publicUrlData } = client.storage.from('Logo').getPublicUrl(fileName);
-                if (publicUrlData && publicUrlData.publicUrl) photos.push(publicUrlData.publicUrl);
+                const { data: urlData } = client.storage.from('Logo').getPublicUrl(fn);
+                if (urlData && urlData.publicUrl) photos.push(urlData.publicUrl);
             }
             const { error: updateError } = await client.from('speedline_records').update({ photos }).eq('id', id);
             if (updateError) { alert('Ошибка сохранения: ' + updateError.message); updateSyncStatus('error'); }
-            else { record.photos = photos; updateSyncStatus('ok'); if (expandedCardId === id) renderExpandedContent(id); }
+            else { rec.photos = photos; updateSyncStatus('ok'); if (expandedCardId === id) renderExpandedContent(id); }
             inputElement.value = '';
         }
 
         async function deletePhoto(id, photoIndex) {
             if (!confirm('Удалить эту фотографию?')) return;
-            const record = workRecords.find(r => r.id === id); if (!record || !Array.isArray(record.photos)) return;
-            const photos = [...record.photos]; photos.splice(photoIndex, 1);
+            const rec = workRecords.find(r => r.id === id); if (!rec || !Array.isArray(rec.photos)) return;
+            const photos = [...rec.photos]; photos.splice(photoIndex, 1);
             const { error } = await client.from('speedline_records').update({ photos }).eq('id', id);
             if (error) { alert('Ошибка удаления: ' + error.message); return; }
-            record.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
+            rec.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
         }
 
         // ============================================
@@ -665,8 +666,8 @@
             visits.push({ visit_date: getTodayISO(), mileage: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', status: 'in_progress', date_completed: null });
             rec.visits = serializeVisits(visits);
             updateVisitsField(recordId, visits);
-            const newIdx = visits.length - 1; const visitKey = `${recordId}_${newIdx}`;
-            expandedVisitIds[visitKey] = true;
+            const newIdx = visits.length - 1;
+            expandedVisitIds[`${recordId}_${newIdx}`] = true;
             startEditVisit(recordId, newIdx);
         }
 
@@ -679,29 +680,79 @@
         }
 
         function toggleVisitExpansion(recordId, visitIndex) {
-            const visitKey = `${recordId}_${visitIndex}`;
-            expandedVisitIds[visitKey] = !expandedVisitIds[visitKey];
+            expandedVisitIds[`${recordId}_${visitIndex}`] = !expandedVisitIds[`${recordId}_${visitIndex}`];
             renderExpandedContent(recordId);
         }
 
         function toggleReport(recordId, visitIndex) {
             const key = `${recordId}_${visitIndex}`;
             expandedReportIds[key] = !expandedReportIds[key];
-            // Работаем с DOM напрямую, без перерисовки
             const block = document.querySelector(`#expandedContent_${recordId} .visit-block[data-visit-index="${visitIndex}"]`);
             if (block) {
-                const tableWrap = block.querySelector('.accounting-table-wrap');
+                const wrap = block.querySelector('.invoice-box');
                 const btn = block.querySelector('.accounting-report-btn');
-                if (tableWrap && btn) {
-                    if (expandedReportIds[key]) {
-                        tableWrap.classList.add('open');
-                        btn.innerHTML = '📊 Скрыть отчёт';
-                    } else {
-                        tableWrap.classList.remove('open');
-                        btn.innerHTML = '📊 Показать отчёт';
-                    }
+                if (wrap && btn) {
+                    if (expandedReportIds[key]) { wrap.style.display = 'block'; btn.textContent = '📊 Скрыть счёт'; }
+                    else { wrap.style.display = 'none'; btn.textContent = '📊 Показать счёт'; }
                 }
             }
+        }
+
+        // Закрытие визита с созданием счёта-фактуры
+        async function closeVisitAndCreateInvoice(recordId, visitIndex) {
+            const rec = workRecords.find(r => r.id === recordId); if (!rec) return;
+            const visits = getVisitsArr(rec);
+            const v = visits[visitIndex]; if (!v) return;
+
+            // Получаем состояние чекбокса скидки
+            const discountCheckbox = document.getElementById(`discount_${recordId}_${visitIndex}`);
+            const applyDiscount = discountCheckbox ? discountCheckbox.checked : false;
+
+            const workItems = parseWorkDescription(v.work_description);
+            const workCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+            const materialCost = parseFloat(v.material_cost) || 0;
+            const subtotal = workCost + materialCost;
+            const discountAmount = applyDiscount ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+            const total = subtotal - discountAmount;
+
+            // Создаём счёт-фактуру
+            const invoice = {
+                invoice_number: `INV-${recordId}-${visitIndex}-${Date.now().toString(36).toUpperCase()}`,
+                invoice_date: getTodayISO(),
+                car_brand: rec.car_brand || 'Без марки',
+                plate_number: rec.plate_number || '',
+                client_name: rec.client_name || '',
+                visit_date: v.visit_date,
+                mileage: v.mileage || '',
+                works: workItems,
+                work_cost: workCost,
+                materials: v.materials || '',
+                material_cost: materialCost,
+                subtotal: subtotal,
+                discount_10: applyDiscount,
+                discount_amount: discountAmount,
+                total: total
+            };
+
+            // Сохраняем счёт в invoice_data
+            const invoices = getInvoicesArr(rec);
+            invoices.push(invoice);
+            rec.invoice_data = serializeInvoices(invoices);
+
+            // Обновляем статус визита на completed
+            visits[visitIndex].status = 'completed';
+            visits[visitIndex].date_completed = getTodayISO();
+            visits[visitIndex].work_cost = workCost;
+            rec.visits = serializeVisits(visits);
+
+            // Сохраняем всё в БД
+            updateSyncStatus('saving');
+            const { error } = await client.from('speedline_records')
+                .update({ visits: rec.visits, invoice_data: rec.invoice_data })
+                .eq('id', recordId);
+            if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
+            updateSyncStatus('ok');
+            renderExpandedContent(recordId);
         }
 
         function startEditVisit(recordId, visitIndex) {
@@ -713,108 +764,106 @@
         }
 
         function cancelEditVisit(recordId, visitIndex) {
-            const visitKey = `${recordId}_${visitIndex}`; delete visitEditStates[visitKey]; editingVisitId = null;
+            delete visitEditStates[`${recordId}_${visitIndex}`]; editingVisitId = null;
             renderExpandedContent(recordId);
         }
 
         async function saveVisit(recordId, visitIndex) {
-            const visitKey = `${recordId}_${visitIndex}`; const state = visitEditStates[visitKey]; if (!state) return;
+            const key = `${recordId}_${visitIndex}`; const state = visitEditStates[key]; if (!state) return;
             const rec = workRecords.find(r => r.id === recordId); if (!rec) return;
             const visits = getVisitsArr(rec);
             const workItems = parseWorkDescription(state.work_description);
             const totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
             visits[visitIndex] = { ...visits[visitIndex], visit_date: state.visit_date, mileage: parseInt(state.mileage) || null, work_description: state.work_description, work_cost: totalWorkCost, materials: state.materials, material_cost: parseFloat(state.material_cost) || 0, notes: state.notes, status: state.status, date_completed: state.status === 'completed' ? (visits[visitIndex].date_completed || getTodayISO()) : visits[visitIndex].date_completed };
             rec.visits = serializeVisits(visits); await updateVisitsField(recordId, visits);
-            delete visitEditStates[visitKey]; editingVisitId = null; renderExpandedContent(recordId);
+            delete visitEditStates[key]; editingVisitId = null; renderExpandedContent(recordId);
         }
 
         function handleVisitEditChange(recordId, visitIndex, field, value) {
-            const visitKey = `${recordId}_${visitIndex}`; if (!visitEditStates[visitKey]) visitEditStates[visitKey] = {};
-            visitEditStates[visitKey][field] = value;
+            const key = `${recordId}_${visitIndex}`; if (!visitEditStates[key]) visitEditStates[key] = {};
+            visitEditStates[key][field] = value;
         }
 
         function updateVisitWorkItem(recordId, visitIndex, itemIndex, field, value) {
-            const visitKey = `${recordId}_${visitIndex}`; if (!visitEditStates[visitKey]) return;
-            const workItems = parseWorkDescription(visitEditStates[visitKey].work_description || '[]');
+            const key = `${recordId}_${visitIndex}`; if (!visitEditStates[key]) return;
+            const workItems = parseWorkDescription(visitEditStates[key].work_description || '[]');
             if (workItems[itemIndex]) {
                 if (field === 'cost') workItems[itemIndex].cost = parseFloat(value) || 0;
                 else if (field === 'name') { const ci = WORKS_CATALOG.find(c => c.name === value); workItems[itemIndex].name = value; if (ci) workItems[itemIndex].cost = ci.cost; }
-                visitEditStates[visitKey].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
+                visitEditStates[key].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
             }
         }
 
         function addVisitWorkItem(recordId, visitIndex) {
-            const visitKey = `${recordId}_${visitIndex}`; if (!visitEditStates[visitKey]) return;
-            const workItems = parseWorkDescription(visitEditStates[visitKey].work_description || '[]');
+            const key = `${recordId}_${visitIndex}`; if (!visitEditStates[key]) return;
+            const workItems = parseWorkDescription(visitEditStates[key].work_description || '[]');
             workItems.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost });
-            visitEditStates[visitKey].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
+            visitEditStates[key].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
         }
 
         function removeVisitWorkItem(recordId, visitIndex, itemIndex) {
-            const visitKey = `${recordId}_${visitIndex}`; if (!visitEditStates[visitKey]) return;
-            const workItems = parseWorkDescription(visitEditStates[visitKey].work_description || '[]');
+            const key = `${recordId}_${visitIndex}`; if (!visitEditStates[key]) return;
+            const workItems = parseWorkDescription(visitEditStates[key].work_description || '[]');
             workItems.splice(itemIndex, 1);
-            visitEditStates[visitKey].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
+            visitEditStates[key].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId);
         }
 
         // ============================================
-        // RENDER: CARDS LIST
+        // RENDER
         // ============================================
         function renderCardsList() {
             const cardsList = getEl('cardsList'); if (!cardsList) return;
             let filtered = workRecords;
             if (searchQuery.trim()) {
                 const q = searchQuery.toLowerCase().trim();
-                filtered = workRecords.filter(r => (r.car_brand || '').toLowerCase().includes(q) || (r.vin || '').toLowerCase().includes(q) || (r.plate_number || '').toLowerCase().includes(q) || (r.client_name || '').toLowerCase().includes(q) || (r.date || '').includes(q) || formatDate(r.date).includes(q));
+                filtered = workRecords.filter(r => (r.car_brand||'').toLowerCase().includes(q) || (r.vin||'').toLowerCase().includes(q) || (r.plate_number||'').toLowerCase().includes(q) || (r.client_name||'').toLowerCase().includes(q) || (r.date||'').includes(q) || formatDate(r.date).includes(q));
             }
             if (filtered.length === 0) {
-                cardsList.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery ? 'Ничего не найдено' : 'Нет записей. Добавьте первое авто!'}</p></div>`;
+                cardsList.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery?'Ничего не найдено':'Нет записей. Добавьте первое авто!'}</p></div>`;
                 return;
             }
             cardsList.innerHTML = filtered.map(rec => {
                 const isExpanded = expandedCardId === rec.id;
                 const statusInfo = STATUS_OPTIONS.find(s => s.value === rec.status) || STATUS_OPTIONS[0];
                 const visits = getVisitsArr(rec);
-                return `<div class="card-wrapper" id="cardWrapper_${rec.id}"><div class="compact-card ${isExpanded ? 'expanded' : ''}" onclick="toggleCardExpansion(${rec.id})" data-id="${rec.id}"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(rec.car_brand || 'Без марки')}</span>${rec.plate_number ? `<span class="compact-plate">${escapeHTML(rec.plate_number)}</span>` : ''}</div><div class="compact-secondary">${rec.client_name ? `<span class="compact-client">👤 ${escapeHTML(rec.client_name)}</span>` : ''}<span class="compact-date">📅 ${formatDate(rec.date)}</span>${visits.length > 0 ? `<span class="compact-visits">🔄 ${visits.length} визит(ов)</span>` : ''}</div></div><span class="status-badge status-${rec.status}">${statusInfo.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="expandedContent_${rec.id}">${isExpanded ? renderExpandedContentHTML(rec) : ''}</div></div>`;
+                return `<div class="card-wrapper" id="cardWrapper_${rec.id}"><div class="compact-card ${isExpanded?'expanded':''}" onclick="toggleCardExpansion(${rec.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(rec.car_brand||'Без марки')}</span>${rec.plate_number?`<span class="compact-plate">${escapeHTML(rec.plate_number)}</span>`:''}</div><div class="compact-secondary">${rec.client_name?`<span class="compact-client">👤 ${escapeHTML(rec.client_name)}</span>`:''}<span class="compact-date">📅 ${formatDate(rec.date)}</span>${visits.length>0?`<span class="compact-visits">🔄 ${visits.length} визит(ов)</span>`:''}</div></div><span class="status-badge status-${rec.status}">${statusInfo.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="expandedContent_${rec.id}">${isExpanded?renderExpandedContentHTML(rec):''}</div></div>`;
             }).join('');
         }
 
-        // ============================================
-        // RENDER: EXPANDED CONTENT
-        // ============================================
         function renderExpandedContentHTML(rec) {
             if (!rec) return '';
             const isThisEditing = editingCardId === rec.id;
             const workItems = parseWorkDescription(rec.work_description);
             const photosList = Array.isArray(rec.photos) ? rec.photos : [];
             const visits = getVisitsArr(rec);
+            const invoices = getInvoicesArr(rec);
 
             let displayData = { ...rec };
             if (isThisEditing && editStates[rec.id]) {
                 displayData = { ...displayData, ...editStates[rec.id] };
-                const editWorkItems = editStates[rec.id].work_description ? parseWorkDescription(editStates[rec.id].work_description) : workItems;
-                displayData._workItems = editWorkItems;
-                displayData._totalWorkCost = editWorkItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+                const ew = editStates[rec.id].work_description ? parseWorkDescription(editStates[rec.id].work_description) : workItems;
+                displayData._workItems = ew;
+                displayData._totalWorkCost = ew.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
                 displayData._totalMaterialCost = parseFloat(editStates[rec.id].material_cost) || 0;
             } else {
                 displayData._workItems = workItems;
-                displayData._totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+                displayData._totalWorkCost = workItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
                 displayData._totalMaterialCost = parseFloat(rec.material_cost) || 0;
             }
             const grandTotal = displayData._totalWorkCost + displayData._totalMaterialCost;
             const disabled = isThisEditing ? '' : 'disabled';
-            const statusOptions = STATUS_OPTIONS.map(s => `<option value="${s.value}" ${displayData.status === s.value ? 'selected' : ''}>${s.label}</option>`).join('');
+            const statusOptions = STATUS_OPTIONS.map(s => `<option value="${s.value}" ${displayData.status===s.value?'selected':''}>${s.label}</option>`).join('');
             const groupedCatalog = getGroupedCatalog();
 
             let workItemsHTML = displayData._workItems.map((w, idx) => `
                 <div class="work-item">
-                    <select ${disabled} onchange="updateWorkItem(${rec.id}, ${idx}, 'name', this.value)">${Object.entries(groupedCatalog).map(([cat, items]) => `<optgroup label="${escapeHTML(cat)}">${items.map(item => `<option value="${escapeHTML(item.name)}" ${w.name === item.name ? 'selected' : ''}>${escapeHTML(item.name)} (${item.cost}€)</option>`).join('')}</optgroup>`).join('')}</select>
-                    <input type="number" class="work-cost" value="${w.cost}" ${disabled} oninput="updateWorkItem(${rec.id}, ${idx}, 'cost', this.value)">
-                    ${!disabled ? `<button class="remove-work-btn" onclick="removeWorkItem(${rec.id}, ${idx})" title="Удалить">✕</button>` : ''}
+                    <select ${disabled} onchange="updateWorkItem(${rec.id},${idx},'name',this.value)">${Object.entries(groupedCatalog).map(([cat,items]) => `<optgroup label="${escapeHTML(cat)}">${items.map(item => `<option value="${escapeHTML(item.name)}" ${w.name===item.name?'selected':''}>${escapeHTML(item.name)} (${item.cost}€)</option>`).join('')}</optgroup>`).join('')}</select>
+                    <input type="number" class="work-cost" value="${w.cost}" ${disabled} oninput="updateWorkItem(${rec.id},${idx},'cost',this.value)">
+                    ${!disabled?`<button class="remove-work-btn" onclick="removeWorkItem(${rec.id},${idx})">✕</button>`:''}
                 </div>`).join('');
 
             let allVisitsTotal = 0;
-            visits.forEach(v => { const vw = parseWorkDescription(v.work_description); allVisitsTotal += vw.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0) + (parseFloat(v.material_cost) || 0); });
+            visits.forEach(v => { const vw = parseWorkDescription(v.work_description); allVisitsTotal += vw.reduce((s,w) => s+(parseFloat(w.cost)||0),0) + (parseFloat(v.material_cost)||0); });
             const allTimeTotal = grandTotal + allVisitsTotal;
 
             let visitsHTML = `<div class="section-title visit-section"><span>📋 История обслуживания (${visits.length})</span><button class="add-visit-btn" onclick="event.stopPropagation(); addVisit(${rec.id})" style="padding:4px 10px; font-size:0.7rem;">+ Новый</button></div><div class="field-group">`;
@@ -828,70 +877,88 @@
                     const vs = visitEditStates[visitKey] || {};
                     const vDisplay = isVisitEditing ? { ...v, ...vs } : v;
                     const vWorkItems = isVisitEditing && vs.work_description ? parseWorkDescription(vs.work_description) : parseWorkDescription(v.work_description);
-                    const vWorkCost = vWorkItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+                    const vWorkCost = vWorkItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
                     const vMaterialCost = parseFloat(vDisplay.material_cost) || 0;
                     const vTotal = vWorkCost + vMaterialCost;
                     const vStatusInfo = STATUS_OPTIONS.find(s => s.value === vDisplay.status) || STATUS_OPTIONS[0];
+                    const isCompleted = vDisplay.status === 'completed';
 
-                    // Строим бухгалтерскую таблицу
-                    const groupedWorks = groupWorksByCategory(vWorkItems);
-                    let reportRows = '';
-                    let reportTotal = 0;
-                    Object.entries(groupedWorks).forEach(([cat, items]) => {
-                        reportRows += `<tr><td colspan="3" class="category-header">${escapeHTML(cat)}</td></tr>`;
-                        items.forEach(w => {
-                            const cost = parseFloat(w.cost) || 0;
-                            reportTotal += cost;
-                            reportRows += `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${cost.toFixed(0)} €</td></tr>`;
-                        });
-                    });
-
-                    let reportHTML = '';
-                    if (vWorkItems.length > 0) {
-                        reportHTML = `
-                            <button class="accounting-report-btn" onclick="event.stopPropagation(); toggleReport(${rec.id}, ${idx})" data-visit-key="${visitKey}">
-                                📊 Показать отчёт
-                            </button>
-                            <div class="accounting-table-wrap ${reportOpen ? 'open' : ''}">
-                                <table class="accounting-table">
-                                    <thead><tr><th>Категория</th><th>Наименование работы</th><th>Сумма</th></tr></thead>
-                                    <tbody>${reportRows}</tbody>
-                                    <tfoot><tr><td colspan="2">Итого работы</td><td>${reportTotal.toFixed(0)} €</td></tr></tfoot>
-                                </table>
-                            </div>`;
-                    }
+                    // Ищем счёт-фактуру для этого визита
+                    const visitInvoice = invoices.find(inv => inv.visit_date === v.visit_date && inv.work_cost === vWorkCost);
 
                     visitsHTML += `
                     <div class="visit-block" data-visit-index="${idx}">
-                        <div class="visit-header-row ${isOpen ? 'expanded' : ''}" onclick="event.stopPropagation(); toggleVisitExpansion(${rec.id}, ${idx})">
+                        <div class="visit-header-row ${isOpen?'expanded':''}" onclick="event.stopPropagation(); toggleVisitExpansion(${rec.id},${idx})">
                             <div class="visit-header-left">
                                 <span class="visit-header-date">📅 ${formatDate(vDisplay.visit_date)}</span>
-                                ${vDisplay.mileage ? `<span class="visit-header-mileage">🔢 ${vDisplay.mileage} км</span>` : ''}
+                                ${vDisplay.mileage?`<span class="visit-header-mileage">🔢 ${vDisplay.mileage} км</span>`:''}
                                 <span class="visit-header-status status-${vDisplay.status}">${vStatusInfo.label}</span>
                             </div>
                             <span class="visit-header-total">${vTotal.toFixed(0)} €</span>
                             <span class="visit-header-arrow">▼</span>
                         </div>
-                        <div class="visit-body-content ${isOpen ? 'open' : ''}">
+                        <div class="visit-body-content ${isOpen?'open':''}">
                             ${isVisitEditing ? `
-                                <div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input type="date" value="${vDisplay.visit_date || ''}" oninput="handleVisitEditChange(${rec.id},${idx},'visit_date',this.value)"></div><div class="field"><div class="field-label">🔢 Пробег (км)</div><input type="number" value="${vDisplay.mileage || ''}" oninput="handleVisitEditChange(${rec.id},${idx},'mileage',this.value)"></div></div>
-                                <div class="field"><div class="field-label">📌 Статус</div><select onchange="handleVisitEditChange(${rec.id},${idx},'status',this.value)">${STATUS_OPTIONS.map(s => `<option value="${s.value}" ${vDisplay.status === s.value ? 'selected' : ''}>${s.label}</option>`).join('')}</select></div>
+                                <div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input type="date" value="${vDisplay.visit_date||''}" oninput="handleVisitEditChange(${rec.id},${idx},'visit_date',this.value)"></div><div class="field"><div class="field-label">🔢 Пробег (км)</div><input type="number" value="${vDisplay.mileage||''}" oninput="handleVisitEditChange(${rec.id},${idx},'mileage',this.value)"></div></div>
+                                <div class="field"><div class="field-label">📌 Статус</div><select onchange="handleVisitEditChange(${rec.id},${idx},'status',this.value)">${STATUS_OPTIONS.map(s => `<option value="${s.value}" ${vDisplay.status===s.value?'selected':''}>${s.label}</option>`).join('')}</select></div>
                                 <div class="field-label" style="margin-top:4px;">🔧 Работы</div>
-                                ${vWorkItems.map((w, widx) => `<div class="work-item"><select onchange="updateVisitWorkItem(${rec.id},${idx},${widx},'name',this.value)">${Object.entries(groupedCatalog).map(([cat, items]) => `<optgroup label="${escapeHTML(cat)}">${items.map(item => `<option value="${escapeHTML(item.name)}" ${w.name === item.name ? 'selected' : ''}>${escapeHTML(item.name)} (${item.cost}€)</option>`).join('')}</optgroup>`).join('')}</select><input type="number" class="work-cost" value="${w.cost}" oninput="updateVisitWorkItem(${rec.id},${idx},${widx},'cost',this.value)"><button class="remove-work-btn" onclick="removeVisitWorkItem(${rec.id},${idx},${widx})" title="Удалить">✕</button></div>`).join('')}
+                                ${vWorkItems.map((w,widx) => `<div class="work-item"><select onchange="updateVisitWorkItem(${rec.id},${idx},${widx},'name',this.value)">${Object.entries(groupedCatalog).map(([cat,items]) => `<optgroup label="${escapeHTML(cat)}">${items.map(item => `<option value="${escapeHTML(item.name)}" ${w.name===item.name?'selected':''}>${escapeHTML(item.name)} (${item.cost}€)</option>`).join('')}</optgroup>`).join('')}</select><input type="number" class="work-cost" value="${w.cost}" oninput="updateVisitWorkItem(${rec.id},${idx},${widx},'cost',this.value)"><button class="remove-work-btn" onclick="removeVisitWorkItem(${rec.id},${idx},${widx})">✕</button></div>`).join('')}
                                 <button class="add-work-btn" onclick="addVisitWorkItem(${rec.id},${idx})">➕ Работа</button>
                                 <div class="field"><div class="field-label" style="margin-top:4px;">💰 Работы: ${vWorkCost.toFixed(0)} €</div></div>
-                                <div class="field"><div class="field-label">🔩 Расходники</div><textarea rows="2" oninput="handleVisitEditChange(${rec.id},${idx},'materials',this.value)">${escapeHTML(vDisplay.materials || '')}</textarea></div>
+                                <div class="field"><div class="field-label">🔩 Расходники</div><textarea rows="2" oninput="handleVisitEditChange(${rec.id},${idx},'materials',this.value)">${escapeHTML(vDisplay.materials||'')}</textarea></div>
                                 <div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${vMaterialCost}" oninput="handleVisitEditChange(${rec.id},${idx},'material_cost',this.value)"></div>
-                                <div class="field"><div class="field-label">📝 Заметки</div><textarea rows="2" oninput="handleVisitEditChange(${rec.id},${idx},'notes',this.value)">${escapeHTML(vDisplay.notes || '')}</textarea></div>
-                                <div style="display:flex; gap:8px; margin-top:8px;"><button class="btn btn-save" onclick="event.stopPropagation(); saveVisit(${rec.id},${idx})">💾 Сохранить</button><button class="btn btn-edit" onclick="event.stopPropagation(); cancelEditVisit(${rec.id},${idx})">↩ Отменить</button><button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button></div>
+                                <div class="field"><div class="field-label">📝 Заметки</div><textarea rows="2" oninput="handleVisitEditChange(${rec.id},${idx},'notes',this.value)">${escapeHTML(vDisplay.notes||'')}</textarea></div>
+                                <div style="display:flex; gap:8px; margin-top:8px;">
+                                    <button class="btn btn-save" onclick="event.stopPropagation(); saveVisit(${rec.id},${idx})">💾 Сохранить</button>
+                                    <button class="btn btn-edit" onclick="event.stopPropagation(); cancelEditVisit(${rec.id},${idx})">↩ Отменить</button>
+                                    <button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button>
+                                </div>
                             ` : `
-                                <div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input value="${formatDate(v.visit_date)}" disabled></div><div class="field"><div class="field-label">🔢 Пробег</div><input value="${v.mileage ? v.mileage + ' км' : '—'}" disabled></div></div>
+                                <div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input value="${formatDate(v.visit_date)}" disabled></div><div class="field"><div class="field-label">🔢 Пробег</div><input value="${v.mileage?v.mileage+' км':'—'}" disabled></div></div>
                                 <div class="field"><div class="field-label">📌 Статус</div><input value="${vStatusInfo.label}" disabled></div>
-                                ${vWorkItems.length > 0 ? reportHTML : '<div style="color:var(--text-secondary); font-size:0.8rem; padding:6px 0;">Нет работ</div>'}
-                                ${v.materials ? `<div class="field-label" style="margin-top:4px;">🔩 Расходники</div><div style="font-size:0.85rem;">${escapeHTML(v.materials)}</div>` : ''}
-                                ${vMaterialCost > 0 ? `<div style="text-align:right; font-weight:600;">💰 ${vMaterialCost.toFixed(0)} €</div>` : ''}
+                                ${vWorkItems.length > 0 ? `
+                                    <button class="accounting-report-btn" onclick="event.stopPropagation(); toggleReport(${rec.id},${idx})">📊 Показать счёт</button>
+                                    <div class="invoice-box" style="display:${reportOpen?'block':'none'};">
+                                        <div class="invoice-title">📋 СЧЁТ-ФАКТУРА</div>
+                                        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:8px;">
+                                            <span>Авто: ${escapeHTML(rec.car_brand||'—')} ${escapeHTML(rec.plate_number||'')}</span>
+                                            <span>Дата: ${formatDate(v.visit_date)}</span>
+                                        </div>
+                                        ${rec.client_name ? `<div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:8px;">Клиент: ${escapeHTML(rec.client_name)}</div>` : ''}
+                                        <table class="invoice-table">
+                                            <thead><tr><th>Категория</th><th>Работа</th><th>Сумма</th></tr></thead>
+                                            <tbody>
+                                                ${(() => {
+                                                    const grouped = {};
+                                                    vWorkItems.forEach(w => { const ci = WORKS_CATALOG.find(c => c.name === w.name); const cat = ci ? ci.category : 'Прочее'; if (!grouped[cat]) grouped[cat] = []; grouped[cat].push(w); });
+                                                    return Object.entries(grouped).map(([cat, items]) => `<tr><td colspan="3" style="background:rgba(245,158,11,0.1); color:var(--warning); font-weight:600; font-size:0.7rem; text-transform:uppercase; padding:4px 8px;">${escapeHTML(cat)}</td></tr>${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}`).join('');
+                                                })()}
+                                            </tbody>
+                                        </table>
+                                        <div class="invoice-total-line"><span>💵 Итого работы:</span><span>${vWorkCost.toFixed(0)} €</span></div>
+                                        ${v.materials ? `<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${vMaterialCost.toFixed(0)} €</span></div>` : ''}
+                                        <div class="invoice-total-line"><span>Подытог:</span><span>${vTotal.toFixed(0)} €</span></div>
+                                        ${visitInvoice && visitInvoice.discount_10 ? `
+                                            <div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${visitInvoice.discount_amount.toFixed(0)} €</span></div>
+                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
+                                        ` : `
+                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${vTotal.toFixed(0)} €</span></div>
+                                        `}
+                                    </div>
+                                ` : '<div style="color:var(--text-secondary); font-size:0.8rem; padding:6px 0;">Нет работ</div>'}
+                                ${v.materials && !reportOpen ? `<div class="field-label" style="margin-top:4px;">🔩 Расходники</div><div style="font-size:0.85rem;">${escapeHTML(v.materials)}</div>` : ''}
                                 ${v.notes ? `<div class="field-label" style="margin-top:4px;">📝 Заметки</div><div style="font-size:0.85rem;">${escapeHTML(v.notes)}</div>` : ''}
-                                <div style="display:flex; gap:8px; margin-top:8px;"><button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️ Редактировать</button><button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button></div>
+                                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; align-items:center;">
+                                    <button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️ Редактировать</button>
+                                    ${!isCompleted ? `
+                                        <div class="discount-checkbox-wrap">
+                                            <input type="checkbox" id="discount_${rec.id}_${idx}" ${visitInvoice && visitInvoice.discount_10 ? 'checked' : ''}>
+                                            <label for="discount_${rec.id}_${idx}">Скидка 10%</label>
+                                        </div>
+                                        <button class="btn-close-visit" onclick="event.stopPropagation(); closeVisitAndCreateInvoice(${rec.id},${idx})">🔒 Закрыть визит</button>
+                                    ` : ''}
+                                    <button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button>
+                                </div>
                             `}
                         </div>
                     </div>`;
@@ -905,10 +972,10 @@
             return `
                 <div class="section-title">👤 Клиент и авто</div>
                 <div class="field-group">
-                    <div class="field"><div class="field-label">ФИО клиента</div><input type="text" value="${escapeHTML(displayData.client_name || '')}" ${disabled} placeholder="Иванов Иван Иванович" oninput="handleEditChange(${rec.id}, 'client_name', this.value)"></div>
-                    <div class="field-row"><div class="field"><div class="field-label">🚗 Марка авто</div><input type="text" value="${escapeHTML(displayData.car_brand || '')}" ${disabled} placeholder="Марка" oninput="handleEditChange(${rec.id}, 'car_brand', this.value)"></div><div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${displayData.date || ''}" disabled></div></div>
-                    <div class="field-row"><div class="field"><div class="field-label">🧬 VIN</div><input type="text" value="${escapeHTML(displayData.vin || '')}" ${disabled} placeholder="VIN" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id}, 'vin', this.value)"></div><div class="field"><div class="field-label">🔢 Госномер</div><input type="text" value="${escapeHTML(displayData.plate_number || '')}" ${disabled} placeholder="Номер" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id}, 'plate_number', this.value)"></div></div>
-                    <div class="field-row"><div class="field"><div class="field-label">📌 Статус</div><select ${disabled} onchange="handleEditChange(${rec.id}, 'status', this.value); updateField(${rec.id}, 'status', this.value)">${statusOptions}</select></div><div class="field"><div class="field-label">📅 Дата завершения</div><input type="date" value="${displayData.date_completed || ''}" disabled></div></div>
+                    <div class="field"><div class="field-label">ФИО клиента</div><input type="text" value="${escapeHTML(displayData.client_name||'')}" ${disabled} placeholder="Иванов Иван Иванович" oninput="handleEditChange(${rec.id},'client_name',this.value)"></div>
+                    <div class="field-row"><div class="field"><div class="field-label">🚗 Марка авто</div><input type="text" value="${escapeHTML(displayData.car_brand||'')}" ${disabled} placeholder="Марка" oninput="handleEditChange(${rec.id},'car_brand',this.value)"></div><div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${displayData.date||''}" disabled></div></div>
+                    <div class="field-row"><div class="field"><div class="field-label">🧬 VIN</div><input type="text" value="${escapeHTML(displayData.vin||'')}" ${disabled} placeholder="VIN" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id},'vin',this.value)"></div><div class="field"><div class="field-label">🔢 Госномер</div><input type="text" value="${escapeHTML(displayData.plate_number||'')}" ${disabled} placeholder="Номер" style="text-transform:uppercase;" oninput="handleEditChange(${rec.id},'plate_number',this.value)"></div></div>
+                    <div class="field-row"><div class="field"><div class="field-label">📌 Статус</div><select ${disabled} onchange="handleEditChange(${rec.id},'status',this.value); updateField(${rec.id},'status',this.value)">${statusOptions}</select></div><div class="field"><div class="field-label">📅 Дата завершения</div><input type="date" value="${displayData.date_completed||''}" disabled></div></div>
                 </div>
                 <div class="section-title">🔧 Работы (текущий визит)</div>
                 <div class="field-group">
@@ -918,20 +985,20 @@
                 </div>
                 <div class="section-title">🔩 Расходники (текущий визит)</div>
                 <div class="field-group">
-                    <div class="field"><div class="field-label">Описание расходников</div><textarea ${disabled} rows="2" placeholder="Список запчастей..." oninput="handleEditChange(${rec.id}, 'materials', this.value)">${escapeHTML(displayData.materials || '')}</textarea></div>
-                    <div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${displayData._totalMaterialCost || 0}" ${disabled} oninput="handleEditChange(${rec.id}, 'material_cost', this.value)"></div>
+                    <div class="field"><div class="field-label">Описание расходников</div><textarea ${disabled} rows="2" placeholder="Список запчастей..." oninput="handleEditChange(${rec.id},'materials',this.value)">${escapeHTML(displayData.materials||'')}</textarea></div>
+                    <div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${displayData._totalMaterialCost||0}" ${disabled} oninput="handleEditChange(${rec.id},'material_cost',this.value)"></div>
                 </div>
                 ${visitsHTML}
                 <div class="section-title">📸 Фотографии</div>
                 <div class="photo-gallery">
-                    ${photosList.map((url, pIdx) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" alt="Фото" onclick="window.open('${url}','_blank')">${!disabled ? `<button class="photo-delete-btn" onclick="event.stopPropagation(); deletePhoto(${rec.id},${pIdx})">✕</button>` : ''}</div>`).join('')}
-                    ${!disabled ? `<div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})">＋</div><input type="file" id="fileInput_${rec.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">` : ''}
+                    ${photosList.map((url,pIdx) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" onclick="window.open('${url}','_blank')">${!disabled?`<button class="photo-delete-btn" onclick="event.stopPropagation(); deletePhoto(${rec.id},${pIdx})">✕</button>`:''}</div>`).join('')}
+                    ${!disabled?`<div class="add-photo-btn" onclick="triggerPhotoUpload(${rec.id})">＋</div><input type="file" id="fileInput_${rec.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${rec.id}, this)">`:''}
                 </div>
                 <div class="section-title">📝 Заметки</div>
-                <div class="field-group"><textarea ${disabled} rows="2" placeholder="Заметки..." oninput="handleEditChange(${rec.id}, 'notes', this.value)">${escapeHTML(displayData.notes || '')}</textarea></div>
+                <div class="field-group"><textarea ${disabled} rows="2" placeholder="Заметки..." oninput="handleEditChange(${rec.id},'notes',this.value)">${escapeHTML(displayData.notes||'')}</textarea></div>
                 <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(239,68,68,0.15); padding:12px; border-radius:8px; font-weight:700; font-size:1rem;"><span>💰 Итого по машине (все визиты):</span><span style="color:#ef4444;">${allTimeTotal.toFixed(0)} €</span></div>
                 <div class="action-buttons">
-                    ${isThisEditing ? `<button class="btn btn-save" onclick="saveRecord(${rec.id})">💾 Сохранить</button><button class="btn btn-edit" onclick="cancelEdit(${rec.id})">↩ Отменить</button>` : `<button class="btn btn-edit" onclick="startEdit(${rec.id})">✏️ Редактировать</button>`}
+                    ${isThisEditing?`<button class="btn btn-save" onclick="saveRecord(${rec.id})">💾 Сохранить</button><button class="btn btn-edit" onclick="cancelEdit(${rec.id})">↩ Отменить</button>`:`<button class="btn btn-edit" onclick="startEdit(${rec.id})">✏️ Редактировать</button>`}
                     <button class="btn btn-delete" onclick="event.stopPropagation(); deleteRecord(${rec.id})">🗑️ Удалить</button>
                 </div>`;
         }
@@ -951,7 +1018,7 @@
         function startEdit(id) {
             editingCardId = id; expandedCardId = id;
             const rec = workRecords.find(r => r.id === id);
-            if (rec) { editStates[id] = { client_name: rec.client_name || '', car_brand: rec.car_brand || '', vin: rec.vin || '', plate_number: rec.plate_number || '', work_description: rec.work_description || '[]', materials: rec.materials || '', material_cost: rec.material_cost || 0, notes: rec.notes || '', status: rec.status || 'in_progress' }; }
+            if (rec) editStates[id] = { client_name: rec.client_name||'', car_brand: rec.car_brand||'', vin: rec.vin||'', plate_number: rec.plate_number||'', work_description: rec.work_description||'[]', materials: rec.materials||'', material_cost: rec.material_cost||0, notes: rec.notes||'', status: rec.status||'in_progress' };
             renderCardsList();
         }
 
@@ -961,30 +1028,25 @@
             const state = editStates[id]; if (!state) return;
             updateSyncStatus('saving');
             const workItems = parseWorkDescription(state.work_description);
-            const totalWorkCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
-            const updateData = { client_name: state.client_name, car_brand: state.car_brand, vin: state.vin, plate_number: state.plate_number, work_description: state.work_description, work_cost: totalWorkCost, materials: state.materials, material_cost: parseFloat(state.material_cost) || 0, notes: state.notes, status: state.status };
-            if (state.status === 'completed') { const rec = workRecords.find(r => r.id === id); if (rec && !rec.date_completed) updateData.date_completed = getTodayISO(); }
-            const { error } = await client.from('speedline_records').update(updateData).eq('id', id);
+            const totalWorkCost = workItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+            const upd = { client_name: state.client_name, car_brand: state.car_brand, vin: state.vin, plate_number: state.plate_number, work_description: state.work_description, work_cost: totalWorkCost, materials: state.materials, material_cost: parseFloat(state.material_cost)||0, notes: state.notes, status: state.status };
+            if (state.status === 'completed') { const rec = workRecords.find(r => r.id === id); if (rec && !rec.date_completed) upd.date_completed = getTodayISO(); }
+            const { error } = await client.from('speedline_records').update(upd).eq('id', id);
             if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
-            const rec = workRecords.find(r => r.id === id); if (rec) Object.assign(rec, updateData);
+            const rec = workRecords.find(r => r.id === id); if (rec) Object.assign(rec, upd);
             delete editStates[id]; editingCardId = null; updateSyncStatus('ok');
             renderCardsList(); if (expandedCardId === id) renderExpandedContent(id);
         }
 
         function handleEditChange(id, field, value) { if (!editStates[id]) editStates[id] = {}; editStates[id][field] = value; if (field === 'status') updateField(id, 'status', value); }
-
         function updateWorkItem(recordId, itemIndex, field, value) {
             if (!editStates[recordId]) return;
             const workItems = parseWorkDescription(editStates[recordId].work_description || '[]');
-            if (workItems[itemIndex]) { if (field === 'cost') workItems[itemIndex].cost = parseFloat(value) || 0; else if (field === 'name') { const ci = WORKS_CATALOG.find(c => c.name === value); workItems[itemIndex].name = value; if (ci) workItems[itemIndex].cost = ci.cost; } editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
+            if (workItems[itemIndex]) { if (field === 'cost') workItems[itemIndex].cost = parseFloat(value)||0; else if (field === 'name') { const ci = WORKS_CATALOG.find(c => c.name === value); workItems[itemIndex].name = value; if (ci) workItems[itemIndex].cost = ci.cost; } editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
         }
+        function addWorkItem(recordId) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description||'[]'); workItems.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost }); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
+        function removeWorkItem(recordId, itemIndex) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description||'[]'); workItems.splice(itemIndex, 1); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
 
-        function addWorkItem(recordId) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description || '[]'); workItems.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost }); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
-        function removeWorkItem(recordId, itemIndex) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description || '[]'); workItems.splice(itemIndex, 1); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
-
-        // ============================================
-        // SEARCH
-        // ============================================
         let searchTimeout;
         getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingCardId = null; editingVisitId = null; editStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedReportIds = {}; renderCardsList(); }, 200); });
         getEl('addBtn').addEventListener('click', addRecord);
