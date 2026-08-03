@@ -55,13 +55,7 @@
         .logo-area { display: flex; align-items: center; gap: 10px; }
 .logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); }
 .company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; }
-.company-subtitle { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; } { 
-    font-size: 0.6rem; 
-    color: var(--text-secondary); 
-    letter-spacing: 2px; 
-    text-transform: uppercase;
-    white-space: nowrap;}      
-        .header-right { display: flex; align-items: center; gap: 10px; }
+  .company-subtitle { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; }      .header-right { display: flex; align-items: center; gap: 10px; }
         .user-info { font-size: 0.7rem; color: var(--text-secondary); }
         .btn-logout { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: var(--accent); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; font-weight: 600; transition: var(--transition); }
         .btn-logout:hover { background: rgba(239,68,68,0.25); }
@@ -198,13 +192,8 @@
         <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
     </div>
-</div>    
-        <div class="header-right" style="flex-shrink:0;">
-        <span class="user-info" id="userDisplay"></span>
-        <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
-        <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
-    </div>
-</div>        <div class="search-container">
+</div>     
+        <div class="search-container">
             <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
                 <input type="text" class="search-input" id="searchInput" placeholder="Поиск по VIN, госномеру, ФИО, марке или дате..." autocomplete="off">
