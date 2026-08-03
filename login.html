@@ -72,7 +72,7 @@
             margin-bottom: 6px;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px 14px;
             background: rgba(0, 0, 0, 0.3);
@@ -84,10 +84,15 @@
             transition: all 0.2s;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        select option {
+            background: #1e293b;
+            color: #f1f5f9;
         }
 
         .btn-login {
@@ -106,14 +111,8 @@
             transition: all 0.2s;
         }
 
-        .btn-login:active {
-            transform: scale(0.98);
-        }
-
-        .btn-login:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
+        .btn-login:active { transform: scale(0.98); }
+        .btn-login:disabled { opacity: 0.5; cursor: default; }
 
         .error-message {
             background: rgba(239, 68, 68, 0.1);
@@ -127,9 +126,21 @@
             display: none;
         }
 
-        .error-message.show {
-            display: block;
+        .error-message.show { display: block; }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
         }
+
+        .success-message.show { display: block; }
 
         .divider {
             text-align: center;
@@ -139,8 +150,7 @@
             position: relative;
         }
 
-        .divider::before,
-        .divider::after {
+        .divider::before, .divider::after {
             content: '';
             position: absolute;
             top: 50%;
@@ -177,24 +187,13 @@
             border-top: 1px solid rgba(148, 163, 184, 0.15);
         }
 
-        .register-form.show {
-            display: block;
-        }
+        .register-form.show { display: block; }
 
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
+        .role-info {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 4px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -212,8 +211,8 @@
         <!-- Форма входа -->
         <form id="loginForm">
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="user@speedline.ru" required autocomplete="email">
+                <label>Логин</label>
+                <input type="text" id="loginUsername" placeholder="Введите логин" required autocomplete="username">
             </div>
             <div class="form-group">
                 <label>Пароль</label>
@@ -229,12 +228,20 @@
         <!-- Форма регистрации (скрыта) -->
         <div class="register-form" id="registerForm">
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="registerEmail" placeholder="admin@speedline.ru">
+                <label>Логин</label>
+                <input type="text" id="registerUsername" placeholder="Придумайте логин">
             </div>
             <div class="form-group">
                 <label>Пароль</label>
                 <input type="password" id="registerPassword" placeholder="Минимум 6 символов">
+            </div>
+            <div class="form-group">
+                <label>Роль</label>
+                <select id="registerRole">
+                    <option value="admin">Администратор — полный доступ</option>
+                    <option value="master">Мастер — без удаления и финансов</option>
+                </select>
+                <div class="role-info" id="roleInfo">Админ: все права. Мастер: добавление, просмотр, редактирование (без удаления и скидок).</div>
             </div>
             <button type="button" class="btn-login" id="registerBtn" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">Создать</button>
         </div>
@@ -251,6 +258,16 @@
         const loginBtn = document.getElementById('loginBtn');
         const registerForm = document.getElementById('registerForm');
         const showRegisterBtn = document.getElementById('showRegisterBtn');
+        const roleInfo = document.getElementById('roleInfo');
+
+        // Показываем описание роли
+        document.getElementById('registerRole').addEventListener('change', function() {
+            if (this.value === 'admin') {
+                roleInfo.textContent = 'Админ: все права (просмотр, добавление, удаление, финансы, скидки).';
+            } else {
+                roleInfo.textContent = 'Мастер: просмотр, добавление, редактирование. БЕЗ удаления и изменения скидок.';
+            }
+        });
 
         // Показываем/скрываем форму регистрации
         showRegisterBtn.addEventListener('click', () => {
@@ -273,10 +290,10 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value.trim();
+            const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            if (!email || !password) {
+            if (!username || !password) {
                 showError('Заполните все поля');
                 return;
             }
@@ -285,23 +302,30 @@
             loginBtn.textContent = 'Вход...';
             hideMessages();
 
+            // Используем username как email для Supabase (добавляем @speedline.local)
+            const email = `${username.toLowerCase()}@speedline.local`;
             const { data, error } = await client.auth.signInWithPassword({ email, password });
 
             if (error) {
-                showError('Неверный email или пароль');
+                showError('Неверный логин или пароль');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
             } else {
+                // Сохраняем роль в localStorage
+                const role = data.user?.user_metadata?.role || 'master';
+                localStorage.setItem('userRole', role);
+                localStorage.setItem('username', username);
                 window.location.href = 'index.html';
             }
         });
 
         // Регистрация
         document.getElementById('registerBtn').addEventListener('click', async () => {
-            const email = document.getElementById('registerEmail').value.trim();
+            const username = document.getElementById('registerUsername').value.trim();
             const password = document.getElementById('registerPassword').value;
+            const role = document.getElementById('registerRole').value;
             
-            if (!email || !password) {
+            if (!username || !password) {
                 showError('Заполните все поля');
                 return;
             }
@@ -311,16 +335,27 @@
                 return;
             }
 
+            if (username.length < 3) {
+                showError('Логин должен быть минимум 3 символа');
+                return;
+            }
+
             const btn = document.getElementById('registerBtn');
             btn.disabled = true;
             btn.textContent = 'Создаю...';
             hideMessages();
 
+            // Создаём email из username
+            const email = `${username.toLowerCase()}@speedline.local`;
+            
             const { data, error } = await client.auth.signUp({ 
                 email, 
                 password,
                 options: {
-                    data: { role: 'admin' }
+                    data: { 
+                        role: role,
+                        username: username
+                    }
                 }
             });
 
@@ -329,8 +364,13 @@
                 btn.disabled = false;
                 btn.textContent = 'Создать';
             } else {
-                showSuccess('Аккаунт создан! Проверьте email для подтверждения.');
-                document.getElementById('registerEmail').value = '';
+                // Если email confirmation отключён — пользователь создан сразу
+                if (data.user && data.user.identities && data.user.identities.length > 0) {
+                    showSuccess(`Аккаунт "${username}" создан! Роль: ${role === 'admin' ? 'Администратор' : 'Мастер'}. Теперь войдите.`);
+                } else {
+                    showSuccess(`Аккаунт создан! Войдите под логином "${username}".`);
+                }
+                document.getElementById('registerUsername').value = '';
                 document.getElementById('registerPassword').value = '';
                 btn.disabled = false;
                 btn.textContent = 'Создать';
