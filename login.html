@@ -1,4 +1,3 @@
-123
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -76,9 +75,7 @@
             text-transform: uppercase;
         }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+        .form-group { margin-bottom: 16px; }
 
         label {
             display: block;
@@ -226,11 +223,11 @@
             <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
 
-        <button class="btn-setup" id="setupAdminBtn">Создать админа (yura / 1987)</button>
+        <button class="btn-setup" id="setupAdminBtn">Создать админа (yura / yura1987)</button>
 
         <div class="setup-hint">
             Стандартный вход:<br>
-            <strong>yura / 1987</strong>
+            <strong>yura / yura1987</strong>
         </div>
     </div>
 
@@ -260,7 +257,7 @@
 
             const { error } = await client.auth.signUp({
                 email: 'yura@speedline.local',
-                password: '1987',
+                password: 'yura1987',
                 options: {
                     data: { role: 'admin', username: 'yura' }
                 }
@@ -268,16 +265,16 @@
 
             if (error) {
                 if (error.message.includes('already registered') || error.message.includes('already exists')) {
-                    showSuccess('Администратор уже создан! Войдите: yura / 1987');
+                    showSuccess('Администратор уже создан! Войдите: yura / yura1987');
                 } else {
                     showError('Ошибка: ' + error.message);
                 }
             } else {
-                showSuccess('Администратор создан! Войдите: yura / 1987');
+                showSuccess('Администратор создан! Войдите: yura / yura1987');
             }
 
             btn.disabled = false;
-            btn.textContent = 'Создать админа (yura / 1987)';
+            btn.textContent = 'Создать админа (yura / yura1987)';
         });
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
