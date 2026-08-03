@@ -1,3 +1,4 @@
+tml
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,6 +7,7 @@
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         :root {
@@ -185,7 +187,6 @@
         }
         .add-work-btn:hover, .add-visit-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* Визиты */
         .visit-block { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 8px; transition: var(--transition); }
         .visit-header-row {
             display: flex; align-items: center; justify-content: space-between;
@@ -205,7 +206,6 @@
         .visit-body-content { display: none; flex-direction: column; gap: 10px; padding: 12px; background: rgba(0, 0, 0, 0.15); }
         .visit-body-content.open { display: flex; }
 
-        /* Счёт-фактура */
         .invoice-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -214,161 +214,78 @@
             margin-top: 12px;
         }
         .invoice-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--info);
-            text-align: center;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
-            padding-bottom: 8px;
+            font-size: 0.85rem; font-weight: 700; color: var(--info);
+            text-align: center; margin-bottom: 12px; text-transform: uppercase;
+            letter-spacing: 1px; border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding-bottom: 8px;
         }
         .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-            margin-bottom: 8px;
+            width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 8px;
         }
         .invoice-table th {
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 6px 8px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.65rem;
+            background: rgba(0, 0, 0, 0.3); color: var(--text-secondary);
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.65rem;
         }
         .invoice-table th:last-child { text-align: right; }
-        .invoice-table td {
-            padding: 5px 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-        }
+        .invoice-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-primary); }
         .invoice-table td:last-child { text-align: right; font-weight: 600; color: var(--text-secondary); }
         .invoice-category-row td {
-            background: rgba(245, 158, 11, 0.08);
-            color: var(--warning);
-            font-weight: 600;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            padding: 4px 8px;
+            background: rgba(245, 158, 11, 0.08); color: var(--warning);
+            font-weight: 600; font-size: 0.7rem; text-transform: uppercase; padding: 4px 8px;
         }
-        .invoice-total-line {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 4px 0;
-            color: var(--text-primary);
-        }
-        .invoice-discount-line {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--warning);
-            padding: 4px 0;
-            font-weight: 600;
-        }
+        .invoice-total-line { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.85rem; padding: 4px 0; color: var(--text-primary); }
+        .invoice-discount-line { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--warning); padding: 4px 0; font-weight: 600; }
         .invoice-final-line {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--accent);
-            border-top: 2px solid rgba(239, 68, 68, 0.3);
-            padding-top: 8px;
-            margin-top: 8px;
+            display: flex; justify-content: space-between; font-weight: 700; font-size: 1rem;
+            color: var(--accent); border-top: 2px solid rgba(239, 68, 68, 0.3); padding-top: 8px; margin-top: 8px;
         }
 
         .discount-checkbox-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            background: rgba(245, 158, 11, 0.08);
-            border-radius: var(--radius-md);
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+            background: rgba(245, 158, 11, 0.08); border-radius: var(--radius-md);
             border: 1px solid rgba(245, 158, 11, 0.2);
         }
         .discount-checkbox-wrap input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--warning);
-            cursor: pointer;
-            flex-shrink: 0;
+            width: 20px; height: 20px; accent-color: var(--warning); cursor: pointer; flex-shrink: 0;
         }
-        .discount-checkbox-wrap label {
-            font-size: 0.85rem;
-            color: var(--warning);
-            cursor: pointer;
-            font-weight: 600;
-        }
+        .discount-checkbox-wrap label { font-size: 0.85rem; color: var(--warning); cursor: pointer; font-weight: 600; }
 
         .btn-close-visit {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 700;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;
+            padding: 12px 18px; border-radius: var(--radius-md); cursor: pointer;
+            font-size: 0.85rem; font-weight: 700; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .btn-close-visit:active { transform: scale(0.97); }
 
         .btn-invoice-toggle {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: var(--info);
-            padding: 10px 16px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
+            background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--info); padding: 10px 16px; border-radius: var(--radius-md);
+            cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
         }
         .btn-invoice-toggle:hover { background: rgba(59, 130, 246, 0.25); }
 
+        .btn-pdf-download {
+            background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success); padding: 10px 16px; border-radius: var(--radius-md);
+            cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
+        }
+        .btn-pdf-download:hover { background: rgba(16, 185, 129, 0.25); }
+
         .visit-new-btn {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px dashed rgba(245, 158, 11, 0.4);
-            color: var(--warning);
-            padding: 12px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: center;
-            transition: var(--transition);
-            margin-top: 4px;
+            background: rgba(245, 158, 11, 0.1); border: 1px dashed rgba(245, 158, 11, 0.4);
+            color: var(--warning); padding: 12px; border-radius: var(--radius-md); cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; text-align: center; transition: var(--transition); margin-top: 4px;
         }
         .visit-new-btn:hover { background: rgba(245, 158, 11, 0.2); border-color: var(--warning); }
 
         .btn-delete-visit {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: var(--transition);
+            background: rgba(239, 68, 68, 0.1); color: var(--accent);
+            border: 1px solid rgba(239, 68, 68, 0.2); padding: 8px 12px; font-size: 0.75rem;
+            border-radius: var(--radius-md); cursor: pointer; transition: var(--transition);
         }
         .btn-delete-visit:hover { background: rgba(239, 68, 68, 0.2); }
 
@@ -700,6 +617,146 @@
         }
 
         // ============================================
+        // PDF GENERATION
+        // ============================================
+        async function downloadInvoicePDF(recordId, visitIndex) {
+            const rec = workRecords.find(r => r.id === recordId);
+            if (!rec) return;
+            
+            const invoices = getInvoicesArr(rec);
+            const visits = getVisitsArr(rec);
+            const v = visits[visitIndex];
+            if (!v) return;
+            
+            const vWorkItems = parseWorkDescription(v.work_description);
+            const vWorkCost = vWorkItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+            const invoice = invoices.find(inv => inv.visit_date === v.visit_date && inv.work_cost === vWorkCost);
+            
+            if (!invoice) { alert('Счёт-фактура не найдена'); return; }
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                let y = 20;
+                
+                // Заголовок
+                doc.setFontSize(20);
+                doc.setTextColor(220, 38, 38);
+                doc.text('SpeedLine Garage', 14, y);
+                y += 8;
+                doc.setFontSize(9);
+                doc.setTextColor(120, 120, 120);
+                doc.text('DOCKA MACTEPA', 14, y);
+                
+                // Счёт
+                y += 10;
+                doc.setFontSize(12);
+                doc.setTextColor(59, 130, 246);
+                doc.text(`Schet-Faktura: ${invoice.invoice_number}`, 14, y);
+                y += 6;
+                doc.setFontSize(9);
+                doc.setTextColor(80, 80, 80);
+                doc.text(`Data: ${formatDate(invoice.invoice_date)}`, 14, y);
+                
+                // Авто
+                y += 10;
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Auto: ${invoice.car_brand} | ${invoice.plate_number}`, 14, y);
+                y += 6;
+                if (invoice.client_name) {
+                    doc.text(`Klient: ${invoice.client_name}`, 14, y);
+                    y += 6;
+                }
+                if (invoice.mileage) {
+                    doc.text(`Probeg: ${invoice.mileage} km`, 14, y);
+                    y += 6;
+                }
+                
+                // Таблица
+                y += 6;
+                doc.setFillColor(30, 41, 59);
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(8);
+                doc.rect(14, y, 182, 7, 'F');
+                doc.text('KATEGORIYA', 16, y + 5);
+                doc.text('NAIMENOVANIE', 75, y + 5);
+                doc.text('SUMMA', 188, y + 5, { align: 'right' });
+                y += 9;
+                
+                const grouped = groupWorksByCategory(invoice.works);
+                
+                Object.entries(grouped).forEach(([cat, items]) => {
+                    doc.setFillColor(245, 158, 11, 0.15);
+                    doc.setTextColor(200, 130, 0);
+                    doc.setFontSize(7);
+                    doc.rect(14, y, 182, 6, 'F');
+                    doc.text(cat, 16, y + 4);
+                    y += 7;
+                    
+                    doc.setTextColor(50, 50, 50);
+                    doc.setFontSize(8);
+                    items.forEach(w => {
+                        if (y > 270) { doc.addPage(); y = 20; }
+                        doc.text(w.name, 75, y + 4);
+                        doc.text(`${parseFloat(w.cost).toFixed(0)} E`, 188, y + 4, { align: 'right' });
+                        y += 5.5;
+                    });
+                });
+                
+                y += 5;
+                doc.setDrawColor(200);
+                doc.line(100, y, 196, y);
+                y += 7;
+                doc.setFontSize(9);
+                doc.setTextColor(50, 50, 50);
+                doc.text('Raboti:', 100, y);
+                doc.text(`${invoice.work_cost.toFixed(0)} E`, 188, y, { align: 'right' });
+                y += 5.5;
+                
+                if (invoice.material_cost > 0) {
+                    doc.text('Rashodniki:', 100, y);
+                    doc.text(`${invoice.material_cost.toFixed(0)} E`, 188, y, { align: 'right' });
+                    y += 5.5;
+                }
+                
+                doc.text('Podytog:', 100, y);
+                doc.text(`${invoice.subtotal.toFixed(0)} E`, 188, y, { align: 'right' });
+                y += 5.5;
+                
+                if (invoice.discount_10) {
+                    doc.setTextColor(200, 130, 0);
+                    doc.text('Skidka 10%:', 100, y);
+                    doc.text(`-${invoice.discount_amount.toFixed(0)} E`, 188, y, { align: 'right' });
+                    y += 5.5;
+                }
+                
+                y += 3;
+                doc.setDrawColor(220, 38, 38);
+                doc.setLineWidth(0.5);
+                doc.line(100, y, 196, y);
+                y += 7;
+                doc.setFontSize(12);
+                doc.setTextColor(220, 38, 38);
+                doc.setFont(undefined, 'bold');
+                doc.text('ITOGO K OPLATE:', 100, y);
+                doc.text(`${invoice.total.toFixed(0)} E`, 188, y, { align: 'right' });
+                
+                doc.setFontSize(8);
+                doc.setTextColor(150);
+                doc.setFont(undefined, 'normal');
+                doc.text('Spasibo, chto vibrali SpeedLine Garage!', 105, 280, { align: 'center' });
+                
+                doc.save(`schet_${invoice.invoice_number}.pdf`);
+                
+            } catch (err) {
+                console.error('PDF Error:', err);
+                alert('Ошибка при создании PDF');
+            }
+        }
+
+        // ============================================
         // VISIT MANAGEMENT
         // ============================================
         function addVisit(recordId) {
@@ -781,9 +838,94 @@
                 .eq('id', recordId);
             if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
             updateSyncStatus('ok');
-            // Автоматически показываем счёт
             expandedInvoiceIds[`${recordId}_${visitIndex}`] = true;
             renderExpandedContent(recordId);
+        }
+
+        async function closeCurrentVisitAndCreateInvoice(recordId) {
+            if (!confirm('Завершить текущий визит и создать счёт-фактуру? Работы будут сохранены как выполненный визит.')) return;
+            const rec = workRecords.find(r => r.id === recordId);
+            if (!rec) return;
+
+            const discountCheckbox = document.getElementById(`discount_current_${recordId}`);
+            const applyDiscount = discountCheckbox ? discountCheckbox.checked : false;
+
+            const workItems = parseWorkDescription(rec.work_description);
+            const workCost = workItems.reduce((s, w) => s + (parseFloat(w.cost) || 0), 0);
+            const materialCost = parseFloat(rec.material_cost) || 0;
+            const subtotal = workCost + materialCost;
+            const discountAmount = applyDiscount ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+            const total = subtotal - discountAmount;
+            const today = getTodayISO();
+
+            const completedVisit = {
+                visit_date: rec.date || today,
+                mileage: '',
+                work_description: rec.work_description || '[]',
+                work_cost: workCost,
+                materials: rec.materials || '',
+                material_cost: materialCost,
+                notes: rec.notes || '',
+                status: 'completed',
+                date_completed: today
+            };
+
+            const visits = getVisitsArr(rec);
+            visits.push(completedVisit);
+
+            const invoice = {
+                invoice_number: `INV-${recordId}-${visits.length - 1}-${Date.now().toString(36).toUpperCase()}`,
+                invoice_date: today,
+                car_brand: rec.car_brand || 'Без марки',
+                plate_number: rec.plate_number || '',
+                client_name: rec.client_name || '',
+                visit_date: rec.date || today,
+                mileage: '',
+                works: workItems,
+                work_cost: workCost,
+                materials: rec.materials || '',
+                material_cost: materialCost,
+                subtotal: subtotal,
+                discount_10: applyDiscount,
+                discount_amount: discountAmount,
+                total: total
+            };
+
+            const invoices = getInvoicesArr(rec);
+            invoices.push(invoice);
+
+            const updateData = {
+                date: today,
+                work_description: '[]',
+                work_cost: 0,
+                materials: '',
+                material_cost: 0,
+                notes: '',
+                status: 'in_progress',
+                date_completed: null,
+                visits: serializeVisits(visits),
+                invoice_data: serializeInvoices(invoices)
+            };
+
+            updateSyncStatus('saving');
+            const { error } = await client.from('speedline_records').update(updateData).eq('id', recordId);
+            if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
+
+            Object.assign(rec, updateData);
+            updateSyncStatus('ok');
+
+            if (editingCardId === recordId) {
+                delete editStates[recordId];
+                editingCardId = null;
+            }
+
+            expandedInvoiceIds[`${recordId}_${visits.length - 1}`] = true;
+            expandedVisitIds[`${recordId}_${visits.length - 1}`] = true;
+
+            renderCardsList();
+            if (expandedCardId === recordId) renderExpandedContent(recordId);
+
+            alert('Визит завершён! Счёт-фактура создана в истории обслуживания.');
         }
 
         function startEditVisit(recordId, visitIndex) {
@@ -914,7 +1056,6 @@
                     const vStatusInfo = STATUS_OPTIONS.find(s => s.value === vDisplay.status) || STATUS_OPTIONS[0];
                     const isCompleted = vDisplay.status === 'completed';
 
-                    // Ищем счёт для этого визита
                     const visitInvoice = invoices.find(inv => inv.visit_date === v.visit_date && inv.work_cost === vWorkCost);
 
                     visitsHTML += `
@@ -950,7 +1091,6 @@
                                 <div class="field"><div class="field-label">📌 Статус</div><input value="${vStatusInfo.label}" disabled></div>
 
                                 ${!isCompleted ? `
-                                    <!-- КНОПКА ЗАКРЫТИЯ ВИЗИТА И ГАЛОЧКА СКИДКИ -->
                                     <div class="discount-checkbox-wrap">
                                         <input type="checkbox" id="discount_${rec.id}_${idx}" onchange="event.stopPropagation();">
                                         <label for="discount_${rec.id}_${idx}">Применить скидку 10%</label>
@@ -961,7 +1101,6 @@
                                 ` : ''}
 
                                 ${visitInvoice ? `
-                                    <!-- СЧЁТ-ФАКТУРА ДЛЯ ЗАКРЫТОГО ВИЗИТА -->
                                     <button class="btn-invoice-toggle" onclick="event.stopPropagation(); toggleInvoiceDisplay(${rec.id},${idx})">
                                         ${invoiceOpen ? '📊 Скрыть счёт-фактуру' : '🧾 Показать счёт-фактуру'}
                                     </button>
@@ -990,6 +1129,11 @@
                                                 <div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${visitInvoice.discount_amount.toFixed(0)} €</span></div>
                                             ` : ''}
                                             <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
+                                            <div style="text-align:center; margin-top:10px; padding-top:8px; border-top:1px solid var(--border);">
+                                                <button class="btn-pdf-download" onclick="event.stopPropagation(); downloadInvoicePDF(${rec.id},${idx})">
+                                                    📥 Скачать PDF
+                                                </button>
+                                            </div>
                                         </div>
                                     ` : ''}
                                 ` : ''}
@@ -1031,6 +1175,17 @@
                     <div class="field"><div class="field-label">Описание расходников</div><textarea ${disabled} rows="2" placeholder="Список запчастей..." oninput="handleEditChange(${rec.id},'materials',this.value)">${escapeHTML(displayData.materials||'')}</textarea></div>
                     <div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${displayData._totalMaterialCost||0}" ${disabled} oninput="handleEditChange(${rec.id},'material_cost',this.value)"></div>
                 </div>
+
+                ${!disabled ? `
+                    <div class="discount-checkbox-wrap">
+                        <input type="checkbox" id="discount_current_${rec.id}" onchange="event.stopPropagation();">
+                        <label for="discount_current_${rec.id}">Применить скидку 10%</label>
+                    </div>
+                    <button class="btn-close-visit" onclick="event.stopPropagation(); closeCurrentVisitAndCreateInvoice(${rec.id})">
+                        🔒 Завершить текущий визит и создать счёт-фактуру
+                    </button>
+                ` : ''}
+
                 ${visitsHTML}
                 <div class="section-title">📸 Фотографии</div>
                 <div class="photo-gallery">
