@@ -7,20 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
-        eruda.init({
-            tool: ['console', 'elements', 'network', 'resources', 'sources', 'info'],
-            useShadowDom: true
-        });
-        eruda.hide();
-        
-        function toggleEruda() {
-            const el = document.getElementById('eruda-container');
-            if (el && el.style.display !== 'none') {
-                eruda.hide();
-            } else {
-                eruda.show();
-            }
-        }
+        // Eruda запускается сразу и показывается
+        eruda.init();
     </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -124,21 +112,6 @@
         .btn-login:active { transform: scale(0.98); }
         .btn-login:disabled { opacity: 0.5; cursor: default; }
 
-        .btn-setup {
-            width: 100%;
-            padding: 10px;
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #f59e0b;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin-top: 12px;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-        .btn-setup:hover { background: rgba(245, 158, 11, 0.25); }
-
         .error-message {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
@@ -153,50 +126,12 @@
 
         .error-message.show { display: block; }
 
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
-        }
-
-        .success-message.show { display: block; }
-
         .setup-hint {
             text-align: center;
             font-size: 0.7rem;
             color: #64748b;
-            margin-top: 16px;
+            margin-top: 24px;
             line-height: 1.5;
-        }
-
-        .debug-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.3);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s;
-        }
-        .debug-btn:hover {
-            background: rgba(239, 68, 68, 0.5);
-            transform: scale(1.1);
         }
     </style>
 </head>
@@ -209,7 +144,6 @@
         </div>
 
         <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
 
         <form id="loginForm">
             <div class="form-group">
@@ -223,88 +157,89 @@
             <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
 
-        <button class="btn-setup" id="setupAdminBtn">Создать админа (yura / yura1987)</button>
-
         <div class="setup-hint">
-            Стандартный вход:<br>
-            <strong>yura / yura1987</strong>
+            Логин: <strong>yura</strong><br>
+            Пароль: <strong>yura1987</strong>
         </div>
     </div>
 
-    <button class="debug-btn" onclick="toggleEruda()" title="Консоль отладки">🐛</button>
-
     <script>
+        // Supabase config
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
+        
+        console.log('Supabase init start');
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase client created');
 
         const errorMsg = document.getElementById('errorMessage');
-        const successMsg = document.getElementById('successMessage');
         const loginBtn = document.getElementById('loginBtn');
 
+        // Проверяем сессию
         async function checkSession() {
-            const { data: { session } } = await client.auth.getSession();
-            if (session) window.location.href = 'index.html';
+            console.log('Checking session...');
+            const { data: { session }, error } = await client.auth.getSession();
+            console.log('Session check result:', { session: !!session, error: error?.message });
+            if (session) {
+                console.log('Already logged in, redirecting to index.html');
+                window.location.href = 'index.html';
+            }
         }
         checkSession();
 
-        // Кнопка создания админа
-        document.getElementById('setupAdminBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('setupAdminBtn');
-            btn.disabled = true;
-            btn.textContent = 'Создаю...';
-            hideMessages();
-
-            const { error } = await client.auth.signUp({
-                email: 'yura@speedline.local',
-                password: 'yura1987',
-                options: {
-                    data: { role: 'admin', username: 'yura' }
-                }
-            });
-
-            if (error) {
-                if (error.message.includes('already registered') || error.message.includes('already exists')) {
-                    showSuccess('Администратор уже создан! Войдите: yura / yura1987');
-                } else {
-                    showError('Ошибка: ' + error.message);
-                }
-            } else {
-                showSuccess('Администратор создан! Войдите: yura / yura1987');
-            }
-
-            btn.disabled = false;
-            btn.textContent = 'Создать админа (yura / yura1987)';
-        });
-
+        // Логин
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            if (!username || !password) { showError('Заполните все поля'); return; }
+            console.log('Login attempt:', { username, passwordLength: password.length });
+            
+            if (!username || !password) {
+                console.log('Empty fields');
+                showError('Заполните все поля');
+                return;
+            }
 
             loginBtn.disabled = true;
             loginBtn.textContent = 'Вход...';
-            hideMessages();
+            errorMsg.classList.remove('show');
 
             const email = `${username.toLowerCase()}@speedline.local`;
-            const { data, error } = await client.auth.signInWithPassword({ email, password });
+            console.log('Attempting sign in with:', { email });
+            
+            const { data, error } = await client.auth.signInWithPassword({ 
+                email: email, 
+                password: password 
+            });
+
+            console.log('Sign in result:', { 
+                success: !!data?.user, 
+                error: error?.message,
+                errorStatus: error?.status,
+                userId: data?.user?.id 
+            });
 
             if (error) {
                 showError('Неверный логин или пароль');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
             } else {
-                localStorage.setItem('userRole', data.user?.user_metadata?.role || 'master');
+                const role = data.user?.user_metadata?.role || 'master';
+                const username = data.user?.user_metadata?.username || username;
+                console.log('Login successful, role:', role);
+                localStorage.setItem('userRole', role);
                 localStorage.setItem('username', username);
                 window.location.href = 'index.html';
             }
         });
 
-        function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('show'); successMsg.classList.remove('show'); }
-        function showSuccess(msg) { successMsg.textContent = msg; successMsg.classList.add('show'); errorMsg.classList.remove('show'); }
-        function hideMessages() { errorMsg.classList.remove('show'); successMsg.classList.remove('show'); }
+        function showError(msg) {
+            console.log('Showing error:', msg);
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('show');
+        }
     </script>
 </body>
 </html>
