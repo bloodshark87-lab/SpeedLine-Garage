@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SpeedLine Garage 2.0 — Доска мастера</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root {
             --bg-primary: #0f172a;
@@ -65,7 +67,8 @@
 
         .logo-area { display: flex; align-items: center; gap: 10px; }
         .logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; }
+        .company-info { display: flex; flex-direction: column; }
+        .company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; line-height: 1.2; }
         .company-subtitle { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; }
 
         .sync-badge {
@@ -84,7 +87,7 @@
         .search-input {
             width: 100%; padding: 12px 16px 12px 40px; background: var(--bg-secondary);
             border: 1px solid var(--border); border-radius: var(--radius-lg);
-            color: var(--text-primary); font-size: 0.95rem; transition: var(--transition);
+            color: var(--text-primary); font-size: 0.95rem; font-family: inherit; transition: var(--transition);
         }
         .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
 
@@ -245,10 +248,18 @@
             color: var(--text-primary);
         }
         .invoice-table td:last-child { text-align: right; font-weight: 600; color: var(--text-secondary); }
+        .invoice-category-row td {
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--warning);
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            padding: 4px 8px;
+        }
         .invoice-total-line {
             display: flex;
             justify-content: space-between;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.85rem;
             padding: 4px 0;
             color: var(--text-primary);
@@ -256,9 +267,10 @@
         .invoice-discount-line {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--warning);
-            padding: 2px 0;
+            padding: 4px 0;
+            font-weight: 600;
         }
         .invoice-final-line {
             display: flex;
@@ -274,31 +286,52 @@
         .discount-checkbox-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin: 8px 0;
-            padding: 8px 12px;
-            background: rgba(245, 158, 11, 0.05);
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(245, 158, 11, 0.08);
             border-radius: var(--radius-md);
-            border: 1px solid rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
         .discount-checkbox-wrap input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             accent-color: var(--warning);
             cursor: pointer;
+            flex-shrink: 0;
         }
         .discount-checkbox-wrap label {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--warning);
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .btn-close-visit {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--success);
-            padding: 10px 14px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-close-visit:active { transform: scale(0.97); }
+
+        .btn-invoice-toggle {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--info);
+            padding: 10px 16px;
             border-radius: var(--radius-md);
             cursor: pointer;
             font-size: 0.8rem;
@@ -308,11 +341,9 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            width: 100%;
         }
-        .btn-close-visit:hover {
-            background: rgba(16, 185, 129, 0.25);
-            border-color: rgba(16, 185, 129, 0.5);
-        }
+        .btn-invoice-toggle:hover { background: rgba(59, 130, 246, 0.25); }
 
         .visit-new-btn {
             background: rgba(245, 158, 11, 0.1);
@@ -403,7 +434,7 @@
         let editingCardId = null;
         let editingVisitId = null;
         let expandedVisitIds = {};
-        let expandedReportIds = {};
+        let expandedInvoiceIds = {};
         let editStates = {};
         let visitEditStates = {};
         let saveTimeouts = {};
@@ -555,6 +586,17 @@
         function getVisitsArr(rec) { return rec ? parseVisits(rec.visits) : []; }
         function getInvoicesArr(rec) { return rec ? parseInvoices(rec.invoice_data) : []; }
 
+        function groupWorksByCategory(workItems) {
+            const grouped = {};
+            workItems.forEach(w => {
+                const catalogItem = WORKS_CATALOG.find(c => c.name === w.name);
+                const cat = catalogItem ? catalogItem.category : 'Прочее';
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(w);
+            });
+            return grouped;
+        }
+
         // ============================================
         // DATA FETCHING
         // ============================================
@@ -684,27 +726,18 @@
             renderExpandedContent(recordId);
         }
 
-        function toggleReport(recordId, visitIndex) {
+        function toggleInvoiceDisplay(recordId, visitIndex) {
             const key = `${recordId}_${visitIndex}`;
-            expandedReportIds[key] = !expandedReportIds[key];
-            const block = document.querySelector(`#expandedContent_${recordId} .visit-block[data-visit-index="${visitIndex}"]`);
-            if (block) {
-                const wrap = block.querySelector('.invoice-box');
-                const btn = block.querySelector('.accounting-report-btn');
-                if (wrap && btn) {
-                    if (expandedReportIds[key]) { wrap.style.display = 'block'; btn.textContent = '📊 Скрыть счёт'; }
-                    else { wrap.style.display = 'none'; btn.textContent = '📊 Показать счёт'; }
-                }
-            }
+            expandedInvoiceIds[key] = !expandedInvoiceIds[key];
+            renderExpandedContent(recordId);
         }
 
-        // Закрытие визита с созданием счёта-фактуры
         async function closeVisitAndCreateInvoice(recordId, visitIndex) {
+            if (!confirm('Закрыть визит и создать счёт-фактуру? Дата завершения будет установлена автоматически.')) return;
             const rec = workRecords.find(r => r.id === recordId); if (!rec) return;
             const visits = getVisitsArr(rec);
             const v = visits[visitIndex]; if (!v) return;
 
-            // Получаем состояние чекбокса скидки
             const discountCheckbox = document.getElementById(`discount_${recordId}_${visitIndex}`);
             const applyDiscount = discountCheckbox ? discountCheckbox.checked : false;
 
@@ -715,7 +748,6 @@
             const discountAmount = applyDiscount ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
             const total = subtotal - discountAmount;
 
-            // Создаём счёт-фактуру
             const invoice = {
                 invoice_number: `INV-${recordId}-${visitIndex}-${Date.now().toString(36).toUpperCase()}`,
                 invoice_date: getTodayISO(),
@@ -734,24 +766,23 @@
                 total: total
             };
 
-            // Сохраняем счёт в invoice_data
             const invoices = getInvoicesArr(rec);
             invoices.push(invoice);
             rec.invoice_data = serializeInvoices(invoices);
 
-            // Обновляем статус визита на completed
             visits[visitIndex].status = 'completed';
             visits[visitIndex].date_completed = getTodayISO();
             visits[visitIndex].work_cost = workCost;
             rec.visits = serializeVisits(visits);
 
-            // Сохраняем всё в БД
             updateSyncStatus('saving');
             const { error } = await client.from('speedline_records')
                 .update({ visits: rec.visits, invoice_data: rec.invoice_data })
                 .eq('id', recordId);
             if (error) { alert('Ошибка: ' + error.message); updateSyncStatus('error'); return; }
             updateSyncStatus('ok');
+            // Автоматически показываем счёт
+            expandedInvoiceIds[`${recordId}_${visitIndex}`] = true;
             renderExpandedContent(recordId);
         }
 
@@ -873,7 +904,7 @@
                     const visitKey = `${rec.id}_${idx}`;
                     const isVisitEditing = editingVisitId === visitKey;
                     const isOpen = expandedVisitIds[visitKey];
-                    const reportOpen = expandedReportIds[visitKey];
+                    const invoiceOpen = expandedInvoiceIds[visitKey];
                     const vs = visitEditStates[visitKey] || {};
                     const vDisplay = isVisitEditing ? { ...v, ...vs } : v;
                     const vWorkItems = isVisitEditing && vs.work_description ? parseWorkDescription(vs.work_description) : parseWorkDescription(v.work_description);
@@ -883,7 +914,7 @@
                     const vStatusInfo = STATUS_OPTIONS.find(s => s.value === vDisplay.status) || STATUS_OPTIONS[0];
                     const isCompleted = vDisplay.status === 'completed';
 
-                    // Ищем счёт-фактуру для этого визита
+                    // Ищем счёт для этого визита
                     const visitInvoice = invoices.find(inv => inv.visit_date === v.visit_date && inv.work_cost === vWorkCost);
 
                     visitsHTML += `
@@ -893,6 +924,7 @@
                                 <span class="visit-header-date">📅 ${formatDate(vDisplay.visit_date)}</span>
                                 ${vDisplay.mileage?`<span class="visit-header-mileage">🔢 ${vDisplay.mileage} км</span>`:''}
                                 <span class="visit-header-status status-${vDisplay.status}">${vStatusInfo.label}</span>
+                                ${visitInvoice ? '<span style="font-size:0.7rem; color:var(--info);">🧾 Счёт</span>' : ''}
                             </div>
                             <span class="visit-header-total">${vTotal.toFixed(0)} €</span>
                             <span class="visit-header-arrow">▼</span>
@@ -916,47 +948,58 @@
                             ` : `
                                 <div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input value="${formatDate(v.visit_date)}" disabled></div><div class="field"><div class="field-label">🔢 Пробег</div><input value="${v.mileage?v.mileage+' км':'—'}" disabled></div></div>
                                 <div class="field"><div class="field-label">📌 Статус</div><input value="${vStatusInfo.label}" disabled></div>
-                                ${vWorkItems.length > 0 ? `
-                                    <button class="accounting-report-btn" onclick="event.stopPropagation(); toggleReport(${rec.id},${idx})">📊 Показать счёт</button>
-                                    <div class="invoice-box" style="display:${reportOpen?'block':'none'};">
-                                        <div class="invoice-title">📋 СЧЁТ-ФАКТУРА</div>
-                                        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:8px;">
-                                            <span>Авто: ${escapeHTML(rec.car_brand||'—')} ${escapeHTML(rec.plate_number||'')}</span>
-                                            <span>Дата: ${formatDate(v.visit_date)}</span>
-                                        </div>
-                                        ${rec.client_name ? `<div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:8px;">Клиент: ${escapeHTML(rec.client_name)}</div>` : ''}
-                                        <table class="invoice-table">
-                                            <thead><tr><th>Категория</th><th>Работа</th><th>Сумма</th></tr></thead>
-                                            <tbody>
-                                                ${(() => {
-                                                    const grouped = {};
-                                                    vWorkItems.forEach(w => { const ci = WORKS_CATALOG.find(c => c.name === w.name); const cat = ci ? ci.category : 'Прочее'; if (!grouped[cat]) grouped[cat] = []; grouped[cat].push(w); });
-                                                    return Object.entries(grouped).map(([cat, items]) => `<tr><td colspan="3" style="background:rgba(245,158,11,0.1); color:var(--warning); font-weight:600; font-size:0.7rem; text-transform:uppercase; padding:4px 8px;">${escapeHTML(cat)}</td></tr>${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}`).join('');
-                                                })()}
-                                            </tbody>
-                                        </table>
-                                        <div class="invoice-total-line"><span>💵 Итого работы:</span><span>${vWorkCost.toFixed(0)} €</span></div>
-                                        ${v.materials ? `<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${vMaterialCost.toFixed(0)} €</span></div>` : ''}
-                                        <div class="invoice-total-line"><span>Подытог:</span><span>${vTotal.toFixed(0)} €</span></div>
-                                        ${visitInvoice && visitInvoice.discount_10 ? `
-                                            <div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${visitInvoice.discount_amount.toFixed(0)} €</span></div>
-                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
-                                        ` : `
-                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${vTotal.toFixed(0)} €</span></div>
-                                        `}
+
+                                ${!isCompleted ? `
+                                    <!-- КНОПКА ЗАКРЫТИЯ ВИЗИТА И ГАЛОЧКА СКИДКИ -->
+                                    <div class="discount-checkbox-wrap">
+                                        <input type="checkbox" id="discount_${rec.id}_${idx}" onchange="event.stopPropagation();">
+                                        <label for="discount_${rec.id}_${idx}">Применить скидку 10%</label>
                                     </div>
-                                ` : '<div style="color:var(--text-secondary); font-size:0.8rem; padding:6px 0;">Нет работ</div>'}
-                                ${v.materials && !reportOpen ? `<div class="field-label" style="margin-top:4px;">🔩 Расходники</div><div style="font-size:0.85rem;">${escapeHTML(v.materials)}</div>` : ''}
-                                ${v.notes ? `<div class="field-label" style="margin-top:4px;">📝 Заметки</div><div style="font-size:0.85rem;">${escapeHTML(v.notes)}</div>` : ''}
-                                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; align-items:center;">
-                                    <button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️ Редактировать</button>
-                                    ${!isCompleted ? `
-                                        <div class="discount-checkbox-wrap">
-                                            <input type="checkbox" id="discount_${rec.id}_${idx}" ${visitInvoice && visitInvoice.discount_10 ? 'checked' : ''}>
-                                            <label for="discount_${rec.id}_${idx}">Скидка 10%</label>
+                                    <button class="btn-close-visit" onclick="event.stopPropagation(); closeVisitAndCreateInvoice(${rec.id},${idx})">
+                                        🔒 Закрыть визит и создать счёт-фактуру
+                                    </button>
+                                ` : ''}
+
+                                ${visitInvoice ? `
+                                    <!-- СЧЁТ-ФАКТУРА ДЛЯ ЗАКРЫТОГО ВИЗИТА -->
+                                    <button class="btn-invoice-toggle" onclick="event.stopPropagation(); toggleInvoiceDisplay(${rec.id},${idx})">
+                                        ${invoiceOpen ? '📊 Скрыть счёт-фактуру' : '🧾 Показать счёт-фактуру'}
+                                    </button>
+                                    ${invoiceOpen ? `
+                                        <div class="invoice-box">
+                                            <div class="invoice-title">📋 СЧЁТ-ФАКТУРА №${visitInvoice.invoice_number}</div>
+                                            <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap; gap:4px;">
+                                                <span>🚗 ${escapeHTML(visitInvoice.car_brand)} ${escapeHTML(visitInvoice.plate_number)}</span>
+                                                <span>📅 ${formatDate(visitInvoice.invoice_date)}</span>
+                                            </div>
+                                            ${visitInvoice.client_name ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">👤 ${escapeHTML(visitInvoice.client_name)}</div>` : ''}
+                                            ${visitInvoice.mileage ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">🔢 Пробег: ${visitInvoice.mileage} км</div>` : ''}
+                                            <table class="invoice-table">
+                                                <thead><tr><th>Категория</th><th>Наименование</th><th>Сумма</th></tr></thead>
+                                                <tbody>
+                                                    ${Object.entries(groupWorksByCategory(visitInvoice.works)).map(([cat, items]) => `
+                                                        <tr class="invoice-category-row"><td colspan="3">${escapeHTML(cat)}</td></tr>
+                                                        ${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}
+                                                    `).join('')}
+                                                </tbody>
+                                            </table>
+                                            <div class="invoice-total-line"><span>💵 Итого работы:</span><span>${visitInvoice.work_cost.toFixed(0)} €</span></div>
+                                            ${visitInvoice.materials ? `<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${visitInvoice.material_cost.toFixed(0)} €</span></div>` : ''}
+                                            <div class="invoice-total-line"><span>Подытог:</span><span>${visitInvoice.subtotal.toFixed(0)} €</span></div>
+                                            ${visitInvoice.discount_10 ? `
+                                                <div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${visitInvoice.discount_amount.toFixed(0)} €</span></div>
+                                            ` : ''}
+                                            <div class="invoice-final-line"><span>💰 ИТОГО К ОПЛАТЕ:</span><span>${visitInvoice.total.toFixed(0)} €</span></div>
                                         </div>
-                                        <button class="btn-close-visit" onclick="event.stopPropagation(); closeVisitAndCreateInvoice(${rec.id},${idx})">🔒 Закрыть визит</button>
                                     ` : ''}
+                                ` : ''}
+
+                                ${!isCompleted && !visitInvoice ? `
+                                    <div style="color:var(--text-secondary); font-size:0.8rem; padding:6px 0; text-align:center;">Закройте визит чтобы сформировать счёт</div>
+                                ` : ''}
+
+                                <div style="display:flex; gap:8px; margin-top:8px;">
+                                    ${!isCompleted ? `<button class="btn btn-edit" onclick="event.stopPropagation(); startEditVisit(${rec.id},${idx})">✏️ Редактировать</button>` : ''}
                                     <button class="btn-delete-visit" onclick="event.stopPropagation(); deleteVisit(${rec.id},${idx})">🗑️ Удалить</button>
                                 </div>
                             `}
@@ -1048,7 +1091,7 @@
         function removeWorkItem(recordId, itemIndex) { if (!editStates[recordId]) return; const workItems = parseWorkDescription(editStates[recordId].work_description||'[]'); workItems.splice(itemIndex, 1); editStates[recordId].work_description = serializeWorkDescription(workItems); renderExpandedContent(recordId); }
 
         let searchTimeout;
-        getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingCardId = null; editingVisitId = null; editStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedReportIds = {}; renderCardsList(); }, 200); });
+        getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingCardId = null; editingVisitId = null; editStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedInvoiceIds = {}; renderCardsList(); }, 200); });
         getEl('addBtn').addEventListener('click', addRecord);
 
         function initRealtime() { client.channel('public:speedline_records').on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, () => fetchRecords()).subscribe(); }
