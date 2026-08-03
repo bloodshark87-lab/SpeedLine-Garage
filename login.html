@@ -1,4 +1,3 @@
-ml
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,143 +7,34 @@ ml
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
         }
-
         .login-container {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 16px;
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(15,23,42,0.9); backdrop-filter: blur(20px);
+            border: 1px solid rgba(148,163,184,0.2); border-radius: 16px;
+            padding: 40px 30px; width: 100%; max-width: 380px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .logo-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            object-fit: cover;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
-
-        .logo-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .logo-sub {
-            font-size: 0.65rem;
-            color: #94a3b8;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        label {
-            display: block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #94a3b8;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
-            color: #f1f5f9;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
-            transition: all 0.2s;
-        }
-
+        .logo { text-align: center; margin-bottom: 35px; }
+        .logo-img { width: 60px; height: 60px; border-radius: 15px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(239,68,68,0.3); }
+        .logo-text { font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
+        .logo-sub { font-size: 0.65rem; color: #94a3b8; letter-spacing: 3px; text-transform: uppercase; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; }
+        input { width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(148,163,184,0.2); border-radius: 10px; color: #f1f5f9; font-size: 1rem; font-family: inherit; transition: all 0.2s; }
+        input:focus { outline: none; border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; transition: all 0.2s; }
         .btn-login:active { transform: scale(0.98); }
         .btn-login:disabled { opacity: 0.5; cursor: default; }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
-        }
-
+        .btn-setup { width: 100%; padding: 10px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b; border-radius: 10px; font-size: 0.75rem; cursor: pointer; margin-top: 12px; transition: all 0.2s; }
+        .btn-setup:hover { background: rgba(245,158,11,0.25); }
+        .error-message { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.8rem; text-align: center; margin-bottom: 16px; display: none; }
         .error-message.show { display: block; }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
-        }
-
+        .success-message { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; padding: 10px; border-radius: 8px; font-size: 0.8rem; text-align: center; margin-bottom: 16px; display: none; }
         .success-message.show { display: block; }
-
-        .setup-hint {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 24px;
-            line-height: 1.5;
-        }
     </style>
 </head>
 <body>
@@ -161,19 +51,16 @@ ml
         <form id="loginForm">
             <div class="form-group">
                 <label>Логин</label>
-                <input type="text" id="loginUsername" placeholder="Введите логин" required autocomplete="username">
+                <input type="text" id="loginUsername" placeholder="Введите логин" required>
             </div>
             <div class="form-group">
                 <label>Пароль</label>
-                <input type="password" id="loginPassword" placeholder="Введите пароль" required autocomplete="current-password">
+                <input type="password" id="loginPassword" placeholder="Введите пароль" required>
             </div>
             <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
 
-        <div class="setup-hint">
-            Стандартный вход:<br>
-            <strong>yura / 1987</strong>
-        </div>
+        <button class="btn-setup" id="setupAdminBtn">Создать админа (yura / 1987)</button>
     </div>
 
     <script>
@@ -185,53 +72,47 @@ ml
         const successMsg = document.getElementById('successMessage');
         const loginBtn = document.getElementById('loginBtn');
 
-        // Стандартный админ
-        const DEFAULT_ADMIN = { username: 'yura', password: '1987', role: 'admin' };
-
-        // Проверяем, не залогинены ли уже
         async function checkSession() {
             const { data: { session } } = await client.auth.getSession();
-            if (session) {
-                window.location.href = 'index.html';
-            }
+            if (session) window.location.href = 'index.html';
         }
         checkSession();
 
-        // Автосоздание стандартного админа при загрузке
-        async function ensureDefaultAdmin() {
-            const email = `${DEFAULT_ADMIN.username.toLowerCase()}@speedline.local`;
-            const { data: existingUsers } = await client.auth.admin?.listUsers();
-            
-            // Пробуем зарегистрировать — если уже есть, ошибка проигнорируется
+        // Кнопка создания админа
+        document.getElementById('setupAdminBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('setupAdminBtn');
+            btn.disabled = true;
+            btn.textContent = 'Создаю...';
+            hideMessages();
+
             const { error } = await client.auth.signUp({
-                email: email,
-                password: DEFAULT_ADMIN.password,
+                email: 'yura@speedline.local',
+                password: '1987',
                 options: {
-                    data: {
-                        role: DEFAULT_ADMIN.role,
-                        username: DEFAULT_ADMIN.username
-                    }
+                    data: { role: 'admin', username: 'yura' }
                 }
             });
-            
-            // Ошибка "User already registered" — это нормально, админ уже создан
-            if (error && error.message !== 'User already registered') {
-                console.log('Admin setup:', error.message);
-            }
-        }
-        ensureDefaultAdmin();
 
-        // Логин
+            if (error) {
+                if (error.message.includes('already registered') || error.message.includes('already exists')) {
+                    showSuccess('Администратор уже создан! Войдите: yura / 1987');
+                } else {
+                    showError('Ошибка: ' + error.message);
+                }
+            } else {
+                showSuccess('Администратор создан! Войдите: yura / 1987');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Создать админа (yura / 1987)';
+        });
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            if (!username || !password) {
-                showError('Заполните все поля');
-                return;
-            }
+            if (!username || !password) { showError('Заполните все поля'); return; }
 
             loginBtn.disabled = true;
             loginBtn.textContent = 'Вход...';
@@ -245,24 +126,15 @@ ml
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
             } else {
-                const role = data.user?.user_metadata?.role || 'master';
-                localStorage.setItem('userRole', role);
+                localStorage.setItem('userRole', data.user?.user_metadata?.role || 'master');
                 localStorage.setItem('username', username);
                 window.location.href = 'index.html';
             }
         });
 
-        function showError(msg) {
-            errorMsg.textContent = msg;
-            errorMsg.classList.add('show');
-            successMsg.classList.remove('show');
-        }
-
-        function hideMessages() {
-            errorMsg.classList.remove('show');
-            successMsg.classList.remove('show');
-        }
+        function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('show'); successMsg.classList.remove('show'); }
+        function showSuccess(msg) { successMsg.textContent = msg; successMsg.classList.add('show'); errorMsg.classList.remove('show'); }
+        function hideMessages() { errorMsg.classList.remove('show'); successMsg.classList.remove('show'); }
     </script>
 </body>
 </html>
-```
