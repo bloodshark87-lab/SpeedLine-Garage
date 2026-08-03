@@ -1,3 +1,4 @@
+ml
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -25,13 +26,13 @@
             border-radius: 16px;
             padding: 40px 30px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
 
         .logo {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .logo-img {
@@ -52,7 +53,7 @@
         }
 
         .logo-sub {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #94a3b8;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -72,27 +73,22 @@
             margin-bottom: 6px;
         }
 
-        input, select {
+        input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 14px 16px;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(148, 163, 184, 0.2);
             border-radius: 10px;
             color: #f1f5f9;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-family: inherit;
             transition: all 0.2s;
         }
 
-        input:focus, select:focus {
+        input:focus {
             outline: none;
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-        }
-
-        select option {
-            background: #1e293b;
-            color: #f1f5f9;
         }
 
         .btn-login {
@@ -142,58 +138,12 @@
 
         .success-message.show { display: block; }
 
-        .divider {
+        .setup-hint {
             text-align: center;
-            color: #94a3b8;
-            font-size: 0.75rem;
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background: rgba(148, 163, 184, 0.2);
-        }
-
-        .divider::before { left: 0; }
-        .divider::after { right: 0; }
-
-        .btn-register {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(148, 163, 184, 0.3);
-            color: #94a3b8;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-register:hover {
-            border-color: #3b82f6;
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .register-form {
-            display: none;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
-        }
-
-        .register-form.show { display: block; }
-
-        .role-info {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #64748b;
-            margin-top: 4px;
-            font-style: italic;
+            margin-top: 24px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -208,7 +158,6 @@
         <div class="error-message" id="errorMessage"></div>
         <div class="success-message" id="successMessage"></div>
 
-        <!-- Форма входа -->
         <form id="loginForm">
             <div class="form-group">
                 <label>Логин</label>
@@ -216,39 +165,18 @@
             </div>
             <div class="form-group">
                 <label>Пароль</label>
-                <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                <input type="password" id="loginPassword" placeholder="Введите пароль" required autocomplete="current-password">
             </div>
             <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
 
-        <div class="divider">или</div>
-
-        <button class="btn-register" id="showRegisterBtn">Создать аккаунт (только админ)</button>
-
-        <!-- Форма регистрации (скрыта) -->
-        <div class="register-form" id="registerForm">
-            <div class="form-group">
-                <label>Логин</label>
-                <input type="text" id="registerUsername" placeholder="Придумайте логин">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="registerPassword" placeholder="Минимум 6 символов">
-            </div>
-            <div class="form-group">
-                <label>Роль</label>
-                <select id="registerRole">
-                    <option value="admin">Администратор — полный доступ</option>
-                    <option value="master">Мастер — без удаления и финансов</option>
-                </select>
-                <div class="role-info" id="roleInfo">Админ: все права. Мастер: добавление, просмотр, редактирование (без удаления и скидок).</div>
-            </div>
-            <button type="button" class="btn-login" id="registerBtn" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">Создать</button>
+        <div class="setup-hint">
+            Стандартный вход:<br>
+            <strong>yura / 1987</strong>
         </div>
     </div>
 
     <script>
-        // Supabase config
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -256,26 +184,9 @@
         const errorMsg = document.getElementById('errorMessage');
         const successMsg = document.getElementById('successMessage');
         const loginBtn = document.getElementById('loginBtn');
-        const registerForm = document.getElementById('registerForm');
-        const showRegisterBtn = document.getElementById('showRegisterBtn');
-        const roleInfo = document.getElementById('roleInfo');
 
-        // Показываем описание роли
-        document.getElementById('registerRole').addEventListener('change', function() {
-            if (this.value === 'admin') {
-                roleInfo.textContent = 'Админ: все права (просмотр, добавление, удаление, финансы, скидки).';
-            } else {
-                roleInfo.textContent = 'Мастер: просмотр, добавление, редактирование. БЕЗ удаления и изменения скидок.';
-            }
-        });
-
-        // Показываем/скрываем форму регистрации
-        showRegisterBtn.addEventListener('click', () => {
-            registerForm.classList.toggle('show');
-            showRegisterBtn.textContent = registerForm.classList.contains('show') 
-                ? 'Скрыть регистрацию' 
-                : 'Создать аккаунт (только админ)';
-        });
+        // Стандартный админ
+        const DEFAULT_ADMIN = { username: 'yura', password: '1987', role: 'admin' };
 
         // Проверяем, не залогинены ли уже
         async function checkSession() {
@@ -285,6 +196,30 @@
             }
         }
         checkSession();
+
+        // Автосоздание стандартного админа при загрузке
+        async function ensureDefaultAdmin() {
+            const email = `${DEFAULT_ADMIN.username.toLowerCase()}@speedline.local`;
+            const { data: existingUsers } = await client.auth.admin?.listUsers();
+            
+            // Пробуем зарегистрировать — если уже есть, ошибка проигнорируется
+            const { error } = await client.auth.signUp({
+                email: email,
+                password: DEFAULT_ADMIN.password,
+                options: {
+                    data: {
+                        role: DEFAULT_ADMIN.role,
+                        username: DEFAULT_ADMIN.username
+                    }
+                }
+            });
+            
+            // Ошибка "User already registered" — это нормально, админ уже создан
+            if (error && error.message !== 'User already registered') {
+                console.log('Admin setup:', error.message);
+            }
+        }
+        ensureDefaultAdmin();
 
         // Логин
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -302,7 +237,6 @@
             loginBtn.textContent = 'Вход...';
             hideMessages();
 
-            // Используем username как email для Supabase (добавляем @speedline.local)
             const email = `${username.toLowerCase()}@speedline.local`;
             const { data, error } = await client.auth.signInWithPassword({ email, password });
 
@@ -311,69 +245,10 @@
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
             } else {
-                // Сохраняем роль в localStorage
                 const role = data.user?.user_metadata?.role || 'master';
                 localStorage.setItem('userRole', role);
                 localStorage.setItem('username', username);
                 window.location.href = 'index.html';
-            }
-        });
-
-        // Регистрация
-        document.getElementById('registerBtn').addEventListener('click', async () => {
-            const username = document.getElementById('registerUsername').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            const role = document.getElementById('registerRole').value;
-            
-            if (!username || !password) {
-                showError('Заполните все поля');
-                return;
-            }
-
-            if (password.length < 6) {
-                showError('Пароль должен быть минимум 6 символов');
-                return;
-            }
-
-            if (username.length < 3) {
-                showError('Логин должен быть минимум 3 символа');
-                return;
-            }
-
-            const btn = document.getElementById('registerBtn');
-            btn.disabled = true;
-            btn.textContent = 'Создаю...';
-            hideMessages();
-
-            // Создаём email из username
-            const email = `${username.toLowerCase()}@speedline.local`;
-            
-            const { data, error } = await client.auth.signUp({ 
-                email, 
-                password,
-                options: {
-                    data: { 
-                        role: role,
-                        username: username
-                    }
-                }
-            });
-
-            if (error) {
-                showError(error.message);
-                btn.disabled = false;
-                btn.textContent = 'Создать';
-            } else {
-                // Если email confirmation отключён — пользователь создан сразу
-                if (data.user && data.user.identities && data.user.identities.length > 0) {
-                    showSuccess(`Аккаунт "${username}" создан! Роль: ${role === 'admin' ? 'Администратор' : 'Мастер'}. Теперь войдите.`);
-                } else {
-                    showSuccess(`Аккаунт создан! Войдите под логином "${username}".`);
-                }
-                document.getElementById('registerUsername').value = '';
-                document.getElementById('registerPassword').value = '';
-                btn.disabled = false;
-                btn.textContent = 'Создать';
             }
         });
 
@@ -383,12 +258,6 @@
             successMsg.classList.remove('show');
         }
 
-        function showSuccess(msg) {
-            successMsg.textContent = msg;
-            successMsg.classList.add('show');
-            errorMsg.classList.remove('show');
-        }
-
         function hideMessages() {
             errorMsg.classList.remove('show');
             successMsg.classList.remove('show');
@@ -396,3 +265,4 @@
     </script>
 </body>
 </html>
+```
