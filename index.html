@@ -53,9 +53,9 @@
             position: sticky; top: 0; z-index: 100;
         }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(239,68,68,0.3); border: 1px solid rgba(255,255,255,0.2); }
-        .company-name { font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
-        .company-subtitle { 
+.logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); }
+.company-name { font-size: 1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; }
+.company-subtitle { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; } { 
     font-size: 0.6rem; 
     color: var(--text-secondary); 
     letter-spacing: 2px; 
@@ -186,17 +186,20 @@
 <body>
     <div class="container">
         <div class="header">
-    <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:2px;">
-        <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" style="height:30px; width:auto; max-width:100%; object-fit:contain;">
-        <span class="company-subtitle">доска мастера</span>
+    <div class="logo-area">
+        <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage Logo" class="logo-img">
+        <div class="company-info">
+            <div class="company-name">SpeedLine Garage</div>
+            <div class="company-subtitle">доска мастера</div>
+        </div>
     </div>
     <div class="header-right">
         <span class="user-info" id="userDisplay"></span>
         <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
     </div>
-</div>
-    <div class="header-right" style="flex-shrink:0;">
+</div>    
+        <div class="header-right" style="flex-shrink:0;">
         <span class="user-info" id="userDisplay"></span>
         <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
