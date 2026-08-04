@@ -2,31 +2,80 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>SpeedLine Garage 2.0 — Доска мастера</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedLine Garage 2.0</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>
-        eruda.init({ tool: ['console', 'elements', 'network', 'resources', 'sources', 'info'], useShadowDom: true });
-        eruda.hide();
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
-
+        body { background:#0f172a; color:#fff; font-family:sans-serif; margin:0; padding:10px; }
+        .header { display:flex; justify-content:space-between; padding:10px; background:#1e293b; }
+        button { padding:10px 20px; background:#ef4444; color:#fff; border:none; cursor:pointer; }
+        .card { background:#1e293b; padding:15px; margin:10px 0; border-radius:8px; cursor:pointer; }
+        .error { color:#ef4444; background:rgba(239,68,68,0.1); padding:20px; margin:20px 0; border-radius:8px; display:none; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" class="header-logo">
-            <span class="header-subtitle">доска мастера</span>
-            <div class="header-right">
-                <span class="user-info" id="userDisplay"></span>
-                <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
-                <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
-            </div>
-        </div>
+    <div class="header">
+        <span>SpeedLine Garage</span>
+        <span id="userDisplay"></span>
+        <button onclick="logout()">Выйти</button>
+    </div>
+    
+    <div class="error" id="errorBox"></div>
+    
+    <button onclick="addRecord()" style="width:100%;margin:10px 0;">+ Новое авто</button>
+    
+    <div id="cardsList"></div>
 
+    <script>
+        // Показываем ошибки на экране
+        window.onerror = function(msg, url, line) {
+            document.getElementById('errorBox').style.display = 'block';
+            document.getElementById('errorBox').innerHTML = `<b>Ошибка:</b> ${msg}<br><b>Строка:</b> ${line}`;
+        };
+
+        const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let workRecords = [];
+
+        async function checkSession() {
+            const { data: { session } } = await client.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return false; }
+            document.getElementById('userDisplay').textContent = '👤 ' + (session.user?.user_metadata?.username || 'user');
+            return true;
+        }
+
+        async function logout() {
+            await client.auth.signOut();
+            window.location.href = 'login.html';
+        }
+
+        async function fetchRecords() {
+            const { data, error } = await client.from('speedline_records').select('*').order('id', { ascending: false });
+            if (error) throw new Error('Ошибка загрузки: ' + error.message);
+            workRecords = data || [];
+            renderCards();
+        }
+
+        async function addRecord() {
+            const nr = { date: new Date().toISOString().split('T')[0], car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'in_progress', date_completed: null, archived: false, visits: '[]', invoice_data: '[]' };
+            const { data, error } = await client.from('speedline_records').insert([nr]).select();
+            if (error) { alert('Ошибка: ' + error.message); return; }
+            if (data?.[0]) { workRecords.unshift(data[0]); renderCards(); }
+        }
+
+        function renderCards() {
+            const el = document.getElementById('cardsList');
+            if (!workRecords.length) { el.innerHTML = '<p>Нет записей</p>'; return; }
+            el.innerHTML = workRecords.map(r => `<div class="card"><b>${r.car_brand||'Без марки'}</b> ${r.plate_number||''}<br>${r.client_name||''} | ${r.date||''}</div>`).join('');
+        }
+
+        (async function init() {
+            if (!await checkSession()) return;
+            await fetchRecords();
+        })();
+    </script>
 </body>
 </html>
