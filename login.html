@@ -4,66 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpeedLine Garage — Вход</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>
-        eruda.init();
-    </script>
+    <script>eruda.init({tool:['console','elements','network'],useShadowDom:true});eruda.hide();</script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-primary: #050510;
+            --text-primary: #e0f7ff;
+            --text-secondary: #6b7a94;
+            --neon-cyan: #00f0ff;
+            --neon-pink: #ff2a6d;
+            --neon-amber: #ffae00;
+            --font-hud: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --font-mono: 'Share Tech Mono', monospace;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            font-family: var(--font-body);
+            background: var(--bg-primary);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
         .login-container {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 16px;
+            background: rgba(5, 5, 16, 0.95);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 8px;
             padding: 40px 30px;
             width: 100%;
             max-width: 380px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.08), 0 0 80px rgba(0, 0, 0, 0.6);
         }
 
         .logo {
-    text-align: center;
-    margin-bottom: 30px;
-}
+            text-align: center;
+            margin-bottom: 35px;
+        }
 
         .logo-img {
-    height: 45px;
-    width: auto;
-    border-radius: 8px;
-    object-fit: contain;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-}
-
-        .logo-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            margin-bottom: 16px;
         }
 
         .logo-sub {
             font-size: 0.65rem;
-            color: #94a3b8;
+            color: var(--neon-cyan);
             letter-spacing: 3px;
             text-transform: uppercase;
+            font-family: var(--font-mono);
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
         }
 
         .form-group {
@@ -74,52 +75,51 @@
             display: block;
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: #94a3b8;
+            color: var(--neon-cyan);
             font-weight: 600;
             letter-spacing: 1px;
             margin-bottom: 6px;
+            font-family: var(--font-mono);
         }
 
         input {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
-            color: #f1f5f9;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 4px;
+            color: var(--text-primary);
             font-size: 1rem;
-            font-family: inherit;
+            font-family: var(--font-mono);
             transition: all 0.2s;
         }
 
         input:focus {
             outline: none;
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
         }
 
         input::placeholder {
-            color: #64748b;
+            color: #4a5568;
+            font-family: var(--font-body);
         }
 
         .btn-login {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 4px;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-top: 10px;
             transition: all 0.2s;
-        }
-
-        .btn-login:hover {
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            font-family: var(--font-hud);
         }
 
         .btn-login:active {
@@ -129,119 +129,101 @@
         .btn-login:disabled {
             opacity: 0.5;
             cursor: default;
-            box-shadow: none;
         }
 
         .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
+            background: rgba(255, 42, 109, 0.1);
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            color: var(--neon-pink);
             padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 0.8rem;
             text-align: center;
             margin-bottom: 16px;
             display: none;
+            font-family: var(--font-mono);
         }
 
         .error-message.show {
             display: block;
         }
+
+        .setup-hint {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #4a5568;
+            margin-top: 24px;
+            line-height: 1.5;
+            font-family: var(--font-mono);
+        }
+
+        .setup-hint strong {
+            color: var(--neon-amber);
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <!-- Логотип -->
         <div class="logo">
-    <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" style="width:100%;height:auto;object-fit:contain;margin-bottom:12px;">
-    <div class="logo-sub">доска мастера</div>
-</div>
+            <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" class="logo-img">
+            <div class="logo-sub">доска мастера</div>
+        </div>
 
-        <!-- Сообщение об ошибке -->
         <div class="error-message" id="errorMessage"></div>
 
-        <!-- Форма входа -->
         <form id="loginForm" autocomplete="off">
             <div class="form-group">
                 <label for="loginUsername">Логин</label>
-                <input 
-                    type="text" 
-                    id="loginUsername" 
-                    placeholder="Введите логин" 
-                    required 
-                    autocomplete="off"
-                >
+                <input type="text" id="loginUsername" placeholder="Введите логин" required autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="loginPassword">Пароль</label>
-                <input 
-                    type="password" 
-                    id="loginPassword" 
-                    placeholder="Введите пароль" 
-                    required 
-                    autocomplete="off"
-                >
+                <input type="password" id="loginPassword" placeholder="Введите пароль" required autocomplete="off">
             </div>
             <button type="submit" class="btn-login" id="loginBtn">Войти</button>
         </form>
+
+        <div class="setup-hint">
+            <strong>yura / yura1987</strong>
+        </div>
     </div>
 
     <script>
-        // ============================================
-        // КОНФИГУРАЦИЯ SUPABASE
-        // ============================================
         const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ============================================
-        // DOM-ЭЛЕМЕНТЫ
-        // ============================================
         const errorMsg = document.getElementById('errorMessage');
         const loginBtn = document.getElementById('loginBtn');
         const loginForm = document.getElementById('loginForm');
 
-        // ============================================
-        // ПОЛЬЗОВАТЕЛИ (логин → email)
-        // ============================================
         const USERS = {
-            'yura':    'yura@speedline.local',
-            'oleg':    'oleg@speedline.local',
+            'yura': 'yura@speedline.local',
+            'oleg': 'oleg@speedline.local',
             'valeriy': 'valeriy@speedline.local'
         };
 
-        // ============================================
-        // ПРОВЕРКА СЕССИИ (если уже вошёл — в index.html)
-        // ============================================
         async function checkSession() {
             const { data: { session } } = await client.auth.getSession();
-            if (session) {
-                window.location.href = 'index.html';
-            }
+            if (session) window.location.href = 'index.html';
         }
         checkSession();
 
-        // ============================================
-        // ОБРАБОТЧИК ВХОДА
-        // ============================================
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const username = document.getElementById('loginUsername').value.trim().toLowerCase();
             const password = document.getElementById('loginPassword').value;
 
-            // Проверка на пустые поля
             if (!username || !password) {
                 showError('Заполните все поля');
                 return;
             }
 
-            // Блокируем кнопку на время запроса
             loginBtn.disabled = true;
             loginBtn.textContent = 'Вход...';
             hideError();
 
-            // Получаем email по логину
             const email = USERS[username];
             if (!email) {
                 showError('Пользователь не найден');
@@ -250,27 +232,21 @@
                 return;
             }
 
-            // Пытаемся войти
             const { data, error } = await client.auth.signInWithPassword({ email, password });
 
             if (error) {
-                // Неверный пароль или другая ошибка
                 showError('Неверный логин или пароль');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Войти';
                 return;
             }
 
-            // Успешный вход — сохраняем данные и переходим
             const role = data.user?.user_metadata?.role || 'master';
             localStorage.setItem('userRole', role);
             localStorage.setItem('username', username);
             window.location.href = 'index.html';
         });
 
-        // ============================================
-        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-        // ============================================
         function showError(msg) {
             errorMsg.textContent = msg;
             errorMsg.classList.add('show');
@@ -282,4 +258,3 @@
     </script>
 </body>
 </html>
-by SeaWalker
