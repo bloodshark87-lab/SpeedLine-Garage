@@ -104,7 +104,7 @@
             text-transform:uppercase;flex-shrink:0;white-space:nowrap;font-family:var(--font-hud);
         }
         .status-in_progress{background:rgba(0,255,136,0.1);color:var(--success);border:1px solid rgba(0,255,136,0.3);}
-        .status-waiting_parts{background:rgba(255,174,0,0.1);color:var(--neon-amber);border:1px solid rgba(255,174,0,0.3);}
+        .status-waiting_parts{bFackground:rgba(255,174,0,0.1);color:var(--neon-amber);border:1px solid rgba(255,174,0,0.3);}
         .status-ready{background:rgba(0,240,255,0.1);color:var(--neon-cyan);border:1px solid rgba(0,240,255,0.3);}
         .status-completed{background:rgba(148,163,184,0.1);color:#8b9bb4;border:1px solid rgba(148,163,184,0.3);}
         .status-paused{background:rgba(255,42,109,0.1);color:var(--neon-pink);border:1px solid rgba(255,42,109,0.3);}
@@ -195,14 +195,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" class="header-logo">
-            <span class="header-subtitle">доска мастера</span>
-            <div class="header-right">
-                <span class="user-info" id="userDisplay"></span>
-                <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
-                <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
-            </div>
-        </div>
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; min-width:0;">
+        <img src="https://qtkbqqnfuwzqytssxmah.supabase.co/storage/v1/object/public/Logo/IMG_20260803_235244.png" alt="SpeedLine Garage" style="height:32px; width:100%; max-width:100%; object-fit:contain; border-radius:6px;">
+        <span style="font-size:0.55rem; color:var(--neon-cyan); letter-spacing:2px; text-transform:uppercase; font-family:var(--font-mono); margin-top:4px;">доска мастера</span>
+    </div>
+    <div class="header-right">
+        <span class="user-info" id="userDisplay"></span>
+        <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
+        <div id="syncStatus" class="sync-badge">🟢 Онлайн</div>
+    </div>
+</div>       
         <div class="search-container">
             <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
