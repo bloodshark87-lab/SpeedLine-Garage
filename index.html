@@ -362,6 +362,17 @@
         function getTodayISO() { return new Date().toISOString().split('T')[0]; }
         function parseJSON(j, fb) { if(!j) return fb; try { const p = JSON.parse(j); return Array.isArray(p) ? p : fb; } catch { return fb; } }
         function getVisits(r) { return r ? parseJSON(r.visits, []) : []; }
+        function getEffectiveStatus(rec) {
+    const visits = getVisits(rec);
+    // Ищем незавершённые визиты
+    const activeVisits = visits.filter(v => v.status !== 'completed');
+    // Если есть активные — берём статус последнего
+    if (activeVisits.length > 0) {
+        return activeVisits[activeVisits.length - 1].status;
+    }
+    // Если все завершены или визитов нет — "выдан клиенту"
+    return 'completed';
+}
         function getInvoices(r) { return r ? parseJSON(r.invoice_data, []) : []; }
         function parseWorks(d) { return parseJSON(d, []); }
         function getGroupedCatalog() { return WORKS_CATALOG.reduce((a,c) => { if(!a[c.category]) a[c.category]=[]; a[c.category].push(c); return a; }, {}); }
@@ -387,12 +398,7 @@
         }
 
         async function addRecord() {
-            const nr = { date: getTodayISO(), car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'in_progress', date_completed: null, archived: false, visits: '[]', invoice_data: '[]' };
-            const { data, error } = await client.from('speedline_records').insert([nr]).select();
-            if (error) { alert('Ошибка: ' + error.message); return; }
-            if (data?.[0]) { workRecords.unshift(data[0]); renderCardsList(); setTimeout(() => toggleCardExpansion(data[0].id), 100); }
-        }
-
+    const nr = { date: getTodayISO(), car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'completed', date_completed: getTodayISO(), archived: false, visits: '[]', invoice_data: '[]' };
         async function deleteRecord(id) {
             if (!isAdmin()) { alert('Только админ'); return; }
             if (!confirm('Удалить?')) return;
@@ -597,7 +603,7 @@
             if (!list.length) { el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery?'Ничего не найдено':'Нет записей'}</p></div>`; return; }
             el.innerHTML = list.map(r => {
                 const visits = getVisits(r);
-                const st = STATUS_OPTIONS.find(s => s.value===r.status) || STATUS_OPTIONS[0];
+                const st = STATUS_OPTIONS.find(s => s.value===getEffectiveStatus(r)) ||
                 return `<div class="card-wrapper"><div class="compact-card ${expandedCardId===r.id?'expanded':''}" onclick="toggleCardExpansion(${r.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(r.car_brand||'Без марки')}</span>${r.plate_number?`<span class="compact-plate">${escapeHTML(r.plate_number)}</span>`:''}</div><div class="compact-secondary">${r.client_name?`<span class="compact-client">👤 ${escapeHTML(r.client_name)}</span>`:''}${r.client_phone?`<span style="color:var(--text-secondary);font-size:0.7rem;">📱 ${escapeHTML(r.client_phone)}</span>`:''}<span class="compact-date">📅 ${formatDate(r.date)}</span>${visits.length?`<span class="compact-visits">🔄 ${visits.length}</span>`:''}</div></div><span class="status-badge status-${r.status}">${st.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="ec_${r.id}">${expandedCardId===r.id?renderExpandedHTML(r):''}</div></div>`;
             }).join('');
         }
