@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +64,6 @@
             border:1px solid rgba(0,255,136,0.3);font-family:var(--font-mono);white-space:nowrap;
         }
         .sync-badge.error{background:rgba(255,42,109,0.1);color:var(--neon-pink);border-color:rgba(255,42,109,0.3);}
-        
         .search-container{padding:12px 16px;position:sticky;top:56px;z-index:99;background:rgba(5,5,16,0.95);border-bottom:1px solid var(--border);}
         .search-wrapper{position:relative;}
         .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--neon-cyan);}
@@ -75,7 +73,6 @@
             font-size:0.9rem;font-family:var(--font-mono);
         }
         .search-input:focus{outline:none;border-color:var(--neon-cyan);}
-        
         .add-btn-container{padding:8px 16px;position:sticky;top:114px;z-index:98;background:rgba(5,5,16,0.95);border-bottom:1px solid var(--border);}
         .add-btn{
             background:linear-gradient(135deg,var(--neon-cyan),var(--neon-pink));
@@ -83,9 +80,7 @@
             cursor:pointer;text-transform:uppercase;width:100%;font-family:var(--font-hud);letter-spacing:1px;
         }
         .add-btn:active{transform:scale(0.98);}
-        
         .cards-list{padding:8px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto;}
-        
         .compact-card{
             background:var(--bg-card);border-radius:8px;padding:14px;
             border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:10px;
@@ -93,7 +88,6 @@
         }
         .compact-card:active{transform:scale(0.99);}
         .compact-card.expanded{border-color:var(--neon-pink);box-shadow:0 0 15px rgba(255,42,109,0.2);}
-        
         .car-icon{font-size:1.8rem;flex-shrink:0;}
         .compact-info{flex:1;min-width:0;}
         .compact-primary{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -105,7 +99,6 @@
         .compact-secondary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:0.75rem;color:var(--text-secondary);}
         .compact-client{color:#a0c4e8;}
         .compact-visits{color:var(--neon-amber);font-weight:700;}
-        
         .status-badge{
             padding:3px 10px;border-radius:4px;font-size:0.65rem;font-weight:700;
             text-transform:uppercase;flex-shrink:0;white-space:nowrap;font-family:var(--font-hud);
@@ -115,37 +108,28 @@
         .status-ready{background:rgba(0,240,255,0.1);color:var(--neon-cyan);border:1px solid rgba(0,240,255,0.3);}
         .status-completed{background:rgba(148,163,184,0.1);color:#8b9bb4;border:1px solid rgba(148,163,184,0.3);}
         .status-paused{background:rgba(255,42,109,0.1);color:var(--neon-pink);border:1px solid rgba(255,42,109,0.3);}
-        
         .expand-arrow{color:var(--neon-cyan);font-size:1.2rem;transition:transform 0.3s;flex-shrink:0;}
         .compact-card.expanded .expand-arrow{transform:rotate(180deg);}
-        
         .expanded-content{
             background:var(--bg-card);border:1px solid var(--border);border-top:none;
             border-radius:0 0 8px 8px;padding:16px;margin-top:-1px;display:none;
             flex-direction:column;gap:16px;backdrop-filter:blur(10px);
         }
         .compact-card.expanded+.expanded-content{display:flex;}
-        
         .section-title{
             font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;
             color:var(--neon-pink);margin-bottom:8px;font-weight:700;
             border-bottom:1px solid var(--border);padding-bottom:6px;font-family:var(--font-hud);
         }
         .section-title.visit-section{color:var(--neon-amber);display:flex;justify-content:space-between;}
-        
         .info-section{background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px;padding:14px;}
         .info-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
         .info-section-title{font-size:0.75rem;color:var(--neon-cyan);font-weight:700;font-family:var(--font-hud);text-transform:uppercase;}
-        .btn-edit-info{
-            background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.3);color:var(--neon-cyan);
-            padding:6px 14px;border-radius:4px;cursor:pointer;font-size:0.7rem;font-family:var(--font-hud);
-        }
-        
+        .btn-edit-info{background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.3);color:var(--neon-cyan);padding:6px 14px;border-radius:4px;cursor:pointer;font-size:0.7rem;font-family:var(--font-hud);}
         .field-group{display:flex;flex-direction:column;gap:10px;}
         .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
         .field{display:flex;flex-direction:column;gap:3px;}
         .field-label{font-size:0.7rem;text-transform:uppercase;color:var(--neon-cyan);font-family:var(--font-mono);}
-        
         input,textarea,select{
             width:100%;padding:10px 12px;background:rgba(0,0,0,0.4);
             border:1px solid rgba(0,240,255,0.2);border-radius:4px;
@@ -155,25 +139,13 @@
         input:disabled,textarea:disabled,select:disabled{opacity:0.6;background:rgba(0,0,0,0.2);}
         input[type="number"]{text-align:right;}
         textarea{resize:vertical;min-height:60px;}
-        
         .work-item{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.3);padding:10px;border-radius:4px;border:1px solid rgba(0,240,255,0.1);}
         .work-item select{flex:1;}
         .work-item .work-cost{width:80px;text-align:right;}
-        .remove-work-btn{
-            background:rgba(255,42,109,0.2);border:1px solid rgba(255,42,109,0.4);color:var(--neon-pink);
-            width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;
-            display:flex;align-items:center;justify-content:center;flex-shrink:0;
-        }
-        .add-work-btn,.add-visit-btn{
-            background:rgba(0,240,255,0.05);border:1px dashed rgba(0,240,255,0.25);color:var(--neon-cyan);
-            padding:10px;border-radius:4px;cursor:pointer;font-size:0.85rem;text-align:center;font-family:var(--font-hud);
-        }
-        
+        .remove-work-btn{background:rgba(255,42,109,0.2);border:1px solid rgba(255,42,109,0.4);color:var(--neon-pink);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .add-work-btn,.add-visit-btn{background:rgba(0,240,255,0.05);border:1px dashed rgba(0,240,255,0.25);color:var(--neon-cyan);padding:10px;border-radius:4px;cursor:pointer;font-size:0.85rem;text-align:center;font-family:var(--font-hud);}
         .visit-block{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;background:rgba(0,0,0,0.2);}
-        .visit-header-row{
-            display:flex;align-items:center;justify-content:space-between;
-            padding:12px;background:rgba(255,174,0,0.05);cursor:pointer;gap:8px;
-        }
+        .visit-header-row{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(255,174,0,0.05);cursor:pointer;gap:8px;}
         .visit-header-row.expanded{background:rgba(255,174,0,0.1);}
         .visit-header-left{display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;}
         .visit-header-date{font-weight:700;font-size:0.85rem;font-family:var(--font-mono);}
@@ -182,10 +154,8 @@
         .visit-header-total{font-weight:700;color:var(--neon-pink);font-size:0.9rem;}
         .visit-header-arrow{color:var(--neon-cyan);transition:transform 0.3s;}
         .visit-header-row.expanded .visit-header-arrow{transform:rotate(180deg);}
-        
         .visit-body-content{display:none;flex-direction:column;gap:10px;padding:14px;background:rgba(0,0,0,0.25);}
         .visit-body-content.open{display:flex;}
-        
         .invoice-box{background:rgba(0,0,0,0.3);border:1px solid rgba(0,240,255,0.2);border-radius:8px;padding:16px;margin-top:12px;}
         .invoice-title{font-size:0.85rem;font-weight:700;color:var(--neon-cyan);text-align:center;margin-bottom:12px;font-family:var(--font-hud);text-transform:uppercase;border-bottom:1px solid rgba(0,240,255,0.2);padding-bottom:8px;}
         .invoice-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:8px;font-family:var(--font-mono);}
@@ -197,70 +167,29 @@
         .invoice-total-line{display:flex;justify-content:space-between;font-weight:700;font-size:0.85rem;padding:4px 0;}
         .invoice-discount-line{display:flex;justify-content:space-between;color:var(--neon-amber);font-weight:700;}
         .invoice-final-line{display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem;color:var(--neon-pink);border-top:2px solid rgba(255,42,109,0.3);padding-top:8px;margin-top:8px;font-family:var(--font-hud);}
-        
-        .discount-checkbox-wrap{
-            display:flex;align-items:center;gap:10px;padding:10px 14px;
-            background:rgba(255,174,0,0.06);border:1px solid rgba(255,174,0,0.2);border-radius:4px;
-        }
+        .discount-checkbox-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,174,0,0.06);border:1px solid rgba(255,174,0,0.2);border-radius:4px;}
         .discount-checkbox-wrap input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon-amber);}
         .discount-checkbox-wrap label{font-size:0.85rem;color:var(--neon-amber);font-family:var(--font-hud);}
-        
-        .btn-close-visit{
-            background:linear-gradient(135deg,#00cc66,#009944);color:#000;border:none;
-            padding:14px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:800;
-            width:100%;font-family:var(--font-hud);text-transform:uppercase;letter-spacing:1px;
-        }
+        .btn-close-visit{background:linear-gradient(135deg,#00cc66,#009944);color:#000;border:none;padding:14px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:800;width:100%;font-family:var(--font-hud);text-transform:uppercase;letter-spacing:1px;}
         .btn-close-visit:active{transform:scale(0.97);}
-        
-        .btn-invoice-toggle,.btn-pdf-download{
-            background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.3);color:var(--neon-cyan);
-            padding:12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-weight:700;
-            width:100%;font-family:var(--font-hud);text-transform:uppercase;
-        }
+        .btn-invoice-toggle,.btn-pdf-download{background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.3);color:var(--neon-cyan);padding:12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-weight:700;width:100%;font-family:var(--font-hud);text-transform:uppercase;}
         .btn-pdf-download{background:rgba(0,255,136,0.1);border-color:rgba(0,255,136,0.3);color:var(--success);}
-        
-        .visit-new-btn{
-            background:rgba(255,174,0,0.08);border:1px dashed rgba(255,174,0,0.35);color:var(--neon-amber);
-            padding:14px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:700;
-            text-align:center;font-family:var(--font-hud);text-transform:uppercase;margin-top:4px;
-        }
-        .btn-delete-visit{
-            background:rgba(255,42,109,0.1);color:var(--neon-pink);border:1px solid rgba(255,42,109,0.25);
-            padding:8px 12px;font-size:0.75rem;border-radius:4px;cursor:pointer;font-family:var(--font-hud);
-        }
-        
+        .visit-new-btn{background:rgba(255,174,0,0.08);border:1px dashed rgba(255,174,0,0.35);color:var(--neon-amber);padding:14px;border-radius:4px;cursor:pointer;font-size:0.85rem;font-weight:700;text-align:center;font-family:var(--font-hud);text-transform:uppercase;margin-top:4px;}
+        .btn-delete-visit{background:rgba(255,42,109,0.1);color:var(--neon-pink);border:1px solid rgba(255,42,109,0.25);padding:8px 12px;font-size:0.75rem;border-radius:4px;cursor:pointer;font-family:var(--font-hud);}
         .photo-gallery{display:flex;flex-wrap:wrap;gap:8px;}
         .photo-thumb-wrap{position:relative;width:70px;height:70px;border-radius:4px;overflow:hidden;border:1px solid rgba(0,240,255,0.2);background:rgba(0,0,0,0.4);}
         .photo-thumb{width:100%;height:100%;object-fit:cover;cursor:pointer;}
-        .photo-delete-btn{
-            position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.8);color:var(--neon-pink);
-            border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;
-            display:flex;align-items:center;justify-content:center;
-        }
-        .add-photo-btn{
-            width:70px;height:70px;border-radius:4px;background:rgba(0,240,255,0.05);
-            border:2px dashed rgba(0,240,255,0.2);color:var(--neon-cyan);
-            display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;
-        }
-        
+        .photo-delete-btn{position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.8);color:var(--neon-pink);border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+        .add-photo-btn{width:70px;height:70px;border-radius:4px;background:rgba(0,240,255,0.05);border:2px dashed rgba(0,240,255,0.2);color:var(--neon-cyan);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;}
         .action-buttons{display:flex;gap:8px;flex-wrap:wrap;}
-        .btn{
-            padding:10px 16px;border-radius:4px;font-weight:700;font-size:0.85rem;
-            cursor:pointer;border:none;font-family:var(--font-hud);text-transform:uppercase;
-            flex:1;min-width:80px;text-align:center;
-        }
+        .btn{padding:10px 16px;border-radius:4px;font-weight:700;font-size:0.85rem;cursor:pointer;border:none;font-family:var(--font-hud);text-transform:uppercase;flex:1;min-width:80px;text-align:center;}
         .btn-save{background:var(--neon-pink);color:#fff;}
         .btn-edit{background:rgba(0,240,255,0.1);color:var(--text-primary);border:1px solid rgba(0,240,255,0.25);}
         .btn-delete{background:rgba(255,42,109,0.15);color:var(--neon-pink);border:1px solid rgba(255,42,109,0.3);}
-        
         .hidden-file-input{display:none;}
         .empty-state{text-align:center;padding:40px;color:var(--text-secondary);}
         .empty-state-icon{font-size:3rem;margin-bottom:12px;}
-        
-        @media(max-width:480px){
-            .header{padding:10px 12px;}
-            .field-row{grid-template-columns:1fr;}
-        }
+        @media(max-width:480px){.header{padding:10px 12px;}.field-row{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
@@ -285,394 +214,389 @@
         </div>
         <div class="cards-list" id="cardsList"></div>
     </div>
+<script>
+    const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    <script>
-        const SUPABASE_URL = 'https://qtkbqqnfuwzqytssxmah.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0a2JxcW5mdXd6cXl0c3N4bWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjMwMDMsImV4cCI6MjEwMDg5OTAwM30.YSE_kDwabkvAnOrq4lP1pofJTAtwao36cZde0kiUmFM';
-        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let currentUser = null;
+    let userRole = 'master';
+    let workRecords = [];
+    let expandedCardId = null;
+    let editingInfoId = null;
+    let editingVisitId = null;
+    let expandedVisitIds = {};
+    let expandedInvoiceIds = {};
+    let infoEditStates = {};
+    let visitEditStates = {};
+    let saveTimeouts = {};
+    let searchQuery = '';
 
-        let currentUser = null;
-        let userRole = 'master';
-        let workRecords = [];
-        let expandedCardId = null;
-        let editingInfoId = null;
-        let editingVisitId = null;
-        let expandedVisitIds = {};
-        let expandedInvoiceIds = {};
-        let infoEditStates = {};
-        let visitEditStates = {};
-        let saveTimeouts = {};
-        let searchQuery = '';
+    const WORKS_CATALOG = [
+        { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
+        { category: "Тормозная система", name: "Замена передних колодок (труд)", cost: 26 },
+        { category: "Тормозная система", name: "Замена задних колодок (труд)", cost: 40 },
+        { category: "Тормозная система", name: "Замена дисков + колодок (труд)", cost: 55 },
+        { category: "Тормозная система", name: "Ремонт / обслуживание суппортов", cost: 33 },
+        { category: "Тормозная система", name: "Замена тормозной жидкости", cost: 22 },
+        { category: "Тормозная система", name: "Проточка торм. дисков", cost: 30 },
+        { category: "Тормозная система", name: "Очистка барабанов стояночного тормоза", cost: 30 },
+        { category: "Двигатель / ТО", name: "Замена масла в двигателе (труд)", cost: 25 },
+        { category: "Двигатель / ТО", name: "Замена масла + фильтры (труд)", cost: 30 },
+        { category: "Двигатель / ТО", name: "Замена воздушного фильтра", cost: 10 },
+        { category: "Двигатель / ТО", name: "Замена салонного фильтра", cost: 10 },
+        { category: "Двигатель / ТО", name: "Замена свечей зажигания", cost: 20 },
+        { category: "Двигатель / ТО", name: "Диагностика двигателя (компьютерная)", cost: 25 },
+        { category: "Ремни", name: "Замена ремня ГРМ (труд)", cost: 126 },
+        { category: "Ремни", name: "Замена ремня генератора", cost: 35 },
+        { category: "Подвеска", name: "Диагностика ходовой части", cost: 20 },
+        { category: "Подвеска", name: "Замена переднего амортизатора (1 шт.)", cost: 35 },
+        { category: "Подвеска", name: "Замена заднего амортизатора (1 шт.)", cost: 30 },
+        { category: "Подвеска", name: "Замена рычага подвески", cost: 35 },
+        { category: "Подвеска", name: "Замена шаровой опоры", cost: 25 },
+        { category: "Подвеска", name: "Замена стойки стабилизатора", cost: 15 },
+        { category: "Подвеска", name: "Сход-развал (передний мост)", cost: 30 },
+        { category: "Трансмиссия", name: "Замена масла в МКПП", cost: 25 },
+        { category: "Трансмиссия", name: "Замена масла в АКПП", cost: 51 },
+        { category: "Трансмиссия", name: "Замена сцепления (труд)", cost: 150 },
+        { category: "Шиномонтаж", name: "Демонтаж/монтаж + баланс (13-16\")", cost: 8 },
+        { category: "Шиномонтаж", name: "Демонтаж/монтаж + баланс (17-18\")", cost: 12 },
+        { category: "Шиномонтаж", name: "Ремонт прокола (латка/жгут)", cost: 8 },
+        { category: "Шиномонтаж", name: "Хранение шин (сезон, 4 шт.)", cost: 25 },
+        { category: "Электрика", name: "Замена лампы ближнего света", cost: 5 },
+        { category: "Электрика", name: "Полировка фар (пара, базовая)", cost: 25 },
+        { category: "Электрика", name: "Диагностика электрооборудования", cost: 25 },
+        { category: "Кондиционер", name: "Диагностика кондиционера", cost: 20 },
+        { category: "Кондиционер", name: "Заправка кондиционера (R134a)", cost: 35 },
+        { category: "Рулевое", name: "Замена рулевой тяги / наконечника", cost: 20 },
+        { category: "Рулевое", name: "Замена рулевой рейки (труд)", cost: 80 },
+        { category: "Выхлоп", name: "Замена глушителя (труд)", cost: 30 },
+        { category: "Детейлинг", name: "Мойка кузова (комплекс)", cost: 15 },
+        { category: "Детейлинг", name: "Химчистка салона (базовая)", cost: 50 },
+        { category: "Детейлинг", name: "Полировка кузова (1 этап)", cost: 150 }
+    ];
 
-        const WORKS_CATALOG = [
-            { category: "Тормозная система", name: "Диагностика тормозной системы", cost: 20 },
-            { category: "Тормозная система", name: "Замена передних колодок (труд)", cost: 26 },
-            { category: "Тормозная система", name: "Замена задних колодок (труд)", cost: 40 },
-            { category: "Тормозная система", name: "Замена дисков + колодок (труд)", cost: 55 },
-            { category: "Тормозная система", name: "Ремонт / обслуживание суппортов", cost: 33 },
-            { category: "Тормозная система", name: "Замена тормозной жидкости", cost: 22 },
-            { category: "Тормозная система", name: "Проточка торм. дисков", cost: 30 },
-            { category: "Тормозная система", name: "Очистка барабанов стояночного тормоза", cost: 30 },
-            { category: "Двигатель / ТО", name: "Замена масла в двигателе (труд)", cost: 25 },
-            { category: "Двигатель / ТО", name: "Замена масла + фильтры (труд)", cost: 30 },
-            { category: "Двигатель / ТО", name: "Замена воздушного фильтра", cost: 10 },
-            { category: "Двигатель / ТО", name: "Замена салонного фильтра", cost: 10 },
-            { category: "Двигатель / ТО", name: "Замена свечей зажигания", cost: 20 },
-            { category: "Двигатель / ТО", name: "Диагностика двигателя (компьютерная)", cost: 25 },
-            { category: "Ремни", name: "Замена ремня ГРМ (труд)", cost: 126 },
-            { category: "Ремни", name: "Замена ремня генератора", cost: 35 },
-            { category: "Подвеска", name: "Диагностика ходовой части", cost: 20 },
-            { category: "Подвеска", name: "Замена переднего амортизатора (1 шт.)", cost: 35 },
-            { category: "Подвеска", name: "Замена заднего амортизатора (1 шт.)", cost: 30 },
-            { category: "Подвеска", name: "Замена рычага подвески", cost: 35 },
-            { category: "Подвеска", name: "Замена шаровой опоры", cost: 25 },
-            { category: "Подвеска", name: "Замена стойки стабилизатора", cost: 15 },
-            { category: "Подвеска", name: "Сход-развал (передний мост)", cost: 30 },
-            { category: "Трансмиссия", name: "Замена масла в МКПП", cost: 25 },
-            { category: "Трансмиссия", name: "Замена масла в АКПП", cost: 51 },
-            { category: "Трансмиссия", name: "Замена сцепления (труд)", cost: 150 },
-            { category: "Шиномонтаж", name: "Демонтаж/монтаж + баланс (13-16\")", cost: 8 },
-            { category: "Шиномонтаж", name: "Демонтаж/монтаж + баланс (17-18\")", cost: 12 },
-            { category: "Шиномонтаж", name: "Ремонт прокола (латка/жгут)", cost: 8 },
-            { category: "Шиномонтаж", name: "Хранение шин (сезон, 4 шт.)", cost: 25 },
-            { category: "Электрика", name: "Замена лампы ближнего света", cost: 5 },
-            { category: "Электрика", name: "Полировка фар (пара, базовая)", cost: 25 },
-            { category: "Электрика", name: "Диагностика электрооборудования", cost: 25 },
-            { category: "Кондиционер", name: "Диагностика кондиционера", cost: 20 },
-            { category: "Кондиционер", name: "Заправка кондиционера (R134a)", cost: 35 },
-            { category: "Рулевое", name: "Замена рулевой тяги / наконечника", cost: 20 },
-            { category: "Рулевое", name: "Замена рулевой рейки (труд)", cost: 80 },
-            { category: "Выхлоп", name: "Замена глушителя (труд)", cost: 30 },
-            { category: "Детейлинг", name: "Мойка кузова (комплекс)", cost: 15 },
-            { category: "Детейлинг", name: "Химчистка салона (базовая)", cost: 50 },
-            { category: "Детейлинг", name: "Полировка кузова (1 этап)", cost: 150 }
-        ];
+    const STATUS_OPTIONS = [
+        { value: 'in_progress', label: '🟢 В работе' },
+        { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
+        { value: 'ready', label: '🔵 Готов к выдаче' },
+        { value: 'completed', label: '⚪ Выдан клиенту' },
+        { value: 'paused', label: '🔴 Приостановлен' }
+    ];
 
-        const STATUS_OPTIONS = [
-            { value: 'in_progress', label: '🟢 В работе' },
-            { value: 'waiting_parts', label: '🟡 Ожидает запчасти' },
-            { value: 'ready', label: '🔵 Готов к выдаче' },
-            { value: 'completed', label: '⚪ Выдан клиенту' },
-            { value: 'paused', label: '🔴 Приостановлен' }
-        ];
+    const getEl = id => document.getElementById(id);
+    function escapeHTML(s) { const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+    function formatDate(d) { if(!d) return ''; const p = d.split('-'); return `${p[2]}.${p[1]}.${p[0]}`; }
+    function getTodayISO() { return new Date().toISOString().split('T')[0]; }
+    function parseJSON(j, fb) { if(!j) return fb; try { const p = JSON.parse(j); return Array.isArray(p) ? p : fb; } catch { return fb; } }
+    function getVisits(r) { return r ? parseJSON(r.visits, []) : []; }
+    function getEffectiveStatus(rec) { const visits = getVisits(rec); const active = visits.filter(v => v.status !== 'completed'); return active.length > 0 ? active[active.length-1].status : 'completed'; }
+    function getInvoices(r) { return r ? parseJSON(r.invoice_data, []) : []; }
+    function parseWorks(d) { return parseJSON(d, []); }
+    function getGroupedCatalog() { return WORKS_CATALOG.reduce((a,c) => { if(!a[c.category]) a[c.category]=[]; a[c.category].push(c); return a; }, {}); }
+    function groupWorksByCategory(items) { const g = {}; items.forEach(w => { const ci = WORKS_CATALOG.find(c => c.name===w.name); const cat = ci?ci.category:'Прочее'; if(!g[cat]) g[cat]=[]; g[cat].push(w); }); return g; }
 
-        const getEl = id => document.getElementById(id);
-        function escapeHTML(s) { const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
-        function formatDate(d) { if(!d) return ''; const p = d.split('-'); return `${p[2]}.${p[1]}.${p[0]}`; }
-        function getTodayISO() { return new Date().toISOString().split('T')[0]; }
-        function parseJSON(j, fb) { if(!j) return fb; try { const p = JSON.parse(j); return Array.isArray(p) ? p : fb; } catch { return fb; } }
-        function getVisits(r) { return r ? parseJSON(r.visits, []) : []; }
-        function getEffectiveStatus(rec) {
-    const visits = getVisits(rec);
-    // Ищем незавершённые визиты
-    const activeVisits = visits.filter(v => v.status !== 'completed');
-    // Если есть активные — берём статус последнего
-    if (activeVisits.length > 0) {
-        return activeVisits[activeVisits.length - 1].status;
+    async function checkSession() {
+        const { data: { session } } = await client.auth.getSession();
+        if (!session) { window.location.href = 'login.html'; return false; }
+        currentUser = session.user;
+        userRole = currentUser.user_metadata?.role || 'master';
+        getEl('userDisplay').textContent = `👤 ${currentUser.user_metadata?.username||'user'} (${userRole==='admin'?'Админ':'Мастер'})`;
+        return true;
     }
-    // Если все завершены или визитов нет — "выдан клиенту"
-    return 'completed';
-}
-        function getInvoices(r) { return r ? parseJSON(r.invoice_data, []) : []; }
-        function parseWorks(d) { return parseJSON(d, []); }
-        function getGroupedCatalog() { return WORKS_CATALOG.reduce((a,c) => { if(!a[c.category]) a[c.category]=[]; a[c.category].push(c); return a; }, {}); }
-        function groupWorksByCategory(items) { const g = {}; items.forEach(w => { const ci = WORKS_CATALOG.find(c => c.name===w.name); const cat = ci?ci.category:'Прочее'; if(!g[cat]) g[cat]=[]; g[cat].push(w); }); return g; }
+    function isAdmin() { return userRole === 'admin'; }
+    async function logout() { await client.auth.signOut(); localStorage.clear(); window.location.href = 'login.html'; }
 
-        async function checkSession() {
-            const { data: { session } } = await client.auth.getSession();
-            if (!session) { window.location.href = 'login.html'; return false; }
-            currentUser = session.user;
-            userRole = currentUser.user_metadata?.role || 'master';
-            getEl('userDisplay').textContent = `👤 ${currentUser.user_metadata?.username||'user'} (${userRole==='admin'?'Админ':'Мастер'})`;
-            return true;
-        }
-        function isAdmin() { return userRole === 'admin'; }
-        async function logout() { await client.auth.signOut(); localStorage.clear(); window.location.href = 'login.html'; }
+    async function fetchRecords() {
+        const { data, error } = await client.from('speedline_records').select('*').order('id', { ascending: false });
+        if (error) { getEl('syncStatus').textContent = '🔴 Офлайн'; getEl('syncStatus').className = 'sync-badge error'; return; }
+        workRecords = data || [];
+        getEl('syncStatus').textContent = '🟢 Онлайн'; getEl('syncStatus').className = 'sync-badge';
+        renderCardsList();
+    }
 
-        async function fetchRecords() {
-            const { data, error } = await client.from('speedline_records').select('*').order('id', { ascending: false });
-            if (error) { getEl('syncStatus').textContent = '🔴 Офлайн'; getEl('syncStatus').className = 'sync-badge error'; return; }
-            workRecords = data || [];
-            getEl('syncStatus').textContent = '🟢 Онлайн'; getEl('syncStatus').className = 'sync-badge';
-            renderCardsList();
-        }
+    async function addRecord() {
+        const nr = { date: getTodayISO(), car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'completed', date_completed: getTodayISO(), archived: false, visits: '[]', invoice_data: '[]' };
+        const { data, error } = await client.from('speedline_records').insert([nr]).select();
+        if (error) { alert('Ошибка: ' + error.message); return; }
+        if (data?.[0]) { workRecords.unshift(data[0]); renderCardsList(); setTimeout(() => toggleCardExpansion(data[0].id), 100); }
+    }
 
-        async function addRecord() {
-    const nr = { date: getTodayISO(), car_brand: '', vin: '', plate_number: '', client_name: '', client_phone: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', photos: [], status: 'completed', date_completed: getTodayISO(), archived: false, visits: '[]', invoice_data: '[]' };
-        async function deleteRecord(id) {
-            if (!isAdmin()) { alert('Только админ'); return; }
-            if (!confirm('Удалить?')) return;
-            await client.from('speedline_records').delete().eq('id', id);
-            workRecords = workRecords.filter(r => r.id !== id);
-            expandedCardId = null; renderCardsList();
-        }
+    async function deleteRecord(id) {
+        if (!isAdmin()) { alert('Только администратор может удалять записи'); return; }
+        if (!confirm('Удалить эту запись из базы данных?')) return;
+        const { error } = await client.from('speedline_records').delete().eq('id', id);
+        if (error) { alert('Ошибка удаления: ' + error.message); return; }
+        workRecords = workRecords.filter(r => r.id !== id);
+        expandedCardId = null; editingInfoId = null;
+        renderCardsList();
+    }
 
-        function startEditInfo(id) {
-            editingInfoId = id;
-            const r = workRecords.find(r => r.id === id);
-            if (r) infoEditStates[id] = { client_name: r.client_name||'', client_phone: r.client_phone||'', car_brand: r.car_brand||'', vin: r.vin||'', plate_number: r.plate_number||'', date: r.date||'' };
-            renderExpandedContent(id);
-        }
-        function cancelEditInfo(id) { delete infoEditStates[id]; editingInfoId = null; renderExpandedContent(id); }
-        async function saveInfo(id) {
-            const s = infoEditStates[id]; if (!s) return;
-            const upd = { client_name: s.client_name, client_phone: s.client_phone, car_brand: s.car_brand, vin: s.vin, plate_number: s.plate_number, date: s.date };
-            await client.from('speedline_records').update(upd).eq('id', id);
-            const r = workRecords.find(r => r.id === id); if (r) Object.assign(r, upd);
-            delete infoEditStates[id]; editingInfoId = null;
-            renderExpandedContent(id); renderCardsList();
-        }
-        function handleInfoChange(id, f, v) { if (!infoEditStates[id]) infoEditStates[id] = {}; infoEditStates[id][f] = v; }
+    function startEditInfo(id) {
+        editingInfoId = id;
+        const r = workRecords.find(r => r.id === id);
+        if (r) infoEditStates[id] = { client_name: r.client_name||'', client_phone: r.client_phone||'', car_brand: r.car_brand||'', vin: r.vin||'', plate_number: r.plate_number||'', date: r.date||'' };
+        renderExpandedContent(id);
+    }
+    function cancelEditInfo(id) { delete infoEditStates[id]; editingInfoId = null; renderExpandedContent(id); }
+    async function saveInfo(id) {
+        const s = infoEditStates[id]; if (!s) return;
+        const upd = { client_name: s.client_name, client_phone: s.client_phone, car_brand: s.car_brand, vin: s.vin, plate_number: s.plate_number, date: s.date };
+        const { error } = await client.from('speedline_records').update(upd).eq('id', id);
+        if (error) { alert('Ошибка: ' + error.message); return; }
+        const r = workRecords.find(r => r.id === id); if (r) Object.assign(r, upd);
+        delete infoEditStates[id]; editingInfoId = null;
+        renderExpandedContent(id); renderCardsList();
+    }
+    function handleInfoChange(id, f, v) { if (!infoEditStates[id]) infoEditStates[id] = {}; infoEditStates[id][f] = v; }
 
-        function addVisit(rid) {
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
+    function addVisit(rid) {
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const visits = getVisits(r);
+        visits.push({ visit_date: getTodayISO(), mileage: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', status: 'in_progress', date_completed: null });
+        r.visits = JSON.stringify(visits);
+        updateVisits(rid, visits);
+        expandedVisitIds[`${rid}_${visits.length-1}`] = true;
+        startEditVisit(rid, visits.length-1);
+    }
+    function deleteVisit(rid, idx) {
+        if (!isAdmin()) { alert('Только администратор может удалять визиты'); return; }
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const visits = getVisits(r); visits.splice(idx,1);
+        r.visits = JSON.stringify(visits); updateVisits(rid, visits);
+        editingVisitId = null; renderExpandedContent(rid);
+    }
+    function toggleVisitExpansion(rid, idx) { expandedVisitIds[`${rid}_${idx}`] = !expandedVisitIds[`${rid}_${idx}`]; renderExpandedContent(rid); }
+    function toggleInvoiceDisplay(rid, idx) { expandedInvoiceIds[`${rid}_${idx}`] = !expandedInvoiceIds[`${rid}_${idx}`]; renderExpandedContent(rid); }
+
+    async function closeVisitAndCreateInvoice(rid, idx) {
+        if (!isAdmin()) { alert('Только администратор может закрывать визиты'); return; }
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const visits = getVisits(r); const v = visits[idx]; if (!v) return;
+        const discount = document.getElementById(`discount_${rid}_${idx}`)?.checked || false;
+        const wItems = parseWorks(v.work_description);
+        const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+        const mCost = parseFloat(v.material_cost)||0;
+        const sub = wCost + mCost;
+        const discAmt = discount ? Math.round(sub*0.1*100)/100 : 0;
+        const total = sub - discAmt;
+        const inv = { invoice_number: `INV-${rid}-${idx}-${Date.now().toString(36).toUpperCase()}`, invoice_date: getTodayISO(), car_brand: r.car_brand||'', plate_number: r.plate_number||'', client_name: r.client_name||'', client_phone: r.client_phone||'', visit_date: v.visit_date, mileage: v.mileage||'', works: wItems, work_cost: wCost, materials: v.materials||'', material_cost: mCost, subtotal: sub, discount_10: discount, discount_amount: discAmt, total };
+        const invoices = getInvoices(r); invoices.push(inv);
+        r.invoice_data = JSON.stringify(invoices);
+        visits[idx].status = 'completed'; visits[idx].date_completed = getTodayISO(); visits[idx].work_cost = wCost;
+        r.visits = JSON.stringify(visits);
+        const { error } = await client.from('speedline_records').update({ visits: r.visits, invoice_data: r.invoice_data }).eq('id', rid);
+        if (error) { alert('Ошибка: ' + error.message); return; }
+        expandedInvoiceIds[`${rid}_${idx}`] = true;
+        renderExpandedContent(rid);
+    }
+
+    async function closeCurrentVisitAndCreateInvoice(rid) {
+        if (!isAdmin()) { alert('Только администратор может закрывать визиты'); return; }
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const discount = document.getElementById(`discount_current_${rid}`)?.checked || false;
+        const wItems = parseWorks(r.work_description);
+        const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+        const mCost = parseFloat(r.material_cost)||0;
+        const sub = wCost + mCost;
+        const discAmt = discount ? Math.round(sub*0.1*100)/100 : 0;
+        const total = sub - discAmt;
+        const today = getTodayISO();
+        const completed = { visit_date: r.date||today, mileage: '', work_description: r.work_description, work_cost: wCost, materials: r.materials||'', material_cost: mCost, notes: r.notes||'', status: 'completed', date_completed: today };
+        const visits = getVisits(r); visits.push(completed);
+        const inv = { invoice_number: `INV-${rid}-${visits.length-1}-${Date.now().toString(36).toUpperCase()}`, invoice_date: today, car_brand: r.car_brand||'', plate_number: r.plate_number||'', client_name: r.client_name||'', client_phone: r.client_phone||'', visit_date: r.date||today, mileage: '', works: wItems, work_cost: wCost, materials: r.materials||'', material_cost: mCost, subtotal: sub, discount_10: discount, discount_amount: discAmt, total };
+        const invoices = getInvoices(r); invoices.push(inv);
+        const upd = { date: today, work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', status: 'completed', date_completed: today, visits: JSON.stringify(visits), invoice_data: JSON.stringify(invoices) };
+        const { error } = await client.from('speedline_records').update(upd).eq('id', rid);
+        if (error) { alert('Ошибка: ' + error.message); return; }
+        Object.assign(r, upd);
+        expandedInvoiceIds[`${rid}_${visits.length-1}`] = true;
+        expandedVisitIds[`${rid}_${visits.length-1}`] = true;
+        renderCardsList(); if (expandedCardId === rid) renderExpandedContent(rid);
+        alert('Визит завершён! Счёт-фактура создана в истории обслуживания.');
+    }
+
+    async function updateVisits(id, arr) {
+        clearTimeout(saveTimeouts['v_'+id]);
+        saveTimeouts['v_'+id] = setTimeout(async () => {
+            await client.from('speedline_records').update({ visits: JSON.stringify(arr) }).eq('id', id);
+        }, 500);
+    }
+
+    function startEditVisit(rid, idx) {
+        editingVisitId = `${rid}_${idx}`;
+        const v = getVisits(workRecords.find(r => r.id === rid))[idx];
+        if (v) visitEditStates[editingVisitId] = { visit_date: v.visit_date||'', mileage: v.mileage||'', work_description: v.work_description||'[]', materials: v.materials||'', material_cost: v.material_cost||0, notes: v.notes||'', status: v.status||'in_progress' };
+        renderExpandedContent(rid);
+    }
+    function cancelEditVisit(rid, idx) { delete visitEditStates[`${rid}_${idx}`]; editingVisitId = null; renderExpandedContent(rid); }
+    async function saveVisit(rid, idx) {
+        const k = `${rid}_${idx}`; const s = visitEditStates[k]; if (!s) return;
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const visits = getVisits(r);
+        const wItems = parseWorks(s.work_description);
+        visits[idx] = { ...visits[idx], visit_date: s.visit_date, mileage: parseInt(s.mileage)||null, work_description: s.work_description, work_cost: wItems.reduce((a,w) => a+(parseFloat(w.cost)||0),0), materials: s.materials, material_cost: parseFloat(s.material_cost)||0, notes: s.notes, status: s.status, date_completed: s.status==='completed'?(visits[idx].date_completed||getTodayISO()):visits[idx].date_completed };
+        r.visits = JSON.stringify(visits); await updateVisits(rid, visits);
+        delete visitEditStates[k]; editingVisitId = null; renderExpandedContent(rid);
+    }
+    function handleVisitEditChange(rid, idx, f, v) { const k = `${rid}_${idx}`; if (!visitEditStates[k]) visitEditStates[k] = {}; visitEditStates[k][f] = v; }
+    function updateVisitWorkItem(rid, idx, wi, f, v) {
+        const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
+        const items = parseWorks(visitEditStates[k].work_description||'[]');
+        if (items[wi]) { if (f==='cost') items[wi].cost = parseFloat(v)||0; else if (f==='name') { const ci = WORKS_CATALOG.find(c => c.name===v); items[wi].name = v; if (ci) items[wi].cost = ci.cost; } }
+        visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
+    }
+    function addVisitWorkItem(rid, idx) {
+        const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
+        const items = parseWorks(visitEditStates[k].work_description||'[]');
+        items.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost });
+        visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
+    }
+    function removeVisitWorkItem(rid, idx, wi) {
+        const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
+        const items = parseWorks(visitEditStates[k].work_description||'[]');
+        items.splice(wi,1); visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
+    }
+
+    function triggerPhotoUpload(id) { document.getElementById(`fileInput_${id}`)?.click(); }
+    async function uploadPhotos(id, inp) {
+        const files = inp.files; if (!files?.length) return;
+        const r = workRecords.find(r => r.id === id); if (!r) return;
+        let photos = Array.isArray(r.photos) ? [...r.photos] : [];
+        for (let f of files) {
+            const fn = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${f.name.split('.').pop()}`;
+            const { error } = await client.storage.from('Logo').upload(fn, f, { upsert: true });
+            if (error) continue;
+            const { data } = client.storage.from('Logo').getPublicUrl(fn);
+            if (data?.publicUrl) photos.push(data.publicUrl);
+        }
+        await client.from('speedline_records').update({ photos }).eq('id', id);
+        r.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
+        inp.value = '';
+    }
+    async function deletePhoto(id, pi) {
+        if (!confirm('Удалить фото?')) return;
+        const r = workRecords.find(r => r.id === id); if (!r) return;
+        const photos = [...r.photos]; photos.splice(pi,1);
+        await client.from('speedline_records').update({ photos }).eq('id', id);
+        r.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
+    }
+
+    async function downloadInvoicePDF(rid, idx) {
+        const r = workRecords.find(r => r.id === rid); if (!r) return;
+        const v = getVisits(r)[idx]; if (!v) return;
+        const wItems = parseWorks(v.work_description);
+        const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0),0);
+        const inv = getInvoices(r).find(i => i.visit_date===v.visit_date && i.work_cost===wCost);
+        if (!inv) { alert('Счёт не найден'); return; }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 20;
+        doc.setFontSize(20); doc.setTextColor(220,38,38); doc.text('SpeedLine Garage',14,y); y+=8;
+        doc.setFontSize(9); doc.setTextColor(120); doc.text('DOCKA MACTEPA',14,y); y+=10;
+        doc.setFontSize(12); doc.setTextColor(59,130,246); doc.text(`Schet: ${inv.invoice_number}`,14,y); y+=6;
+        doc.setFontSize(9); doc.setTextColor(80); doc.text(`Data: ${formatDate(inv.invoice_date)}`,14,y); y+=10;
+        doc.setFontSize(11); doc.setTextColor(0); doc.text(`Auto: ${inv.car_brand} | ${inv.plate_number}`,14,y); y+=6;
+        if (inv.client_name) { doc.text(`Klient: ${inv.client_name}`,14,y); y+=6; }
+        y+=6;
+        doc.setFillColor(30,41,59); doc.setTextColor(255); doc.setFontSize(8);
+        doc.rect(14,y,182,7,'F'); doc.text('KATEGORIYA',16,y+5); doc.text('NAIMENOVANIE',75,y+5); doc.text('SUMMA',188,y+5,{align:'right'}); y+=9;
+        Object.entries(groupWorksByCategory(inv.works)).forEach(([cat,items]) => {
+            doc.setFillColor(245,158,11,0.15); doc.setTextColor(200,130,0); doc.setFontSize(7);
+            doc.rect(14,y,182,6,'F'); doc.text(cat,16,y+4); y+=7;
+            doc.setTextColor(50); doc.setFontSize(8);
+            items.forEach(w => { if(y>270){doc.addPage();y=20;} doc.text(w.name,75,y+4); doc.text(`${parseFloat(w.cost).toFixed(0)} E`,188,y+4,{align:'right'}); y+=5.5; });
+        });
+        y+=5; doc.setDrawColor(200); doc.line(100,y,196,y); y+=7;
+        doc.setFontSize(9); doc.setTextColor(50);
+        doc.text('Raboti:',100,y); doc.text(`${inv.work_cost.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5;
+        if(inv.material_cost>0){ doc.text('Rashodniki:',100,y); doc.text(`${inv.material_cost.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5; }
+        doc.text('Podytog:',100,y); doc.text(`${inv.subtotal.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5;
+        if(inv.discount_10){ doc.setTextColor(200,130,0); doc.text('Skidka 10%:',100,y); doc.text(`-${inv.discount_amount.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5; }
+        y+=3; doc.setDrawColor(220,38,38); doc.setLineWidth(0.5); doc.line(100,y,196,y); y+=7;
+        doc.setFontSize(12); doc.setTextColor(220,38,38); doc.setFont(undefined,'bold');
+        doc.text('ITOGO:',100,y); doc.text(`${inv.total.toFixed(0)} E`,188,y,{align:'right'});
+        doc.setFontSize(8); doc.setTextColor(150); doc.setFont(undefined,'normal');
+        doc.text('Spasibo! SpeedLine Garage',105,280,{align:'center'});
+        doc.save(`schet_${inv.invoice_number}.pdf`);
+    }
+
+    function renderCardsList() {
+        const el = getEl('cardsList'); if (!el) return;
+        let list = workRecords;
+        if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase();
+            list = workRecords.filter(r => (r.car_brand||'').toLowerCase().includes(q) || (r.vin||'').toLowerCase().includes(q) || (r.plate_number||'').toLowerCase().includes(q) || (r.client_name||'').toLowerCase().includes(q) || (r.client_phone||'').includes(q) || (r.date||'').includes(q) || formatDate(r.date).includes(q));
+        }
+        if (!list.length) { el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery?'Ничего не найдено':'Нет записей'}</p></div>`; return; }
+        el.innerHTML = list.map(r => {
             const visits = getVisits(r);
-            visits.push({ visit_date: getTodayISO(), mileage: '', work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', status: 'in_progress', date_completed: null });
-            r.visits = JSON.stringify(visits);
-            updateVisits(rid, visits);
-            expandedVisitIds[`${rid}_${visits.length-1}`] = true;
-            startEditVisit(rid, visits.length-1);
-        }
-        function deleteVisit(rid, idx) {
-            if (!isAdmin()) { alert('Только админ'); return; }
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
-            const visits = getVisits(r); visits.splice(idx,1);
-            r.visits = JSON.stringify(visits); updateVisits(rid, visits);
-            editingVisitId = null; renderExpandedContent(rid);
-        }
-        function toggleVisitExpansion(rid, idx) { expandedVisitIds[`${rid}_${idx}`] = !expandedVisitIds[`${rid}_${idx}`]; renderExpandedContent(rid); }
-        function toggleInvoiceDisplay(rid, idx) { expandedInvoiceIds[`${rid}_${idx}`] = !expandedInvoiceIds[`${rid}_${idx}`]; renderExpandedContent(rid); }
+            const effStatus = getEffectiveStatus(r);
+            const st = STATUS_OPTIONS.find(s => s.value===effStatus) || STATUS_OPTIONS[3];
+            return `<div class="card-wrapper"><div class="compact-card ${expandedCardId===r.id?'expanded':''}" onclick="toggleCardExpansion(${r.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(r.car_brand||'Без марки')}</span>${r.plate_number?`<span class="compact-plate">${escapeHTML(r.plate_number)}</span>`:''}</div><div class="compact-secondary">${r.client_name?`<span class="compact-client">👤 ${escapeHTML(r.client_name)}</span>`:''}${r.client_phone?`<span style="color:var(--text-secondary);font-size:0.7rem;">📱 ${escapeHTML(r.client_phone)}</span>`:''}<span class="compact-date">📅 ${formatDate(r.date)}</span>${visits.length?`<span class="compact-visits">🔄 ${visits.length}</span>`:''}</div></div><span class="status-badge status-${effStatus}">${st.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="ec_${r.id}">${expandedCardId===r.id?renderExpandedHTML(r):''}</div></div>`;
+        }).join('');
+    }
 
-        async function closeVisitAndCreateInvoice(rid, idx) {
-            if (!isAdmin()) { alert('Только админ'); return; }
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
-            const visits = getVisits(r); const v = visits[idx]; if (!v) return;
-            const discount = document.getElementById(`discount_${rid}_${idx}`)?.checked || false;
-            const wItems = parseWorks(v.work_description);
-            const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-            const mCost = parseFloat(v.material_cost)||0;
-            const sub = wCost + mCost;
-            const discAmt = discount ? Math.round(sub*0.1*100)/100 : 0;
-            const total = sub - discAmt;
-            const inv = { invoice_number: `INV-${rid}-${idx}-${Date.now().toString(36).toUpperCase()}`, invoice_date: getTodayISO(), car_brand: r.car_brand||'', plate_number: r.plate_number||'', client_name: r.client_name||'', client_phone: r.client_phone||'', visit_date: v.visit_date, mileage: v.mileage||'', works: wItems, work_cost: wCost, materials: v.materials||'', material_cost: mCost, subtotal: sub, discount_10: discount, discount_amount: discAmt, total };
-            const invoices = getInvoices(r); invoices.push(inv);
-            r.invoice_data = JSON.stringify(invoices);
-            visits[idx].status = 'completed'; visits[idx].date_completed = getTodayISO(); visits[idx].work_cost = wCost;
-            r.visits = JSON.stringify(visits);
-            await client.from('speedline_records').update({ visits: r.visits, invoice_data: r.invoice_data }).eq('id', rid);
-            expandedInvoiceIds[`${rid}_${idx}`] = true;
-            renderExpandedContent(rid);
+    function renderExpandedHTML(r) {
+        const isEditInfo = editingInfoId === r.id;
+        const infoS = infoEditStates[r.id] || {};
+        const infoD = isEditInfo ? { ...r, ...infoS } : r;
+        const dis = isEditInfo ? '' : 'disabled';
+        const wItems = parseWorks(r.work_description);
+        const photos = Array.isArray(r.photos) ? r.photos : [];
+        const visits = getVisits(r);
+        const invoices = getInvoices(r);
+        const hasWork = wItems.length > 0;
+        const cat = getGroupedCatalog();
+
+        let infoHTML = `<div class="info-section"><div class="info-section-header"><span class="info-section-title">👤 Общая информация</span>${isEditInfo?`<div style="display:flex;gap:6px;"><button class="btn-edit-info" style="background:var(--accent);color:white;" onclick="event.stopPropagation();saveInfo(${r.id})">💾 Сохранить</button><button class="btn-edit-info" onclick="event.stopPropagation();cancelEditInfo(${r.id})">↩ Отменить</button></div>`:`<button class="btn-edit-info" onclick="event.stopPropagation();startEditInfo(${r.id})">✏️ Редактировать</button>`}</div><div class="field-group"><div class="field-row"><div class="field"><div class="field-label">🚗 Марка авто</div><input value="${escapeHTML(infoD.car_brand||'')}" ${dis} oninput="handleInfoChange(${r.id},'car_brand',this.value)"></div><div class="field"><div class="field-label">🔢 Госномер</div><input value="${escapeHTML(infoD.plate_number||'')}" ${dis} style="text-transform:uppercase;" oninput="handleInfoChange(${r.id},'plate_number',this.value)"></div></div><div class="field-row"><div class="field"><div class="field-label">👤 ФИО клиента</div><input value="${escapeHTML(infoD.client_name||'')}" ${dis} oninput="handleInfoChange(${r.id},'client_name',this.value)"></div><div class="field"><div class="field-label">📱 Телефон</div><input value="${escapeHTML(infoD.client_phone||'')}" ${dis} oninput="handleInfoChange(${r.id},'client_phone',this.value)"></div></div><div class="field-row"><div class="field"><div class="field-label">🧬 VIN</div><input value="${escapeHTML(infoD.vin||'')}" ${dis} style="text-transform:uppercase;" oninput="handleInfoChange(${r.id},'vin',this.value)"></div><div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${infoD.date||''}" ${dis} oninput="handleInfoChange(${r.id},'date',this.value)"></div></div></div></div>`;
+
+        let curHTML = '';
+        if (hasWork) {
+            const wHTML = wItems.map(w => `<div class="work-item"><span style="flex:1;font-size:0.85rem;">${escapeHTML(w.name)}</span><span style="color:var(--text-secondary);font-weight:600;">${(parseFloat(w.cost)||0).toFixed(0)} €</span></div>`).join('');
+            const twc = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+            const tmc = parseFloat(r.material_cost)||0;
+            curHTML = `<div class="section-title">🔧 Текущий визит</div><div class="field-group">${wHTML}<div class="field-row"><div class="field"><div class="field-label">💵 Работы</div><input value="${twc.toFixed(0)} €" disabled></div><div class="field"></div></div>${r.materials?`<div class="field"><div class="field-label">🔩 Расходники</div><div style="font-size:0.85rem;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;">${escapeHTML(r.materials)}</div></div>`:''}${tmc>0?`<div class="field"><div class="field-label">💰 Расходники</div><input value="${tmc.toFixed(0)} €" disabled></div>`:''}${isAdmin()?`<div class="discount-checkbox-wrap"><input type="checkbox" id="discount_current_${r.id}"><label for="discount_current_${r.id}">Скидка 10%</label></div><button class="btn-close-visit" onclick="event.stopPropagation();closeCurrentVisitAndCreateInvoice(${r.id})">🔒 Завершить и создать счёт</button>`:''}</div>`;
         }
 
-        async function closeCurrentVisitAndCreateInvoice(rid) {
-            if (!isAdmin()) { alert('Только админ'); return; }
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
-            const discount = document.getElementById(`discount_current_${rid}`)?.checked || false;
-            const wItems = parseWorks(r.work_description);
-            const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-            const mCost = parseFloat(r.material_cost)||0;
-            const sub = wCost + mCost;
-            const discAmt = discount ? Math.round(sub*0.1*100)/100 : 0;
-            const total = sub - discAmt;
-            const today = getTodayISO();
-            const completed = { visit_date: r.date||today, mileage: '', work_description: r.work_description, work_cost: wCost, materials: r.materials||'', material_cost: mCost, notes: r.notes||'', status: 'completed', date_completed: today };
-            const visits = getVisits(r); visits.push(completed);
-            const inv = { invoice_number: `INV-${rid}-${visits.length-1}-${Date.now().toString(36).toUpperCase()}`, invoice_date: today, car_brand: r.car_brand||'', plate_number: r.plate_number||'', client_name: r.client_name||'', client_phone: r.client_phone||'', visit_date: r.date||today, mileage: '', works: wItems, work_cost: wCost, materials: r.materials||'', material_cost: mCost, subtotal: sub, discount_10: discount, discount_amount: discAmt, total };
-            const invoices = getInvoices(r); invoices.push(inv);
-            const upd = { date: today, work_description: '[]', work_cost: 0, materials: '', material_cost: 0, notes: '', status: 'in_progress', date_completed: null, visits: JSON.stringify(visits), invoice_data: JSON.stringify(invoices) };
-            await client.from('speedline_records').update(upd).eq('id', rid);
-            Object.assign(r, upd);
-            expandedInvoiceIds[`${rid}_${visits.length-1}`] = true;
-            expandedVisitIds[`${rid}_${visits.length-1}`] = true;
-            renderCardsList(); if (expandedCardId === rid) renderExpandedContent(rid);
-            alert('Визит завершён!');
-        }
+        let vTotal = 0; visits.forEach(v => { const vw = parseWorks(v.work_description); vTotal += vw.reduce((s,w) => s+(parseFloat(w.cost)||0),0) + (parseFloat(v.material_cost)||0); });
+        const allTotal = ((parseFloat(r.work_cost)||0)+(parseFloat(r.material_cost)||0)) + vTotal;
 
-        async function updateVisits(id, arr) {
-            clearTimeout(saveTimeouts['v_'+id]);
-            saveTimeouts['v_'+id] = setTimeout(async () => {
-                await client.from('speedline_records').update({ visits: JSON.stringify(arr) }).eq('id', id);
-            }, 500);
-        }
+        let visHTML = `<div class="section-title visit-section"><span>📋 История обслуживания (${visits.length})</span></div><div class="field-group">`;
+        if (visits.length) {
+            visits.forEach((v, idx) => {
+                const key = `${r.id}_${idx}`;
+                const isEdit = editingVisitId === key;
+                const isOpen = expandedVisitIds[key];
+                const invOpen = expandedInvoiceIds[key];
+                const vs = visitEditStates[key] || {};
+                const vd = isEdit ? { ...v, ...vs } : v;
+                const vw = (isEdit && vs.work_description) ? parseWorks(vs.work_description) : parseWorks(v.work_description);
+                const vwc = vw.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
+                const vmc = parseFloat(vd.material_cost)||0;
+                const vt = vwc + vmc;
+                const st = STATUS_OPTIONS.find(s => s.value===vd.status) || STATUS_OPTIONS[0];
+                const done = vd.status === 'completed';
+                const inv = invoices.find(i => i.visit_date===v.visit_date && i.work_cost===vwc);
 
-        function startEditVisit(rid, idx) {
-            editingVisitId = `${rid}_${idx}`;
-            const v = getVisits(workRecords.find(r => r.id === rid))[idx];
-            if (v) visitEditStates[editingVisitId] = { visit_date: v.visit_date||'', mileage: v.mileage||'', work_description: v.work_description||'[]', materials: v.materials||'', material_cost: v.material_cost||0, notes: v.notes||'', status: v.status||'in_progress' };
-            renderExpandedContent(rid);
-        }
-        function cancelEditVisit(rid, idx) { delete visitEditStates[`${rid}_${idx}`]; editingVisitId = null; renderExpandedContent(rid); }
-        async function saveVisit(rid, idx) {
-            const k = `${rid}_${idx}`; const s = visitEditStates[k]; if (!s) return;
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
-            const visits = getVisits(r);
-            const wItems = parseWorks(s.work_description);
-            visits[idx] = { ...visits[idx], visit_date: s.visit_date, mileage: parseInt(s.mileage)||null, work_description: s.work_description, work_cost: wItems.reduce((a,w) => a+(parseFloat(w.cost)||0),0), materials: s.materials, material_cost: parseFloat(s.material_cost)||0, notes: s.notes, status: s.status, date_completed: s.status==='completed'?(visits[idx].date_completed||getTodayISO()):visits[idx].date_completed };
-            r.visits = JSON.stringify(visits); await updateVisits(rid, visits);
-            delete visitEditStates[k]; editingVisitId = null; renderExpandedContent(rid);
-        }
-        function handleVisitEditChange(rid, idx, f, v) { const k = `${rid}_${idx}`; if (!visitEditStates[k]) visitEditStates[k] = {}; visitEditStates[k][f] = v; }
-        function updateVisitWorkItem(rid, idx, wi, f, v) {
-            const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
-            const items = parseWorks(visitEditStates[k].work_description||'[]');
-            if (items[wi]) { if (f==='cost') items[wi].cost = parseFloat(v)||0; else if (f==='name') { const ci = WORKS_CATALOG.find(c => c.name===v); items[wi].name = v; if (ci) items[wi].cost = ci.cost; } }
-            visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
-        }
-        function addVisitWorkItem(rid, idx) {
-            const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
-            const items = parseWorks(visitEditStates[k].work_description||'[]');
-            items.push({ name: WORKS_CATALOG[0].name, cost: WORKS_CATALOG[0].cost });
-            visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
-        }
-        function removeVisitWorkItem(rid, idx, wi) {
-            const k = `${rid}_${idx}`; if (!visitEditStates[k]) return;
-            const items = parseWorks(visitEditStates[k].work_description||'[]');
-            items.splice(wi,1); visitEditStates[k].work_description = JSON.stringify(items); renderExpandedContent(rid);
-        }
-
-        function triggerPhotoUpload(id) { document.getElementById(`fileInput_${id}`)?.click(); }
-        async function uploadPhotos(id, inp) {
-            const files = inp.files; if (!files?.length) return;
-            const r = workRecords.find(r => r.id === id); if (!r) return;
-            let photos = Array.isArray(r.photos) ? [...r.photos] : [];
-            for (let f of files) {
-                const fn = `repair_${id}_${Date.now()}_${Math.random().toString(36).substring(2,7)}.${f.name.split('.').pop()}`;
-                const { error } = await client.storage.from('Logo').upload(fn, f, { upsert: true });
-                if (error) continue;
-                const { data } = client.storage.from('Logo').getPublicUrl(fn);
-                if (data?.publicUrl) photos.push(data.publicUrl);
-            }
-            await client.from('speedline_records').update({ photos }).eq('id', id);
-            r.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
-            inp.value = '';
-        }
-        async function deletePhoto(id, pi) {
-            if (!confirm('Удалить?')) return;
-            const r = workRecords.find(r => r.id === id); if (!r) return;
-            const photos = [...r.photos]; photos.splice(pi,1);
-            await client.from('speedline_records').update({ photos }).eq('id', id);
-            r.photos = photos; if (expandedCardId === id) renderExpandedContent(id);
-        }
-
-        async function downloadInvoicePDF(rid, idx) {
-            const r = workRecords.find(r => r.id === rid); if (!r) return;
-            const v = getVisits(r)[idx]; if (!v) return;
-            const wItems = parseWorks(v.work_description);
-            const wCost = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0),0);
-            const inv = getInvoices(r).find(i => i.visit_date===v.visit_date && i.work_cost===wCost);
-            if (!inv) { alert('Счёт не найден'); return; }
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            let y = 20;
-            doc.setFontSize(20); doc.setTextColor(220,38,38); doc.text('SpeedLine Garage',14,y); y+=8;
-            doc.setFontSize(9); doc.setTextColor(120); doc.text('DOCKA MACTEPA',14,y); y+=10;
-            doc.setFontSize(12); doc.setTextColor(59,130,246); doc.text(`Schet: ${inv.invoice_number}`,14,y); y+=6;
-            doc.setFontSize(9); doc.setTextColor(80); doc.text(`Data: ${formatDate(inv.invoice_date)}`,14,y); y+=10;
-            doc.setFontSize(11); doc.setTextColor(0); doc.text(`Auto: ${inv.car_brand} | ${inv.plate_number}`,14,y); y+=6;
-            if (inv.client_name) { doc.text(`Klient: ${inv.client_name}`,14,y); y+=6; }
-            y+=6;
-            doc.setFillColor(30,41,59); doc.setTextColor(255); doc.setFontSize(8);
-            doc.rect(14,y,182,7,'F'); doc.text('KATEGORIYA',16,y+5); doc.text('NAIMENOVANIE',75,y+5); doc.text('SUMMA',188,y+5,{align:'right'}); y+=9;
-            Object.entries(groupWorksByCategory(inv.works)).forEach(([cat,items]) => {
-                doc.setFillColor(245,158,11,0.15); doc.setTextColor(200,130,0); doc.setFontSize(7);
-                doc.rect(14,y,182,6,'F'); doc.text(cat,16,y+4); y+=7;
-                doc.setTextColor(50); doc.setFontSize(8);
-                items.forEach(w => { if(y>270){doc.addPage();y=20;} doc.text(w.name,75,y+4); doc.text(`${parseFloat(w.cost).toFixed(0)} E`,188,y+4,{align:'right'}); y+=5.5; });
+                visHTML += `<div class="visit-block"><div class="visit-header-row ${isOpen?'expanded':''}" onclick="event.stopPropagation();toggleVisitExpansion(${r.id},${idx})"><div class="visit-header-left"><span class="visit-header-date">📅 ${formatDate(vd.visit_date)}</span>${vd.mileage?`<span class="visit-header-mileage">🔢 ${vd.mileage} км</span>`:''}<span class="visit-header-status status-${vd.status}">${st.label}</span>${inv?'<span style="font-size:0.7rem;color:var(--info);">🧾</span>':''}</div><span class="visit-header-total">${vt.toFixed(0)} €</span><span class="visit-header-arrow">▼</span></div><div class="visit-body-content ${isOpen?'open':''}">${isEdit?`<div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input type="date" value="${vd.visit_date||''}" oninput="handleVisitEditChange(${r.id},${idx},'visit_date',this.value)"></div><div class="field"><div class="field-label">🔢 Пробег</div><input type="number" value="${vd.mileage||''}" oninput="handleVisitEditChange(${r.id},${idx},'mileage',this.value)"></div></div><div class="field"><div class="field-label">📌 Статус</div><select onchange="handleVisitEditChange(${r.id},${idx},'status',this.value)">${STATUS_OPTIONS.map(s => `<option value="${s.value}" ${vd.status===s.value?'selected':''}>${s.label}</option>`).join('')}</select></div><div class="field-label" style="margin-top:4px;">🔧 Работы</div>${vw.map((w,wi) => `<div class="work-item"><select onchange="updateVisitWorkItem(${r.id},${idx},${wi},'name',this.value)">${Object.entries(cat).map(([c,items]) => `<optgroup label="${escapeHTML(c)}">${items.map(i => `<option value="${escapeHTML(i.name)}" ${w.name===i.name?'selected':''}>${escapeHTML(i.name)} (${i.cost}€)</option>`).join('')}</optgroup>`).join('')}</select><input type="number" class="work-cost" value="${w.cost}" oninput="updateVisitWorkItem(${r.id},${idx},${wi},'cost',this.value)"><button class="remove-work-btn" onclick="removeVisitWorkItem(${r.id},${idx},${wi})">✕</button></div>`).join('')}<button class="add-work-btn" onclick="addVisitWorkItem(${r.id},${idx})">➕ Работа</button><div class="field"><div class="field-label" style="margin-top:4px;">💰 Работы: ${vwc.toFixed(0)} €</div></div><div class="field"><div class="field-label">🔩 Расходники</div><textarea rows="2" oninput="handleVisitEditChange(${r.id},${idx},'materials',this.value)">${escapeHTML(vd.materials||'')}</textarea></div><div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${vmc}" oninput="handleVisitEditChange(${r.id},${idx},'material_cost',this.value)"></div><div class="field"><div class="field-label">📝 Заметки</div><textarea rows="2" oninput="handleVisitEditChange(${r.id},${idx},'notes',this.value)">${escapeHTML(vd.notes||'')}</textarea></div><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-save" onclick="event.stopPropagation();saveVisit(${r.id},${idx})">💾 Сохранить</button><button class="btn btn-edit" onclick="event.stopPropagation();cancelEditVisit(${r.id},${idx})">↩ Отменить</button>${isAdmin()?`<button class="btn-delete-visit" onclick="event.stopPropagation();deleteVisit(${r.id},${idx})">🗑️</button>`:''}</div>`:`<div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input value="${formatDate(v.visit_date)}" disabled></div><div class="field"><div class="field-label">🔢 Пробег</div><input value="${v.mileage?v.mileage+' км':'—'}" disabled></div></div><div class="field"><div class="field-label">📌 Статус</div><input value="${st.label}" disabled></div>${!done && isAdmin()?`<div class="discount-checkbox-wrap"><input type="checkbox" id="discount_${r.id}_${idx}"><label for="discount_${r.id}_${idx}">Скидка 10%</label></div><button class="btn-close-visit" onclick="event.stopPropagation();closeVisitAndCreateInvoice(${r.id},${idx})">🔒 Закрыть визит и создать счёт</button>`:''}${inv?`<button class="btn-invoice-toggle" onclick="event.stopPropagation();toggleInvoiceDisplay(${r.id},${idx})">${invOpen?'📊 Скрыть счёт':'🧾 Показать счёт'}</button>${invOpen?`<div class="invoice-box"><div class="invoice-title">📋 СЧЁТ-ФАКТУРА №${inv.invoice_number}</div><div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">🚗 ${escapeHTML(inv.car_brand)} ${escapeHTML(inv.plate_number)} | 📅 ${formatDate(inv.invoice_date)}</div>${inv.client_name?`<div style="font-size:0.78rem;color:var(--text-secondary);">👤 ${escapeHTML(inv.client_name)}${inv.client_phone?' | 📱 '+escapeHTML(inv.client_phone):''}</div>`:''}<table class="invoice-table"><thead><tr><th>Категория</th><th>Наименование</th><th>Сумма</th></tr></thead><tbody>${Object.entries(groupWorksByCategory(inv.works)).map(([cat,items]) => `<tr class="invoice-category-row"><td colspan="3">${escapeHTML(cat)}</td></tr>${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}`).join('')}</tbody></table><div class="invoice-total-line"><span>💵 Работы:</span><span>${inv.work_cost.toFixed(0)} €</span></div>${inv.materials?`<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${inv.material_cost.toFixed(0)} €</span></div>`:''}<div class="invoice-total-line"><span>Подытог:</span><span>${inv.subtotal.toFixed(0)} €</span></div>${inv.discount_10?`<div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${inv.discount_amount.toFixed(0)} €</span></div>`:''}<div class="invoice-final-line"><span>💰 ИТОГО:</span><span>${inv.total.toFixed(0)} €</span></div><div style="text-align:center;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);"><button class="btn-pdf-download" onclick="event.stopPropagation();downloadInvoicePDF(${r.id},${idx})">📥 Скачать PDF</button></div></div>`:''}`:''}<div style="display:flex;gap:8px;margin-top:8px;">${!done?`<button class="btn btn-edit" onclick="event.stopPropagation();startEditVisit(${r.id},${idx})">✏️</button>`:''}${isAdmin()?`<button class="btn-delete-visit" onclick="event.stopPropagation();deleteVisit(${r.id},${idx})">🗑️</button>`:''}</div>`}</div></div>`;
             });
-            y+=5; doc.setDrawColor(200); doc.line(100,y,196,y); y+=7;
-            doc.setFontSize(9); doc.setTextColor(50);
-            doc.text('Raboti:',100,y); doc.text(`${inv.work_cost.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5;
-            if(inv.material_cost>0){ doc.text('Rashodniki:',100,y); doc.text(`${inv.material_cost.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5; }
-            doc.text('Podytog:',100,y); doc.text(`${inv.subtotal.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5;
-            if(inv.discount_10){ doc.setTextColor(200,130,0); doc.text('Skidka 10%:',100,y); doc.text(`-${inv.discount_amount.toFixed(0)} E`,188,y,{align:'right'}); y+=5.5; }
-            y+=3; doc.setDrawColor(220,38,38); doc.setLineWidth(0.5); doc.line(100,y,196,y); y+=7;
-            doc.setFontSize(12); doc.setTextColor(220,38,38); doc.setFont(undefined,'bold');
-            doc.text('ITOGO:',100,y); doc.text(`${inv.total.toFixed(0)} E`,188,y,{align:'right'});
-            doc.setFontSize(8); doc.setTextColor(150); doc.setFont(undefined,'normal');
-            doc.text('Spasibo! SpeedLine Garage',105,280,{align:'center'});
-            doc.save(`schet_${inv.invoice_number}.pdf`);
-        }
+        } else { visHTML += `<div style="color:var(--text-secondary);font-size:0.85rem;text-align:center;padding:12px;">Нет завершённых визитов</div>`; }
+        visHTML += `<button class="visit-new-btn" onclick="event.stopPropagation();addVisit(${r.id})">🔄 Новый визит</button></div>`;
 
-        function renderCardsList() {
-            const el = getEl('cardsList'); if (!el) return;
-            let list = workRecords;
-            if (searchQuery.trim()) {
-                const q = searchQuery.toLowerCase();
-                list = workRecords.filter(r => (r.car_brand||'').toLowerCase().includes(q) || (r.vin||'').toLowerCase().includes(q) || (r.plate_number||'').toLowerCase().includes(q) || (r.client_name||'').toLowerCase().includes(q) || (r.client_phone||'').includes(q) || (r.date||'').includes(q) || formatDate(r.date).includes(q));
-            }
-            if (!list.length) { el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔧</div><p>${searchQuery?'Ничего не найдено':'Нет записей'}</p></div>`; return; }
-            el.innerHTML = list.map(r => {
-                const visits = getVisits(r);
-                const st = STATUS_OPTIONS.find(s => s.value===getEffectiveStatus(r)) ||
-                return `<div class="card-wrapper"><div class="compact-card ${expandedCardId===r.id?'expanded':''}" onclick="toggleCardExpansion(${r.id})"><span class="car-icon">🚗</span><div class="compact-info"><div class="compact-primary"><span class="compact-car">${escapeHTML(r.car_brand||'Без марки')}</span>${r.plate_number?`<span class="compact-plate">${escapeHTML(r.plate_number)}</span>`:''}</div><div class="compact-secondary">${r.client_name?`<span class="compact-client">👤 ${escapeHTML(r.client_name)}</span>`:''}${r.client_phone?`<span style="color:var(--text-secondary);font-size:0.7rem;">📱 ${escapeHTML(r.client_phone)}</span>`:''}<span class="compact-date">📅 ${formatDate(r.date)}</span>${visits.length?`<span class="compact-visits">🔄 ${visits.length}</span>`:''}</div></div><span class="status-badge status-${r.status}">${st.label}</span><span class="expand-arrow">▼</span></div><div class="expanded-content" id="ec_${r.id}">${expandedCardId===r.id?renderExpandedHTML(r):''}</div></div>`;
-            }).join('');
-        }
+        return `${infoHTML}${curHTML}${visHTML}<div class="section-title">📸 Фотографии</div><div class="photo-gallery">${photos.map((url,pi) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" onclick="window.open('${url}','_blank')"><button class="photo-delete-btn" onclick="event.stopPropagation();deletePhoto(${r.id},${pi})">✕</button></div>`).join('')}<div class="add-photo-btn" onclick="triggerPhotoUpload(${r.id})">＋</div><input type="file" id="fileInput_${r.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${r.id}, this)"></div><div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,42,109,0.1);padding:14px;border-radius:4px;font-weight:800;font-size:1.1rem;border:1px solid rgba(255,42,109,0.2);font-family:var(--font-hud);"><span>💰 Итого по машине:</span><span style="color:var(--neon-pink);">${allTotal.toFixed(0)} €</span></div><div class="action-buttons">${isAdmin()?`<button class="btn btn-delete" onclick="event.stopPropagation();deleteRecord(${r.id})">🗑️ Удалить авто</button>`:''}</div>`;
+    }
 
-        function renderExpandedHTML(r) {
-            const isEditInfo = editingInfoId === r.id;
-            const infoS = infoEditStates[r.id] || {};
-            const infoD = isEditInfo ? { ...r, ...infoS } : r;
-            const dis = isEditInfo ? '' : 'disabled';
-            const wItems = parseWorks(r.work_description);
-            const photos = Array.isArray(r.photos) ? r.photos : [];
-            const visits = getVisits(r);
-            const invoices = getInvoices(r);
-            const hasWork = wItems.length > 0;
-            const cat = getGroupedCatalog();
+    function renderExpandedContent(id) { const el = getEl(`ec_${id}`); if (!el) return; const r = workRecords.find(r => r.id === id); if (!r) return; el.innerHTML = renderExpandedHTML(r); }
+    function toggleCardExpansion(id) { expandedCardId = expandedCardId === id ? null : id; renderCardsList(); }
 
-            let infoHTML = `<div class="info-section"><div class="info-section-header"><span class="info-section-title">👤 Общая информация</span>${isEditInfo?`<div style="display:flex;gap:6px;"><button class="btn-edit-info" style="background:var(--accent);color:white;" onclick="event.stopPropagation();saveInfo(${r.id})">💾 Сохранить</button><button class="btn-edit-info" onclick="event.stopPropagation();cancelEditInfo(${r.id})">↩ Отменить</button></div>`:`<button class="btn-edit-info" onclick="event.stopPropagation();startEditInfo(${r.id})">✏️ Редактировать</button>`}</div><div class="field-group"><div class="field-row"><div class="field"><div class="field-label">🚗 Марка авто</div><input value="${escapeHTML(infoD.car_brand||'')}" ${dis} oninput="handleInfoChange(${r.id},'car_brand',this.value)"></div><div class="field"><div class="field-label">🔢 Госномер</div><input value="${escapeHTML(infoD.plate_number||'')}" ${dis} style="text-transform:uppercase;" oninput="handleInfoChange(${r.id},'plate_number',this.value)"></div></div><div class="field-row"><div class="field"><div class="field-label">👤 ФИО клиента</div><input value="${escapeHTML(infoD.client_name||'')}" ${dis} oninput="handleInfoChange(${r.id},'client_name',this.value)"></div><div class="field"><div class="field-label">📱 Телефон</div><input value="${escapeHTML(infoD.client_phone||'')}" ${dis} oninput="handleInfoChange(${r.id},'client_phone',this.value)"></div></div><div class="field-row"><div class="field"><div class="field-label">🧬 VIN</div><input value="${escapeHTML(infoD.vin||'')}" ${dis} style="text-transform:uppercase;" oninput="handleInfoChange(${r.id},'vin',this.value)"></div><div class="field"><div class="field-label">📅 Дата приёма</div><input type="date" value="${infoD.date||''}" ${dis} oninput="handleInfoChange(${r.id},'date',this.value)"></div></div></div></div>`;
+    let searchTimeout;
+    getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingInfoId = null; editingVisitId = null; infoEditStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedInvoiceIds = {}; renderCardsList(); }, 200); });
+    getEl('addBtn').addEventListener('click', addRecord);
 
-            let curHTML = '';
-            if (hasWork) {
-                const wHTML = wItems.map(w => `<div class="work-item"><span style="flex:1;font-size:0.85rem;">${escapeHTML(w.name)}</span><span style="color:var(--text-secondary);font-weight:600;">${(parseFloat(w.cost)||0).toFixed(0)} €</span></div>`).join('');
-                const twc = wItems.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-                const tmc = parseFloat(r.material_cost)||0;
-                curHTML = `<div class="section-title">🔧 Текущий визит</div><div class="field-group">${wHTML}<div class="field-row"><div class="field"><div class="field-label">💵 Работы</div><input value="${twc.toFixed(0)} €" disabled></div><div class="field"></div></div>${r.materials?`<div class="field"><div class="field-label">🔩 Расходники</div><div style="font-size:0.85rem;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;">${escapeHTML(r.materials)}</div></div>`:''}${tmc>0?`<div class="field"><div class="field-label">💰 Расходники</div><input value="${tmc.toFixed(0)} €" disabled></div>`:''}${isAdmin()?`<div class="discount-checkbox-wrap"><input type="checkbox" id="discount_current_${r.id}"><label for="discount_current_${r.id}">Скидка 10%</label></div><button class="btn-close-visit" onclick="event.stopPropagation();closeCurrentVisitAndCreateInvoice(${r.id})">🔒 Завершить и создать счёт</button>`:''}</div>`;
-            }
+    function initRealtime() { client.channel('public:speedline_records').on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, () => fetchRecords()).subscribe(); }
 
-            let vTotal = 0; visits.forEach(v => { const vw = parseWorks(v.work_description); vTotal += vw.reduce((s,w) => s+(parseFloat(w.cost)||0),0) + (parseFloat(v.material_cost)||0); });
-            const allTotal = ((parseFloat(r.work_cost)||0)+(parseFloat(r.material_cost)||0)) + vTotal;
-
-            let visHTML = `<div class="section-title visit-section"><span>📋 История обслуживания (${visits.length})</span></div><div class="field-group">`;
-            if (visits.length) {
-                visits.forEach((v, idx) => {
-                    const key = `${r.id}_${idx}`;
-                    const isEdit = editingVisitId === key;
-                    const isOpen = expandedVisitIds[key];
-                    const invOpen = expandedInvoiceIds[key];
-                    const vs = visitEditStates[key] || {};
-                    const vd = isEdit ? { ...v, ...vs } : v;
-                    const vw = (isEdit && vs.work_description) ? parseWorks(vs.work_description) : parseWorks(v.work_description);
-                    const vwc = vw.reduce((s,w) => s+(parseFloat(w.cost)||0), 0);
-                    const vmc = parseFloat(vd.material_cost)||0;
-                    const vt = vwc + vmc;
-                    const st = STATUS_OPTIONS.find(s => s.value===vd.status) || STATUS_OPTIONS[0];
-                    const done = vd.status === 'completed';
-                    const inv = invoices.find(i => i.visit_date===v.visit_date && i.work_cost===vwc);
-
-                    visHTML += `<div class="visit-block"><div class="visit-header-row ${isOpen?'expanded':''}" onclick="event.stopPropagation();toggleVisitExpansion(${r.id},${idx})"><div class="visit-header-left"><span class="visit-header-date">📅 ${formatDate(vd.visit_date)}</span>${vd.mileage?`<span class="visit-header-mileage">🔢 ${vd.mileage} км</span>`:''}<span class="visit-header-status status-${vd.status}">${st.label}</span>${inv?'<span style="font-size:0.7rem;color:var(--info);">🧾</span>':''}</div><span class="visit-header-total">${vt.toFixed(0)} €</span><span class="visit-header-arrow">▼</span></div><div class="visit-body-content ${isOpen?'open':''}">${isEdit?`<div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input type="date" value="${vd.visit_date||''}" oninput="handleVisitEditChange(${r.id},${idx},'visit_date',this.value)"></div><div class="field"><div class="field-label">🔢 Пробег</div><input type="number" value="${vd.mileage||''}" oninput="handleVisitEditChange(${r.id},${idx},'mileage',this.value)"></div></div><div class="field"><div class="field-label">📌 Статус</div><select onchange="handleVisitEditChange(${r.id},${idx},'status',this.value)">${STATUS_OPTIONS.map(s => `<option value="${s.value}" ${vd.status===s.value?'selected':''}>${s.label}</option>`).join('')}</select></div><div class="field-label" style="margin-top:4px;">🔧 Работы</div>${vw.map((w,wi) => `<div class="work-item"><select onchange="updateVisitWorkItem(${r.id},${idx},${wi},'name',this.value)">${Object.entries(cat).map(([c,items]) => `<optgroup label="${escapeHTML(c)}">${items.map(i => `<option value="${escapeHTML(i.name)}" ${w.name===i.name?'selected':''}>${escapeHTML(i.name)} (${i.cost}€)</option>`).join('')}</optgroup>`).join('')}</select><input type="number" class="work-cost" value="${w.cost}" oninput="updateVisitWorkItem(${r.id},${idx},${wi},'cost',this.value)"><button class="remove-work-btn" onclick="removeVisitWorkItem(${r.id},${idx},${wi})">✕</button></div>`).join('')}<button class="add-work-btn" onclick="addVisitWorkItem(${r.id},${idx})">➕ Работа</button><div class="field"><div class="field-label" style="margin-top:4px;">💰 Работы: ${vwc.toFixed(0)} €</div></div><div class="field"><div class="field-label">🔩 Расходники</div><textarea rows="2" oninput="handleVisitEditChange(${r.id},${idx},'materials',this.value)">${escapeHTML(vd.materials||'')}</textarea></div><div class="field"><div class="field-label">💰 Стоимость (€)</div><input type="number" value="${vmc}" oninput="handleVisitEditChange(${r.id},${idx},'material_cost',this.value)"></div><div class="field"><div class="field-label">📝 Заметки</div><textarea rows="2" oninput="handleVisitEditChange(${r.id},${idx},'notes',this.value)">${escapeHTML(vd.notes||'')}</textarea></div><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-save" onclick="event.stopPropagation();saveVisit(${r.id},${idx})">💾 Сохранить</button><button class="btn btn-edit" onclick="event.stopPropagation();cancelEditVisit(${r.id},${idx})">↩ Отменить</button>${isAdmin()?`<button class="btn-delete-visit" onclick="event.stopPropagation();deleteVisit(${r.id},${idx})">🗑️</button>`:''}</div>`:`<div class="field-row"><div class="field"><div class="field-label">📅 Дата</div><input value="${formatDate(v.visit_date)}" disabled></div><div class="field"><div class="field-label">🔢 Пробег</div><input value="${v.mileage?v.mileage+' км':'—'}" disabled></div></div><div class="field"><div class="field-label">📌 Статус</div><input value="${st.label}" disabled></div>${!done && isAdmin()?`<div class="discount-checkbox-wrap"><input type="checkbox" id="discount_${r.id}_${idx}"><label for="discount_${r.id}_${idx}">Скидка 10%</label></div><button class="btn-close-visit" onclick="event.stopPropagation();closeVisitAndCreateInvoice(${r.id},${idx})">🔒 Закрыть визит и создать счёт</button>`:''}${inv?`<button class="btn-invoice-toggle" onclick="event.stopPropagation();toggleInvoiceDisplay(${r.id},${idx})">${invOpen?'📊 Скрыть счёт':'🧾 Показать счёт'}</button>${invOpen?`<div class="invoice-box"><div class="invoice-title">📋 СЧЁТ-ФАКТУРА №${inv.invoice_number}</div><div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">🚗 ${escapeHTML(inv.car_brand)} ${escapeHTML(inv.plate_number)} | 📅 ${formatDate(inv.invoice_date)}</div>${inv.client_name?`<div style="font-size:0.78rem;color:var(--text-secondary);">👤 ${escapeHTML(inv.client_name)}${inv.client_phone?' | 📱 '+escapeHTML(inv.client_phone):''}</div>`:''}<table class="invoice-table"><thead><tr><th>Категория</th><th>Наименование</th><th>Сумма</th></tr></thead><tbody>${Object.entries(groupWorksByCategory(inv.works)).map(([cat,items]) => `<tr class="invoice-category-row"><td colspan="3">${escapeHTML(cat)}</td></tr>${items.map(w => `<tr><td></td><td>${escapeHTML(w.name)}</td><td>${(parseFloat(w.cost)||0).toFixed(0)} €</td></tr>`).join('')}`).join('')}</tbody></table><div class="invoice-total-line"><span>💵 Работы:</span><span>${inv.work_cost.toFixed(0)} €</span></div>${inv.materials?`<div class="invoice-total-line"><span>🔩 Расходники:</span><span>${inv.material_cost.toFixed(0)} €</span></div>`:''}<div class="invoice-total-line"><span>Подытог:</span><span>${inv.subtotal.toFixed(0)} €</span></div>${inv.discount_10?`<div class="invoice-discount-line"><span>🔖 Скидка 10%:</span><span>-${inv.discount_amount.toFixed(0)} €</span></div>`:''}<div class="invoice-final-line"><span>💰 ИТОГО:</span><span>${inv.total.toFixed(0)} €</span></div><div style="text-align:center;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);"><button class="btn-pdf-download" onclick="event.stopPropagation();downloadInvoicePDF(${r.id},${idx})">📥 Скачать PDF</button></div></div>`:''}`:''}<div style="display:flex;gap:8px;margin-top:8px;">${!done?`<button class="btn btn-edit" onclick="event.stopPropagation();startEditVisit(${r.id},${idx})">✏️</button>`:''}${isAdmin()?`<button class="btn-delete-visit" onclick="event.stopPropagation();deleteVisit(${r.id},${idx})">🗑️</button>`:''}</div>`}</div></div>`;
-                });
-            } else { visHTML += `<div style="color:var(--text-secondary);font-size:0.85rem;text-align:center;padding:12px;">Нет завершённых визитов</div>`; }
-            visHTML += `<button class="visit-new-btn" onclick="event.stopPropagation();addVisit(${r.id})">🔄 Новый визит</button></div>`;
-
-            return `${infoHTML}${curHTML}${visHTML}<div class="section-title">📸 Фотографии</div><div class="photo-gallery">${photos.map((url,pi) => `<div class="photo-thumb-wrap"><img src="${url}" class="photo-thumb" onclick="window.open('${url}','_blank')"><button class="photo-delete-btn" onclick="event.stopPropagation();deletePhoto(${r.id},${pi})">✕</button></div>`).join('')}<div class="add-photo-btn" onclick="triggerPhotoUpload(${r.id})">＋</div><input type="file" id="fileInput_${r.id}" class="hidden-file-input" accept="image/*" multiple onchange="uploadPhotos(${r.id}, this)"></div><div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,42,109,0.1);padding:14px;border-radius:4px;font-weight:800;font-size:1.1rem;border:1px solid rgba(255,42,109,0.2);font-family:var(--font-hud);"><span>💰 Итого по машине:</span><span style="color:var(--neon-pink);">${allTotal.toFixed(0)} €</span></div><div class="action-buttons">${isAdmin()?`<button class="btn btn-delete" onclick="event.stopPropagation();deleteRecord(${r.id})">🗑️ Удалить авто</button>`:''}</div>`;
-        }
-
-        function renderExpandedContent(id) {
-            const el = getEl(`ec_${id}`); if (!el) return;
-            const r = workRecords.find(r => r.id === id); if (!r) return;
-            el.innerHTML = renderExpandedHTML(r);
-        }
-
-        function toggleCardExpansion(id) { expandedCardId = expandedCardId === id ? null : id; renderCardsList(); }
-
-        let searchTimeout;
-        getEl('searchInput').addEventListener('input', function() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { searchQuery = this.value; expandedCardId = null; editingInfoId = null; editingVisitId = null; infoEditStates = {}; visitEditStates = {}; expandedVisitIds = {}; expandedInvoiceIds = {}; renderCardsList(); }, 200); });
-        getEl('addBtn').addEventListener('click', addRecord);
-
-        function initRealtime() { client.channel('public:speedline_records').on('postgres_changes', { event: '*', schema: 'public', table: 'speedline_records' }, () => fetchRecords()).subscribe(); }
-
-        (async function init() { if (!await checkSession()) return; await fetchRecords(); initRealtime(); })();
-    </script>
+    (async function init() { if (!await checkSession()) return; await fetchRecords(); initRealtime(); })();
+</script>
 </body>
 </html>
